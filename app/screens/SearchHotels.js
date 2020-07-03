@@ -13,7 +13,7 @@ import Svg, { Ellipse } from "react-native-svg";
 import CardHotel from "../components/CardHotel";
 import BarMenu from "../components/BarMenu";
 
-function SearchRestaurants(props) {
+function SearchHotels(props) {
   return (
     <View style={styles.container}>
       <View style={styles.groupRow}>
@@ -39,19 +39,23 @@ function SearchRestaurants(props) {
             ></Ellipse>
           </Svg>
           <Image
-            source={require("../../assets/images/icons8-mesa-de-restaurante-96.png")}
+            source={require("../assets/images/icons8-edificio-40.png")}
             resizeMode="contain"
             style={styles.image}
           ></Image>
         </View>
       </View>
-      <Text style={styles.loremIpsum}>20 Restaurantes</Text>
+      <Text style={styles.loremIpsum}>36 Hoteles</Text>
+      <Text style={styles.toca}>
+        Toca sobre un hotel para ver más detalles. Serás capaz {"\n"}de terminar
+        tu reservación en un sitio externo.
+      </Text>
       <TextInput
-        placeholder="   Buscar restaurantes"
+        placeholder="   Buscar hoteles"
         style={styles.textInput}
       ></TextInput>
       <View style={styles.todosLosHotelesRow}>
-        <Text style={styles.todosLosHoteles}>Todos los restaurantes</Text>
+        <Text style={styles.todosLosHoteles}>Todos los hoteles</Text>
         <Text style={styles.ordenar}>Ordenar</Text>
       </View>
       <View style={styles.scrollArea}>
@@ -59,36 +63,10 @@ function SearchRestaurants(props) {
           horizontal={false}
           contentContainerStyle={styles.scrollArea_contentContainerStyle}
         >
-          <CardHotel
-            loremIpsum1="4.5"
-            desde350LaNoche="$75 - $500"
-            casaTapijulapa="El Sabor de la Sierra"
-            style={styles.cardHotel}
-          ></CardHotel>
-          <CardHotel
-            loremIpsum1="4.5"
-            desde350LaNoche="$75 - $500"
-            casaTapijulapa="El Sabor de la Sierra"
-            style={styles.cardHotel1}
-          ></CardHotel>
-          <CardHotel
-            loremIpsum1="4.5"
-            desde350LaNoche="$75 - $500"
-            casaTapijulapa="El Sabor de la Sierra"
-            style={styles.cardHotel2}
-          ></CardHotel>
-          <CardHotel
-            loremIpsum1="4.5"
-            desde350LaNoche="$75 - $500"
-            casaTapijulapa="El Sabor de la Sierra"
-            style={styles.cardHotel3}
-          ></CardHotel>
-          <CardHotel
-            loremIpsum1="4.5"
-            desde350LaNoche="$75 - $500"
-            casaTapijulapa="El Sabor de la Sierra"
-            style={styles.cardHotel4}
-          ></CardHotel>
+          <CardHotel style={styles.cardHotel}></CardHotel>
+          <CardHotel style={styles.cardHotel2}></CardHotel>
+          <CardHotel style={styles.cardHotel3}></CardHotel>
+          <CardHotel style={styles.cardHotel4}></CardHotel>
         </ScrollView>
       </View>
       <BarMenu style={styles.barMenu1}></BarMenu>
@@ -155,13 +133,20 @@ const styles = StyleSheet.create({
     marginTop: 25,
     marginLeft: 29,
   },
+  toca: {
+    color: "#121212",
+    textAlign: "justify",
+    fontSize: 12,
+    marginTop: 10,
+    marginLeft: 29,
+  },
   textInput: {
     color: "#121212",
     height: 45,
     width: 317,
     backgroundColor: "rgba(255,255,255,1)",
     borderRadius: 10,
-    marginTop: 10,
+    marginTop: 29,
     marginLeft: 29,
   },
   todosLosHoteles: {
@@ -169,22 +154,22 @@ const styles = StyleSheet.create({
   },
   ordenar: {
     color: "rgba(132,132,132,1)",
-    marginLeft: 124,
+    marginLeft: 157,
   },
   todosLosHotelesRow: {
     height: 17,
     flexDirection: "row",
-    marginTop: 25,
+    marginTop: 24,
     marginLeft: 29,
     marginRight: 29,
   },
   scrollArea: {
     width: 375,
-    height: 451,
-    marginTop: 18,
+    height: 394,
+    marginTop: 19,
   },
   scrollArea_contentContainerStyle: {
-    height: 526,
+    height: 394,
     width: 375,
   },
   cardHotel: {
@@ -192,36 +177,29 @@ const styles = StyleSheet.create({
     height: 92,
     alignSelf: "center",
   },
-  cardHotel1: {
-    width: 317,
-    height: 92,
-    marginTop: 6,
-    alignSelf: "center",
-  },
   cardHotel2: {
     width: 317,
     height: 92,
     marginTop: 6,
-    alignSelf: "center",
+    marginLeft: 29,
   },
   cardHotel3: {
     width: 317,
     height: 92,
     marginTop: 6,
-    alignSelf: "center",
+    marginLeft: 29,
   },
   cardHotel4: {
     width: 317,
     height: 92,
     marginTop: 6,
-    alignSelf: "center",
+    marginLeft: 29,
   },
   barMenu1: {
     width: 272,
     height: 43,
-    marginTop: 1,
     marginLeft: 50,
   },
 });
 
-export default SearchRestaurants;
+export default SearchHotels;

@@ -5,7 +5,7 @@ import * as firebase from "firebase";
 import InfoUser from "../../components/account/InfoUser";
 import Toast from "react-native-easy-toast";
 import Loading from "../../components/Loading";
-import AccountOprions from "../../components/account/AccountOptions";
+import AccountOptions from "../../components/account/AccountOptions";
 
 export default function UserLogged() {
   const [userInfo, setUserInfo] = useState({});
@@ -22,7 +22,7 @@ export default function UserLogged() {
     setReloadData(false);
   }, [reloadData]);
   return (
-    <View styñe={styles.viewUserInfo}>
+    <View style={styles.viewUserInfo}>
       <InfoUser
         userInfo={userInfo}
         setReloadData={setReloadData}
@@ -30,7 +30,7 @@ export default function UserLogged() {
         setIsLoading={setIsLoading}
         setTextLoading={setTextLoading}
       />
-      <AccountOprions
+      <AccountOptions
         userInfo={userInfo}
         setReloadData={setReloadData}
         toastRef={toastRef}
@@ -50,7 +50,7 @@ export default function UserLogged() {
 const styles = StyleSheet.create({
   viewUserInfo: {
     minHeight: "100%",
-    backgroundColor: "#f2f2f2"
+    backgroundColor: "#f2f2f2",
   },
   btnCloseSession: {
     marginTop: 30,
@@ -61,9 +61,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#e3e3e3",
     paddingBottom: 10,
-    paddingTop: 10
+    paddingTop: 10,
   },
   btnCloseSessionText: {
-    color: "rgb(34, 21, 81 )"
-  }
+    color: "rgb(34, 21, 81 )",
+  },
 });

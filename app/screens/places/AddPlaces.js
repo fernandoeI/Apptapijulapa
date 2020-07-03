@@ -6,7 +6,6 @@ import AddPlaceForm from "../../components/places/AddPlaceForm";
 
 export default function AddPlaces(props) {
   const { route, navigation } = props;
-  const { setIsReloadPlace } = route.params;
   const toastRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -16,7 +15,6 @@ export default function AddPlaces(props) {
         toastRef={toastRef}
         setIsLoading={setIsLoading}
         navigation={navigation}
-        setIsReloadPlace={setIsReloadPlace}
       />
       <Toast ref={toastRef} position="center" opacity={0.5} />
       <Loading isVisible={isLoading} text="Creando Lugar" />

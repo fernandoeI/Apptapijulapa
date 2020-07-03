@@ -5,7 +5,7 @@ import {
   Text,
   FlatList,
   ActivityIndicator,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import { Image } from "react-native-elements";
 import * as firebase from "firebase";
@@ -18,7 +18,7 @@ export default function ListPlaces(props) {
       {places ? (
         <FlatList
           data={places}
-          renderItem={place => <Place place={place} />}
+          renderItem={(place) => <Place place={place} />}
           keyExtractor={(item, index) => index.toString()}
           onEndReached={handleLoadMore}
           onEndReachedThreshold={0.5}
@@ -45,7 +45,7 @@ function Place(props) {
       .storage()
       .ref(`place-image/${images}`)
       .getDownloadURL()
-      .then(result => {
+      .then((result) => {
         setImagePlace(result);
       });
   });
@@ -94,38 +94,38 @@ function FooterList(props) {
 const styles = StyleSheet.create({
   loadingPlaces: {
     marginTop: 20,
-    alignItems: "center"
+    alignItems: "center",
   },
   viewPlace: {
     flexDirection: "row",
-    margin: 10
+    margin: 10,
   },
   viewPlaceImage: {
-    marginRight: 15
+    marginRight: 15,
   },
   imagePlace: {
     width: 100,
-    height: 100
+    height: 100,
   },
   placeName: {
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   placeAddress: {
     paddingTop: 2,
-    color: "grey"
+    color: "grey",
   },
   placeDescription: {
     paddingTop: 2,
     color: "grey",
-    width: 300
+    width: 300,
   },
   loaderPlaces: {
     marginBottom: 10,
-    marginTop: 10
+    marginTop: 10,
   },
   notFoundPlace: {
     marginTop: 10,
     marginBottom: 20,
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 });

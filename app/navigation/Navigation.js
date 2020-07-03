@@ -1,118 +1,59 @@
 import * as React from "react";
-import { Image } from "react-native";
 import { NavigationContainer, StackActions } from "@react-navigation/native";
+import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import Icon from "react-native-vector-icons/MaterialIcons";
-import ExperiencesScreen from "../screens/experiences/Experiences";
-import HotelsScreen from "../screens/Hotels";
-import PlacesScreen from "../screens/places/Places";
+import Icon from "react-native-vector-icons/Entypo";
+import Home from "../screens/Home";
 import RestaurantsScreen from "../screens/Restaurants";
 import MyAccount from "../screens/account/MyAccount";
 import Login from "../screens/account/Login";
 import Register from "../screens/account/Register";
-import AddPlacesScreen from "../screens/places/AddPlaces";
-import AddExperiencesScreen from "../screens/experiences/AddExperiences";
+import IoniconsIcon from "react-native-vector-icons/Ionicons";
+import HotelsScreen from "../screens/Hotels";
+import AddPlace from "../screens/places/AddPlaces";
+import DescriptionScreen from "../screens/Description";
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-function LogoTitle() {
+function HomeStack() {
   return (
-    <Image
-      style={{ height: 45, width: 215 }}
-      source={require("../../assets/img/logoTapijulapa.png")}
-    />
-  );
-}
-
-function ExperiencesStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Experiences"
-        component={ExperiencesScreen}
-        options={{
-          headerTitleAlign: "center",
-          headerTitle: props => <LogoTitle {...props} />
-        }}
-      />
-      <Stack.Screen
-        name="AddExperiences"
-        component={AddExperiencesScreen}
-        options={{
-          headerTitleAlign: "center",
-          headerTitle: props => <LogoTitle {...props} />
-        }}
-      />
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Restaurants" component={RestaurantsScreen} />
+      <Stack.Screen name="Hotels" component={HotelsScreen} />
+      <Stack.Screen name="AddPlace" component={AddPlace} />
+      <Stack.Screen name="Place" component={DescriptionScreen} />
     </Stack.Navigator>
   );
 }
 
-function HotelsStack() {
+function Favorites() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Hotels"
-        component={HotelsScreen}
-        options={{
-          headerTitleAlign: "center",
-          headerTitle: props => <LogoTitle {...props} />
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
-
-function PlacesStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Places"
-        component={PlacesScreen}
-        options={{
-          headerTitleAlign: "center",
-          headerTitle: props => <LogoTitle {...props} />
-        }}
-      />
-      <Stack.Screen
-        name="AddPlace"
-        component={AddPlacesScreen}
-        options={{
-          headerTitleAlign: "center",
-          headerTitle: props => <LogoTitle {...props} />
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
-
-function RestaurantsStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Restaurants"
-        component={RestaurantsScreen}
-        options={{
-          headerTitleAlign: "center",
-          headerTitle: props => <LogoTitle {...props} />
-        }}
-      />
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="Favorites" component={DescriptionScreen} />
     </Stack.Navigator>
   );
 }
 
 function MyAccountStack() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Mi cuenta"
-        component={MyAccount}
-        options={{
-          headerTitleAlign: "center",
-          headerTitle: props => <LogoTitle {...props} />
-        }}
-      />
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="Mi cuenta" component={MyAccount} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
     </Stack.Navigator>
@@ -122,36 +63,22 @@ function MyAccountStack() {
 export default function Navigation() {
   return (
     <NavigationContainer>
-      <Tab.Navigator initialRouteName="Lugares">
+      <Tab.Navigator initialRouteName="Inicio" style={styles.containerMenu}>
         <Tab.Screen
-          name="Lugares"
-          component={PlacesStack}
+          name="Inicio"
+          component={HomeStack}
           options={{
-            tabBarIcon: () => <Icon name="explore" color="#333" size={24} />
-          }}
-        />
-        <Tab.Screen
-          name="Experiencias"
-          component={ExperiencesStack}
-          options={{
-            tabBarIcon: () => <Icon name="rowing" color="#333" size={24} />
-          }}
-        />
-        <Tab.Screen
-          name="Rutas"
-          component={HotelsStack}
-          options={{
-            tabBarIcon: () => <Icon name="place" color="#333" size={24} />
+            tabBarIcon: () => <Icon name="home" style={styles.icon} />,
           }}
         />
 
         <Tab.Screen
-          name="Servicios"
-          component={RestaurantsStack}
+          name="Favoritos"
+          component={Favorites}
           options={{
             tabBarIcon: () => (
-              <Icon name="room-service" color="#333" size={24} />
-            )
+              <IoniconsIcon name="md-heart" style={styles.icon} />
+            ),
           }}
         />
 
@@ -159,10 +86,22 @@ export default function Navigation() {
           name="Mi Cuenta"
           component={MyAccountStack}
           options={{
-            tabBarIcon: () => <Icon name="person" color="#333" size={24} />
+            tabBarIcon: () => (
+              <IoniconsIcon name="md-person" style={styles.icon} />
+            ),
           }}
         />
       </Tab.Navigator>
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  containerMenu: {
+    backgroundColor: "#FAFAFA",
+  },
+  icon: {
+    color: "rgba(128,128,128,1)",
+    fontSize: 24,
+  },
+});

@@ -3,11 +3,7 @@
     "name": "AppTapijulapa",
     "slug": "AppTapijulapa",
     "privacy": "public",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,17 +15,18 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      "permissions": [
-        "CAMERA_ROLL",
-        "LOCATION"
-      ]
+      "package": "com.sectur.apptapijulapa",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyC2BRYkoR_s41JBL6wbmqSvzJzAomrO7-w"
+        }
+      },
+      "permissions": ["CAMERA_ROLL", "LOCATION"]
     },
     "description": ""
   }
