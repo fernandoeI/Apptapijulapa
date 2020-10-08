@@ -4,7 +4,10 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import RegisterForm from "../../components/account/RegisterForm";
 import Toast from "react-native-easy-toast";
 
-export default function Register() {
+export default function Register(props) {
+  const { route } = props;
+  const { typeUser } = route.params;
+
   const toastRef = useRef();
   return (
     <KeyboardAwareScrollView>
@@ -14,7 +17,7 @@ export default function Register() {
         resizeMode="contain"
       />
       <View style={styles.viewForm}>
-        <RegisterForm toastRef={toastRef} />
+        <RegisterForm toastRef={toastRef} typeUser={typeUser} />
       </View>
       <Toast ref={toastRef} position="center" opacity={0.5} />
     </KeyboardAwareScrollView>
@@ -25,10 +28,10 @@ const styles = StyleSheet.create({
   logo: {
     width: "100%",
     height: 150,
-    marginTop: 20
+    marginTop: 60,
   },
   viewForm: {
     marginLeft: 40,
-    marginRight: 40
-  }
+    marginRight: 40,
+  },
 });

@@ -7,7 +7,7 @@ function PeopleCard(props) {
       <View style={styles.rect3}>
         <View style={styles.image4Row}>
           <Image
-            source={require("../assets/images/3.jpg")}
+            source={require("../../assets/images/3.jpg")}
             resizeMode="contain"
             style={styles.image4}
           ></Image>
@@ -16,19 +16,19 @@ function PeopleCard(props) {
             <Text style={styles.guiaCertificado}>Guía certificado</Text>
             <View style={styles.image7Row}>
               <Image
-                source={require("../assets/images/icons8-whatsapp-80.png")}
+                source={require("../../assets/images/icons8-whatsapp-80.png")}
                 resizeMode="contain"
                 style={styles.image7}
               ></Image>
               <Image
-                source={require("../assets/images/icons8-facebook-rodeado-de-círculo-80.png")}
+                source={require("../../assets/images/icons8-facebook-rodeado-de-círculo-80.png")}
                 resizeMode="contain"
                 style={styles.image5}
               ></Image>
             </View>
           </View>
           <Image
-            source={require("../assets/images/icons8-facebook-messenger-80.png")}
+            source={require("../../assets/images/icons8-facebook-messenger-80.png")}
             resizeMode="contain"
             style={styles.image6}
           ></Image>
@@ -41,7 +41,7 @@ function PeopleCard(props) {
 const styles = StyleSheet.create({
   container: {},
   rect3: {
-    width: 335,
+    width: "90%",
     height: 122,
     backgroundColor: "rgba(255,255,255,1)",
     borderWidth: 1,
@@ -49,10 +49,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   image4: {
-    width: 90,
-    height: 90,
+    width: 80,
+    height: 80,
     borderWidth: 1,
-    borderColor: "rgba(250,250,250,1)",
     borderRadius: 100,
   },
   alexanderGonzalez: {

@@ -1,11 +1,11 @@
 import React, { useState, useRef } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import Toast from "react-native-easy-toast";
 import Loading from "../../components/Loading";
 import AddPlaceForm from "../../components/places/AddPlaceForm";
 
 export default function AddPlaces(props) {
-  const { route, navigation } = props;
+  const { navigation } = props;
   const toastRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
 

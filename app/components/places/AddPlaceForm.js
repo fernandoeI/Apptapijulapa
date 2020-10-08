@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, ScrollView, Alert, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Alert,
+  Dimensions,
+  KeyboardAvoidingView,
+} from "react-native";
 import {
   Icon,
   Avatar,
@@ -8,6 +15,8 @@ import {
   Button,
   Text,
 } from "react-native-elements";
+
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RNPickerSelect from "react-native-picker-select";
 import { map, size, filter } from "lodash";
 import * as Permissions from "expo-permissions";
@@ -16,7 +25,6 @@ import * as Location from "expo-location";
 import MapView from "react-native-maps";
 import Modal from "../Modal";
 import uuid from "uuid/v4";
-import TimePicker from "react-native-simple-time-picker";
 
 import { firebaseApp } from "../../utils/FireBase";
 import firebase from "firebase/app";
@@ -39,10 +47,13 @@ export default function AddPlaceForm(props) {
   const [locationPlace, setLocationPlace] = useState(null);
   const [placeArea, setPlaceArea] = useState("");
   const [days, setDays] = useState("");
-  const [selectedHoursOpen, setSelectedHoursOpen] = useState("0");
-  const [selectedMinutesOpen, setSelectedMinutesOpen] = useState("0");
-  const [selectedHoursClose, setSelectedHoursClose] = useState("0");
-  const [selectedMinutesClose, setSelectedMinutesClose] = useState("0");
+  const [dateOpen, setDateOpen] = useState("");
+  const [dateClose, setDateClose] = useState("");
+  const [price, setPrice] = useState("");
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [isDatePickerVisibleClose, setDatePickerVisibilityClose] = useState(
+    false
+  );
 
   const addPlace = () => {
     if (
@@ -51,7 +62,9 @@ export default function AddPlaceForm(props) {
       !bestMonths ||
       !placeDescription ||
       !placeAddress ||
-      !days
+      !days ||
+      !dateOpen ||
+      !dateClose
     ) {
       toastRef.current.show("Todos los campos del formulario son obligarotios"),
         3000;
@@ -70,12 +83,11 @@ export default function AddPlaceForm(props) {
             description: placeDescription,
             bestMonths: bestMonths,
             days: days,
-            hourClose: selectedHoursClose,
-            minuteClose: selectedMinutesClose,
-            hourOpen: selectedHoursOpen,
-            minuteOpen: selectedMinutesOpen,
+            open: dateOpen,
+            close: dateClose,
             address: placeAddress,
             location: locationPlace,
+            price: price,
             image: response,
             rating: 0,
             ratingTotal: 0,
@@ -85,7 +97,7 @@ export default function AddPlaceForm(props) {
           })
           .then(() => {
             setIsLoading(false);
-            navigation.navigate("Home");
+            navigation.navigate("Mi cuenta");
           })
           .catch((error) => {
             setIsLoading(false);
@@ -118,46 +130,49 @@ export default function AddPlaceForm(props) {
   };
 
   return (
-    <View style={{ height: heightScreen, backgroundColor: "#f2f2f2" }}>
+    <View style={{ height: heightScreen * 0.95, backgroundColor: "#f2f2f2" }}>
       <ImagePlace imagePlace={imageSelected[0]} />
-      <ScrollView>
-        <FormAdd
-          setPlaceName={setPlaceName}
-          setPlaceArea={setPlaceArea}
-          setPlaceDescription={setPlaceDescription}
-          setBestMonths={setBestMonths}
-          setDays={setDays}
-          setPlaceAddress={setPlaceAddress}
-          setIsVisibleMap={setIsVisibleMap}
-          locationPlace={locationPlace}
-          setSelectedHoursClose={setSelectedHoursClose}
-          setSelectedMinutesClose={setSelectedMinutesClose}
-          selectedHoursClose={selectedHoursClose}
-          selectedMinutesClose={selectedMinutesClose}
-          setSelectedHoursOpen={setSelectedHoursOpen}
-          setSelectedMinutesOpen={setSelectedMinutesOpen}
-          selectedHoursOpen={selectedHoursOpen}
-          selectedMinutesOpen={selectedMinutesOpen}
-        />
-        <UploadImagen
-          imageSelected={imageSelected}
-          setImageSelected={setImageSelected}
-          toastRef={toastRef}
-        />
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+        <ScrollView>
+          <FormAdd
+            setPlaceName={setPlaceName}
+            setPlaceArea={setPlaceArea}
+            setPlaceDescription={setPlaceDescription}
+            setBestMonths={setBestMonths}
+            setDays={setDays}
+            setPlaceAddress={setPlaceAddress}
+            setIsVisibleMap={setIsVisibleMap}
+            locationPlace={locationPlace}
+            dateOpen={dateOpen}
+            setDateOpen={setDateOpen}
+            dateClose={dateClose}
+            setDateClose={setDateClose}
+            isDatePickerVisibleClose={isDatePickerVisibleClose}
+            setDatePickerVisibilityClose={setDatePickerVisibilityClose}
+            isDatePickerVisible={isDatePickerVisible}
+            setDatePickerVisibility={setDatePickerVisibility}
+            setPrice={setPrice}
+          />
+          <UploadImagen
+            imageSelected={imageSelected}
+            setImageSelected={setImageSelected}
+            toastRef={toastRef}
+          />
 
-        <Button
-          title="Crear lugar"
-          onPress={addPlace}
-          buttonStyle={styles.btnAddPlace}
-        />
+          <Button
+            title="Crear lugar"
+            onPress={addPlace}
+            buttonStyle={styles.btnAddPlace}
+          />
 
-        <Map
-          isVisibleMap={isVisibleMap}
-          setIsVisibleMap={setIsVisibleMap}
-          setLocationPlace={setLocationPlace}
-          toastRef={toastRef}
-        />
-      </ScrollView>
+          <Map
+            isVisibleMap={isVisibleMap}
+            setIsVisibleMap={setIsVisibleMap}
+            setLocationPlace={setLocationPlace}
+            toastRef={toastRef}
+          />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 }
@@ -173,7 +188,7 @@ function ImagePlace(props) {
             ? { uri: imagePlace }
             : require("../../../assets/img/noimage.jpg")
         }
-        style={{ width: widthScreen, height: 250 }}
+        style={{ width: widthScreen, height: heightScreen * 0.35 }}
       />
     </View>
   );
@@ -262,18 +277,19 @@ function FormAdd(props) {
     setPlaceArea,
     setPlaceDescription,
     setBestMonths,
-
+    setDays,
     setPlaceAddress,
     setIsVisibleMap,
     locationPlace,
-    setSelectedMinutesOpen,
-    setSelectedHoursOpen,
-    selectedHoursOpen,
-    selectedMinutesOpen,
-    selectedHoursClose,
-    selectedMinutesClose,
-    setSelectedMinutesClose,
-    setSelectedHoursClose,
+    setPrice,
+    isDatePickerVisible,
+    setDatePickerVisibility,
+    dateOpen,
+    setDateOpen,
+    dateClose,
+    setDateClose,
+    isDatePickerVisibleClose,
+    setDatePickerVisibilityClose,
   } = props;
 
   return (
@@ -348,31 +364,83 @@ function FormAdd(props) {
         onChange={(e) => setHour(e.nativeEvent.text)}
       /> */}
 
-      <View style={{ flexDirection: "row" }}>
-        <Text style={styles.label}>Apertura</Text>
+      <Text style={styles.label}>Horario</Text>
+      <View style={styles.viewClock}>
+        <Input
+          placeholder="00:00"
+          value={dateOpen}
+          containerStyle={styles.inputClock}
+          inputContainerStyle={{ borderBottomWidth: 0 }}
+          rightIcon={{
+            type: "material-community",
+            name: "clock-outline",
+            color: dateOpen ? "rgb(34, 21, 81 )" : "#e3e3e3",
+            onPress: () => setDatePickerVisibility(true),
+          }}
+        />
+        <DateTimePickerModal
+          isVisible={isDatePickerVisible}
+          mode="time"
+          onConfirm={(date) => {
+            setDatePickerVisibility(false);
+            setDateOpen(
+              (date.getHours() < 10
+                ? "0" + date.getHours().toString()
+                : date.getHours().toString()) +
+                ":" +
+                (date.getMinutes() < 10
+                  ? "0" + date.getMinutes().toString()
+                  : date.getMinutes().toString())
+            );
+          }}
+          onCancel={() => setDatePickerVisibility(false)}
+        />
 
-        <Text style={styles.label2}>Cierre</Text>
-      </View>
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <TimePicker
-          selectedHoursOpen={selectedHoursOpen}
-          //initial Hourse value
-          selectedMinutesOpen={selectedMinutesOpen}
-          //initial Minutes value
-          onChange={(hours, minutes) => {
-            setSelectedHoursOpen(hours), setSelectedMinutesOpen(minutes);
+        <Input
+          placeholder="23:59"
+          value={dateClose}
+          containerStyle={styles.inputClock}
+          inputContainerStyle={{ borderBottomWidth: 0 }}
+          rightIcon={{
+            type: "material-community",
+            name: "clock-outline",
+            color: dateClose ? "rgb(34, 21, 81 )" : "#e3e3e3",
+            onPress: () => setDatePickerVisibilityClose(true),
           }}
         />
-        <TimePicker
-          selectedHours={selectedHoursClose}
-          //initial Hourse value
-          selectedMinutes={selectedMinutesClose}
-          //initial Minutes value
-          onChange={(hours, minutes) => {
-            setSelectedHoursClose(hours), setSelectedMinutesClose(minutes);
+        <DateTimePickerModal
+          isVisible={isDatePickerVisibleClose}
+          mode="time"
+          onConfirm={(date2) => {
+            setDatePickerVisibilityClose(false);
+            setDateClose(
+              (date2.getHours() < 10
+                ? "0" + date2.getHours().toString()
+                : date2.getHours().toString()) +
+                ":" +
+                (date2.getMinutes() < 10
+                  ? "0" + date2.getMinutes().toString()
+                  : date2.getMinutes().toString())
+            );
           }}
+          onCancel={() => setDatePickerVisibilityClose(false)}
         />
       </View>
+
+      <Input
+        placeholder="0.00"
+        inputContainerStyle={styles.input}
+        onChange={(e) => setPrice(e.nativeEvent.text)}
+        inputContainerStyle={{ borderBottomWidth: 0 }}
+        containerStyle={styles.input}
+        leftIcon={{
+          type: "foundation",
+          name: "dollar",
+          color: "#e3e3e3",
+        }}
+        leftIconContainerStyle={{ marginLeft: 0 }}
+        keyboardType="numeric"
+      />
 
       <Input
         placeholder="Ubicación"
@@ -466,7 +534,6 @@ function Map(props) {
 const styles = StyleSheet.create({
   input: {
     marginTop: 15,
-    color: "rgba(0,0,0,1)",
     width: "95%",
     height: 42,
     backgroundColor: "rgba(255,255,255,1)",
@@ -474,10 +541,11 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255,255,255,1)",
     borderRadius: 5,
   },
+
   label: {
     marginLeft: 13,
     fontSize: 16,
-    marginTop: 15,
+    marginTop: 5,
     color: "#9c9c9c",
   },
   label2: {
@@ -554,5 +622,16 @@ const styles = StyleSheet.create({
   btnAddPlace: {
     backgroundColor: "rgb(34, 21, 81 )",
     margin: 20,
+  },
+  viewClock: { flexDirection: "row" },
+  inputClock: {
+    marginTop: 5,
+    width: "45%",
+    height: 42,
+    backgroundColor: "rgba(255,255,255,1)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,1)",
+    borderRadius: 5,
+    marginRight: "5%",
   },
 });

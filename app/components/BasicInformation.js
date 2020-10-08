@@ -41,6 +41,13 @@ function BasicInformation(props) {
               style={styles.image2}
             />
           ) : null}
+          {pic === 4 ? (
+            <Image
+              source={require("../../assets/images/icons8-dinero-100.png")}
+              resizeMode="contain"
+              style={styles.image2}
+            />
+          ) : null}
         </View>
         <Text style={styles.mejoresMeses}>{title}</Text>
         <Text style={styles.junAgo}>{data}</Text>

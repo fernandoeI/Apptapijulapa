@@ -37,7 +37,7 @@ export default function LoginForm(props) {
       <Input
         placeholder="Email"
         containerStyle={styles.inputForm}
-        onChange={e => setEmail(e.nativeEvent.text)}
+        onChange={(e) => setEmail(e.nativeEvent.text)}
         rightIcon={
           <Icon
             type="material-community"
@@ -51,7 +51,7 @@ export default function LoginForm(props) {
         containerStyle={styles.inputForm}
         password="true"
         secureTextEntry={hidePassword}
-        onChange={e => setPassword(e.nativeEvent.text)}
+        onChange={(e) => setPassword(e.nativeEvent.text)}
         rightIcon={
           <Icon
             type="material-community"
@@ -76,20 +76,20 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 30
+    marginTop: 30,
   },
   inputForm: {
     width: "100%",
-    marginTop: 20
+    marginTop: 20,
   },
   iconRight: {
-    color: "#c1c1c1"
+    color: "#c1c1c1",
   },
   btnContainerLogin: {
-    width: "95%"
+    width: "95%",
   },
   btnLogin: {
     marginTop: 20,
-    backgroundColor: "rgb(34, 21, 81 )"
-  }
+    backgroundColor: "rgb(34, 21, 81 )",
+  },
 });

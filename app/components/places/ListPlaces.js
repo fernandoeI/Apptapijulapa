@@ -6,28 +6,33 @@ import {
   FlatList,
   ActivityIndicator,
   TouchableOpacity,
+  Image,
 } from "react-native";
-import { Image } from "react-native-elements";
-import * as firebase from "firebase";
+import { size } from "lodash";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ListPlaces(props) {
   const { places, isLoading, handleLoadMore } = props;
 
+  const navigation = useNavigation();
   return (
     <View>
-      {places ? (
+      {size(places) > 0 ? (
         <FlatList
           data={places}
-          renderItem={(place) => <Place place={place} />}
+          renderItem={(place) => (
+            <Place place={place} navigation={navigation} />
+          )}
           keyExtractor={(item, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
           onEndReached={handleLoadMore}
           onEndReachedThreshold={0.5}
           ListFooterComponent={<FooterList isLoading={isLoading} />}
         />
       ) : (
-        <View style={styles.loaderPlaces}>
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
           <ActivityIndicator size="large" />
-          <Text>Cargando lugares</Text>
+          <Text style={styles.noMore}>Cargando Lugares</Text>
         </View>
       )}
     </View>
@@ -35,37 +40,44 @@ export default function ListPlaces(props) {
 }
 
 function Place(props) {
-  const { place } = props;
-  const { name, address, description, image } = place.item.place;
-  const [imagePlace, setImagePlace] = useState(null);
+  const { place, navigation } = props;
+  const { id, name, area, image, price, rating } = place.item;
+  const imagePlace = image ? image[0] : null;
 
-  useEffect(() => {
-    const images = image[0];
-    firebase
-      .storage()
-      .ref(`place-image/${images}`)
-      .getDownloadURL()
-      .then((result) => {
-        setImagePlace(result);
-      });
-  });
+  const goPlace = () => {
+    navigation.navigate("Place", {
+      id,
+    });
+  };
 
   return (
-    <TouchableOpacity onPress={() => console.log("Ir al lugar")}>
-      <View style={styles.viewPlace}>
-        <View style={styles.viewPlaceImage}>
+    <TouchableOpacity onPress={goPlace}>
+      <View style={styles.viewRestaurant}>
+        <View style={styles.viewRestaurantImage}>
           <Image
             resizeMode="cover"
-            source={{ uri: imagePlace }}
-            style={styles.imagePlace}
             PlaceholderContent={<ActivityIndicator color="fff" />}
+            source={
+              imagePlace
+                ? { uri: imagePlace }
+                : require("../../../assets/img/noimage.jpg")
+            }
+            style={styles.imageRestaurant}
           />
         </View>
-        <View>
-          <Text style={styles.placeName}>{name}</Text>
-          <Text style={styles.placeAddress}>{address}</Text>
-          <Text style={styles.placeDescription}>
-            {description.substr(0, 60)}...
+        <View style={{ width: "75%" }}>
+          <Text style={styles.restaurantName}>{name}</Text>
+          <Text style={styles.restaurantAddress}>{area}</Text>
+
+          <Text style={styles.rating}>
+            {rating}{" "}
+            <Image
+              source={require("../../../assets/images/icons8-estrella-96.png")}
+              style={styles.star}
+            />
+          </Text>
+          <Text style={styles.restaurantDescription}>
+            {price == null || price == 0 ? "Gratis" : "Desde: $" + price}
           </Text>
         </View>
       </View>
@@ -78,54 +90,67 @@ function FooterList(props) {
 
   if (isLoading) {
     return (
-      <View style={styles.loadingPlaces}>
+      <View style={styles.noMore}>
         <ActivityIndicator size="large" />
       </View>
     );
   } else {
     return (
-      <View style={styles.notFoundPlace}>
-        <Text>No quedan lugares por cargar</Text>
+      <View>
+        <Text style={styles.noMore}>Echa un vistazo de nuevo</Text>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  loadingPlaces: {
-    marginTop: 20,
+  loaderRestaurants: {
+    marginTop: 10,
+    marginBottom: 10,
     alignItems: "center",
   },
-  viewPlace: {
+  viewRestaurant: {
     flexDirection: "row",
     margin: 10,
   },
-  viewPlaceImage: {
+  viewRestaurantImage: {
     marginRight: 15,
   },
-  imagePlace: {
-    width: 100,
-    height: 100,
+  imageRestaurant: {
+    width: 80,
+    height: 80,
+    borderWidth: 1,
+    borderRadius: 10,
   },
-  placeName: {
+  restaurantName: {
+    marginTop: 5,
     fontWeight: "bold",
   },
-  placeAddress: {
+  restaurantAddress: {
     paddingTop: 2,
     color: "grey",
   },
-  placeDescription: {
+  restaurantDescription: {
     paddingTop: 2,
     color: "grey",
-    width: 300,
+    width: 250,
   },
-  loaderPlaces: {
-    marginBottom: 10,
-    marginTop: 10,
-  },
-  notFoundPlace: {
+  notFoundRestaurants: {
     marginTop: 10,
     marginBottom: 20,
     alignItems: "center",
+  },
+  rating: {
+    position: "absolute",
+    right: 15,
+    top: 20,
+  },
+  star: {
+    width: 15,
+    height: 15,
+  },
+  noMore: {
+    textAlign: "center",
+    marginBottom: 20,
   },
 });

@@ -1,7 +1,10 @@
-import React, { Component } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import React from "react";
+import { StyleSheet, View, Text, Dimensions } from "react-native";
 import Svg, { Ellipse } from "react-native-svg";
 import Icon from "react-native-vector-icons/Ionicons";
+
+const widthScreen = Dimensions.get("window").width;
+const heightScreen = Dimensions.get("window").height;
 
 function CardService(props) {
   return (
@@ -31,7 +34,7 @@ function CardService(props) {
 const styles = StyleSheet.create({
   container: {},
   rect2: {
-    width: 138,
+    width: widthScreen * 0.4,
     height: 89,
     backgroundColor: "rgba(255,255,255,1)",
     borderRadius: 10,
@@ -56,14 +59,14 @@ const styles = StyleSheet.create({
     width: 52,
     height: 52,
     marginTop: 6,
-    marginLeft: 7,
+    marginLeft: 15,
   },
   restaurantes: {
     color: "#121212",
     height: 18,
     width: 101,
     marginTop: 3,
-    marginLeft: 18,
+    marginLeft: 23,
   },
 });
 

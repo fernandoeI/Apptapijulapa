@@ -6,7 +6,10 @@ import LoginForm from "../../components/account/LoginForm";
 import Toast from "react-native-easy-toast";
 import LoginFacebook from "../../components/account/LoginFacebook";
 
-export default function Login({ navigation }) {
+export default function Login(props) {
+  const { route } = props;
+  const { type } = route.params;
+
   const toastRef = useRef();
   return (
     <ScrollView>
@@ -16,12 +19,12 @@ export default function Login({ navigation }) {
         resizeMode="contain"
       />
       <View style={styles.viewContainer}>
-        <LoginForm toastRef={toastRef} />
-        <CreateAccount screenName="Register" />
+        <LoginForm toastRef={toastRef} typeUser={type} />
+        <CreateAccount screenName="Register" typeUser={type} />
       </View>
       <Divider stye={styles.divider} />
       <View style={styles.viewContainer}>
-        <LoginFacebook toastRef={toastRef} />
+        <LoginFacebook toastRef={toastRef} typeUser={type} />
       </View>
       <Toast ref={toastRef} position="center" opacity={0.5} />
     </ScrollView>
@@ -32,13 +35,14 @@ const styles = StyleSheet.create({
   logo: {
     width: "100%",
     height: 150,
-    marginTop: 20
+    marginTop: 60,
   },
   viewContainer: {
     marginRight: 40,
-    marginLeft: 40
+    marginLeft: 40,
+    marginTop: 20,
   },
   divider: {
-    backgroundColor: "rgb(34, 21, 81 )"
-  }
+    backgroundColor: "rgb(34, 21, 81 )",
+  },
 });

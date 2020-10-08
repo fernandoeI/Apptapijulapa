@@ -2,14 +2,15 @@ import * as React from "react";
 import { StyleSheet, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-export default function CreateAccount({ screenName }) {
+export default function CreateAccount(props) {
+  const { screenName, typeUser } = props;
   const navigation = useNavigation();
   return (
     <Text style={styles.textRegister}>
-      ¿Aún no tienes una cuenta?
+      ¿Aún no tienes una cuenta?{"  "}
       <Text
         style={styles.btnRegister}
-        onPress={() => navigation.navigate(screenName)}
+        onPress={() => navigation.navigate(screenName, { typeUser })}
       >
         Registrate
       </Text>
@@ -20,12 +21,12 @@ export default function CreateAccount({ screenName }) {
 const styles = StyleSheet.create({
   textRegister: {
     marginTop: 15,
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 15
+
+    marginBottom: 15,
+    textAlign: "center",
   },
   btnRegister: {
     color: "rgb(34, 21, 81 )",
-    fontWeight: "bold"
-  }
+    fontWeight: "bold",
+  },
 });

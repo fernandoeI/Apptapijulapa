@@ -6,7 +6,7 @@ import { FacebookApi } from "../../utils/Social";
 import { useNavigation } from "@react-navigation/native";
 
 export default function LoginFacebook(props) {
-  const { toastRef } = props;
+  const { toastRef, type } = props;
   const navigation = useNavigation();
 
   const login = async () => {
@@ -14,7 +14,7 @@ export default function LoginFacebook(props) {
     const { type, token } = await Facebook.logInWithReadPermissionsAsync(
       FacebookApi.application_id,
       {
-        permissions: FacebookApi.permissions
+        permissions: FacebookApi.permissions,
       }
     );
     if (type === "success") {

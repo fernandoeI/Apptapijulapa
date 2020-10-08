@@ -5,13 +5,19 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useFocusEffect } from "@react-navigation/native";
+import { isEmpty, set } from "lodash";
 
 import CardImage from "../components/CardImage";
 import CardService from "../components/CardService";
 import ListPlacesHome from "../components/places/ListPlacesHome";
+import ListExperiencesHome from "../components/experiences/ListExperienceHome";
+
+const widthScreen = Dimensions.get("window").width;
+const heightScreen = Dimensions.get("window").height;
 
 import { firebaseApp } from "../utils/FireBase";
 import firebase from "firebase/app";
@@ -26,7 +32,12 @@ export default function Home(props) {
   const [totalPlaces, setTotalPlaces] = useState(0);
   const [startPlaces, setStartPlaces] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const limitPlaces = 5;
+  const [isLoadingExp, setIsLoadingExp] = useState(false);
+  const limit = 5;
+
+  const [experiences, setExperiences] = useState([]);
+  const [totalExperiences, setTotalExperiences] = useState(0);
+  const [startExperiences, setStartExperiences] = useState(null);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((userInfo) => {
@@ -46,7 +57,7 @@ export default function Home(props) {
 
       db.collection("places")
         .orderBy("createAt", "desc")
-        .limit(limitPlaces)
+        .limit(limit)
         .get()
         .then((response) => {
           setStartPlaces(response.docs[response.docs.length - 1]);
@@ -60,14 +71,40 @@ export default function Home(props) {
     }, [])
   );
 
-  const handleLoadMore = () => {
+  useFocusEffect(
+    useCallback(() => {
+      db.collection("experiences")
+        .get()
+        .then((snap) => {
+          setTotalExperiences(snap.size);
+        });
+
+      const resultExperiences = [];
+
+      db.collection("experiences")
+        .orderBy("createAt", "desc")
+        .limit(limit)
+        .get()
+        .then((response) => {
+          setStartExperiences(response.docs[response.docs.length - 1]);
+          response.forEach((doc) => {
+            const experience = doc.data();
+            experience.id = doc.id;
+            resultExperiences.push(experience);
+          });
+          setExperiences(resultExperiences);
+        });
+    }, [])
+  );
+
+  const handleLoadMorePlaces = () => {
     const resultPlaces = [];
     places.length < totalPlaces && setIsLoading(true);
 
     db.collection("places")
       .orderBy("createAt", "desc")
       .startAfter(startPlaces.data().createAt)
-      .limit(limitPlaces)
+      .limit(limit)
       .get()
       .then((response) => {
         if (response.docs.length > 0) {
@@ -84,44 +121,77 @@ export default function Home(props) {
         setPlaces([...places, ...resultPlaces]);
       });
   };
+
+  const handleLoadMoreExperiences = () => {
+    const resultExperiences = [];
+    experiences.length < totalExperiences && setIsLoadingExp(true);
+
+    db.collection("experiences")
+      .orderBy("createAt", "desc")
+      .startAfter(startExperiences.data().createAt)
+      .limit(limit)
+      .get()
+      .then((response) => {
+        if (response.docs.length > 0) {
+          setStartExperiences(response.docs[response.docs.length - 1]);
+        } else {
+          setIsLoadingExp(false);
+        }
+        response.forEach((doc) => {
+          const experience = doc.data();
+          experience.id = doc.id;
+          resultExperiences.push(place);
+        });
+
+        setExperiences([...experiences, ...resultExperiences]);
+      });
+  };
+
   return (
     <View style={styles.container}>
+      <Text style={styles.holaAmy}>Hola</Text>
+      <Text style={styles.exploraTapijulapa}>Explora Tapijulapa</Text>
       <View style={styles.scrollArea}>
         <ScrollView
           contentContainerStyle={styles.scrollArea_contentContainerStyle}
         >
           <View style={styles.cardSubtitles}>
             <Text style={styles.subtitles}>Lugares</Text>
-            {user && (
-              <Icon
-                name="ios-add-circle-outline"
-                style={styles.icon}
-                onPress={() => navigation.navigate("AddPlace")}
-              ></Icon>
-            )}
+            <Text
+              style={styles.verMas}
+              onPress={() => navigation.navigate("AllPlaces")}
+            >
+              Ver todos
+            </Text>
           </View>
 
           <View style={styles.scrollContent}>
             <ListPlacesHome
               places={places}
               isLoading={isLoading}
-              handleLoadMore={handleLoadMore}
+              handleLoadMore={handleLoadMorePlaces}
+              keyExtractor={(item, index) => index.toString()}
             />
           </View>
-          <Text style={styles.subtitles}>Experiencias</Text>
-          <View style={styles.scrollContent}>
-            <ScrollView
-              horizontal={true}
-              contentContainerStyle={styles.scrollContent_contentContainerStyle}
-              showsHorizontalScrollIndicator={false}
+
+          <View style={styles.cardSubtitles}>
+            <Text style={styles.subtitles}>Experiencias</Text>
+            <Text
+              style={styles.verMas}
+              onPress={() => navigation.navigate("AllExperiences")}
             >
-              <View style={styles.cardImageRow}>
-                <CardImage style={styles.cardImage}></CardImage>
-                <CardImage style={styles.cardImage}></CardImage>
-                <CardImage style={styles.cardImage}></CardImage>
-              </View>
-            </ScrollView>
+              Ver todos
+            </Text>
           </View>
+          <View style={styles.scrollContent}>
+            <ListExperiencesHome
+              experiences={experiences}
+              isLoading={isLoadingExp}
+              handleLoadMore={handleLoadMoreExperiences}
+              keyExtractor={(item, index) => index.toString()}
+            />
+          </View>
+
           <Text style={styles.subtitles}>Servicios</Text>
           <View style={styles.cardServiceRow}>
             <TouchableOpacity
@@ -130,16 +200,19 @@ export default function Home(props) {
               <CardService
                 restaurantes="Alimentos"
                 style={styles.cardServiceLeft}
-              ></CardService>
+              />
             </TouchableOpacity>
 
-            <CardService
-              iconName="md-restaurant"
-              restaurantes="Artesanias"
-              icon="ios-cart"
-              style={styles.cardServiceRight}
-            ></CardService>
+            <TouchableOpacity onPress={() => navigation.navigate("Artesanias")}>
+              <CardService
+                iconName="md-restaurant"
+                restaurantes="Artesanias"
+                icon="ios-cart"
+                style={styles.cardServiceRight}
+              />
+            </TouchableOpacity>
           </View>
+
           <View style={styles.cardServiceRow}>
             <TouchableOpacity onPress={() => navigation.navigate("Hotels")}>
               <CardService
@@ -147,33 +220,37 @@ export default function Home(props) {
                 restaurantes="Hospedaje"
                 icon="ios-business"
                 style={styles.cardServiceLeft}
-              ></CardService>
+              />
             </TouchableOpacity>
-            <CardService
-              iconName="md-restaurant"
-              restaurantes="Guías"
-              icon="ios-people"
-              style={styles.cardServiceRight}
-            ></CardService>
+            <TouchableOpacity onPress={() => navigation.navigate("Guias")}>
+              <CardService
+                iconName="md-restaurant"
+                restaurantes="Guías"
+                icon="ios-people"
+                style={styles.cardServiceRight}
+              />
+            </TouchableOpacity>
           </View>
           <View style={styles.cardServiceRow}>
-            <CardService
-              iconName="md-restaurant"
-              restaurantes="Miscelanea"
-              icon="ios-basket"
-              style={styles.cardServiceLeft}
-            ></CardService>
-            <CardService
-              iconName="md-restaurant"
-              restaurantes="Otros"
-              icon="ios-glasses"
-              style={styles.cardServiceRight}
-            ></CardService>
+            <TouchableOpacity onPress={() => navigation.navigate("Miscelanea")}>
+              <CardService
+                iconName="md-restaurant"
+                restaurantes="Miscelanea"
+                icon="ios-basket"
+                style={styles.cardServiceLeft}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("Otros")}>
+              <CardService
+                iconName="md-restaurant"
+                restaurantes="Otros"
+                icon="ios-glasses"
+                style={styles.cardServiceRight}
+              />
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </View>
-      <Text style={styles.holaAmy}>Hola, Amy</Text>
-      <Text style={styles.exploraTapijulapa}>Explora Tapijulapa</Text>
     </View>
   );
 }
@@ -181,43 +258,39 @@ export default function Home(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgba(250,250,250,1)",
+    backgroundColor: "#f2f2f2",
   },
   icon: {
     color: "rgba(32,14,50,1)",
     fontSize: 32,
   },
   scrollArea: {
-    width: 346,
-    height: 583,
-    marginTop: 143,
+    width: widthScreen,
+    height: heightScreen,
     marginLeft: 29,
   },
   scrollArea_contentContainerStyle: {
-    height: 895,
-    width: 346,
+    width: widthScreen * 0.95,
+    height: heightScreen * 1.5,
   },
   subtitles: {
     color: "rgba(0,0,0,1)",
     marginLeft: 3,
     marginTop: 10,
     fontSize: 16,
-    width: 290,
+    width: widthScreen * 0.7,
   },
   cardSubtitles: {
     flexDirection: "row",
+
+    marginTop: 10,
   },
   scrollContent: {
     height: 211,
     marginTop: 14,
     marginLeft: 3,
   },
-  scrollContent_contentContainerStyle: {
-    width: 460,
-    height: 211,
-    overflow: "visible",
-    flexDirection: "row",
-  },
+
   cardImage: {
     height: 223,
     width: 133,
@@ -238,19 +311,18 @@ const styles = StyleSheet.create({
   cardServiceRight: {
     width: 138,
     height: 89,
-    marginLeft: 12,
+    marginLeft: "15%",
   },
   cardServiceRow: {
     height: 89,
     flexDirection: "row",
     marginTop: 15,
-    marginLeft: 3,
     marginRight: 55,
   },
 
   holaAmy: {
     color: "rgba(132,132,132,1)",
-    marginTop: -662,
+    marginTop: "15%",
     marginLeft: 29,
   },
   exploraTapijulapa: {
@@ -258,7 +330,11 @@ const styles = StyleSheet.create({
     height: 42,
     width: 268,
     fontSize: 28,
-    marginTop: 7,
-    marginLeft: 28,
+    marginTop: 5,
+    marginLeft: 29,
+  },
+  verMas: {
+    marginLeft: 5,
+    marginTop: 10,
   },
 });

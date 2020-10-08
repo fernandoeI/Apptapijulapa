@@ -3,23 +3,24 @@ import { StyleSheet } from "react-native";
 import { Button } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 
-export default function GoButton({ screenName }) {
+export default function GoButton(props) {
+  const { screenName, title, type } = props;
   const navigation = useNavigation();
   return (
     <Button
       buttonStyle={styles.btnStyle}
       containerStyle={styles.btnContainer}
-      title="Ver tu perfil"
-      onPress={() => navigation.navigate(screenName)}
+      title={title}
+      onPress={() => navigation.navigate(screenName, { type })}
     />
   );
 }
 
 const styles = StyleSheet.create({
   btnStyle: {
-    backgroundColor: "rgb(34, 21, 81)"
+    backgroundColor: "rgb(34, 21, 81)",
   },
   btnContainer: {
-    width: "70%"
-  }
+    width: "80%",
+  },
 });

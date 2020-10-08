@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import * as firebase from "firebase";
 import { size } from "lodash";
 import { useNavigation } from "@react-navigation/native";
 
@@ -32,9 +31,9 @@ export default function ListPlaces(props) {
           ListFooterComponent={<FooterList isLoading={isLoading} />}
         />
       ) : (
-        <View>
+        <View style={{ paddingTop: 60 }}>
           <ActivityIndicator size="large" />
-          <Text>Cargando Lugares</Text>
+          <Text style={{ textAlign: "center" }}>Cargando Lugares</Text>
         </View>
       )}
     </View>
