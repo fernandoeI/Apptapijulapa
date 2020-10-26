@@ -4,25 +4,31 @@ import * as firebase from "firebase";
 import * as Facebook from "expo-facebook";
 import { FacebookApi } from "../../utils/Social";
 import { useNavigation } from "@react-navigation/native";
+import Loading from "../Loading";
 
 export default function LoginFacebook(props) {
-  const { toastRef, type } = props;
+  const { toastRef } = props;
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
 
   const login = async () => {
-    await Facebook.initializeAsync(FacebookApi.application_id);
+    try {
+      await Facebook.initializeAsync({
+        appId: FacebookApi.application_id,
+      });
     const { type, token } = await Facebook.logInWithReadPermissionsAsync(
-      FacebookApi.application_id,
       {
         permissions: FacebookApi.permissions,
       }
     );
     if (type === "success") {
+      setLoading(true);
       const credentials = firebase.auth.FacebookAuthProvider.credential(token);
-      await firebase
+       firebase
         .auth()
         .signInWithCredential(credentials)
         .then(() => {
+          setLoading(false);
           navigation.navigate("Mi cuenta");
         })
         .catch(() => {
@@ -33,14 +39,20 @@ export default function LoginFacebook(props) {
     } else {
       toastRef.current.show("Error al acceder. Intentelo más tarde");
     }
+  }catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
+    }
   };
 
   return (
+    <>
     <SocialIcon
       title="Iniciar sesión con Facebook"
       button
       type="facebook"
       onPress={login}
     />
+    <Loading isVisible={loading} text="Iniciando sesión" />
+    </>
   );
 }

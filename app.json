@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "AppTapijulapa",
-    "slug": "AppTapijulapa",
+    "name": "Tapijulapa",
+    "slug": "Tapijulapa",
     "privacy": "public",
     "platforms": ["ios", "android", "web"],
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -20,13 +20,20 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.sectur.apptapijulapa",
+      "package": "com.sectur.tapijulapa",
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyC2BRYkoR_s41JBL6wbmqSvzJzAomrO7-w"
         }
       },
-      "permissions": ["CAMERA_ROLL", "LOCATION"]
+      "permissions": [
+        "CAMERA_ROLL",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ]
     },
     "description": ""
   }

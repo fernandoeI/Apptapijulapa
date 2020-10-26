@@ -1,31 +1,41 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Input, Icon, Button } from "react-native-elements";
-import { validateEmail } from "../../utils/Validation";
+import { isEmpty } from "lodash";
 import { useNavigation } from "@react-navigation/native";
 import * as firebase from "firebase";
+import { validateEmail } from "../../utils/Validation";
+import Loading from "../Loading";
 
 export default function LoginForm(props) {
   const navigation = useNavigation();
   const { toastRef } = props;
   const [hidePassword, setHidePassword] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState(defaultFormValue());
+  const [loading, setLoading] = useState(false);
 
-  const login = async () => {
-    if (!email || !password) {
+  const onChange = (e, type) => {
+    setFormData({ ...formData, [type]: e.nativeEvent.text });
+  };
+
+
+  const onSubmit =  () => {
+    if (isEmpty(formData.email) || isEmpty(formData.password)) {
       toastRef.current.show("Todos los campos son obligatorios");
     } else {
-      if (!validateEmail(email)) {
+      if (!validateEmail(formData.email)) {
         toastRef.current.show("El email no es correcto");
       } else {
-        await firebase
+        setLoading(true);
+         firebase
           .auth()
-          .signInWithEmailAndPassword(email, password)
+          .signInWithEmailAndPassword(formData.email, formData.password)
           .then(() => {
+            setLoading(false);
             navigation.navigate("Mi cuenta");
           })
           .catch(() => {
+            setLoading(false);
             toastRef.current.show("Email o contraseñas incorrectas");
           });
       }
@@ -37,7 +47,7 @@ export default function LoginForm(props) {
       <Input
         placeholder="Email"
         containerStyle={styles.inputForm}
-        onChange={(e) => setEmail(e.nativeEvent.text)}
+        onChange={(e) => onChange(e, "email")}
         rightIcon={
           <Icon
             type="material-community"
@@ -50,8 +60,8 @@ export default function LoginForm(props) {
         placeholder="Contraseña"
         containerStyle={styles.inputForm}
         password="true"
-        secureTextEntry={hidePassword}
-        onChange={(e) => setPassword(e.nativeEvent.text)}
+        secureTextEntry={hidePassword ? false : true}
+        onChange={(e) => onChange(e, "password")}
         rightIcon={
           <Icon
             type="material-community"
@@ -65,10 +75,18 @@ export default function LoginForm(props) {
         title="Iniciar Sesión"
         containerStyle={styles.btnContainerLogin}
         buttonStyle={styles.btnLogin}
-        onPress={login}
+        onPress={onSubmit}
       />
+       <Loading isVisible={loading} text="Iniciando sesión" />
     </View>
   );
+}
+
+function defaultFormValue() {
+  return {
+    email: "",
+    password: "",
+  };
 }
 
 const styles = StyleSheet.create({

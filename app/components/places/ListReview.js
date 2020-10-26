@@ -26,6 +26,7 @@ export default function ListReview(props) {
     { id: "delete", label: "Eliminar" },
   ];
 
+
   firebase.auth().onAuthStateChanged((user) => {
     user ? setUserLogged(true) : setUserLogged(false);
   });
@@ -49,7 +50,7 @@ export default function ListReview(props) {
 
   useFocusEffect(
     useCallback(() => {
-      if (user != 0) {
+      if (user) {
         db.collection("reviewsPlace")
           .where("idUser", "==", user.uid)
           .where("idPlace", "==", idPlace)

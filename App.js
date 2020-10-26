@@ -1,7 +1,6 @@
 import React from "react";
 import { YellowBox } from "react-native";
 import Navigation from "./app/navigation/Navigation";
-import { firebaseApp } from "./app/utils/FireBase";
 import { decode, encode } from "base-64";
 import BackdropProvider from "@mgcrea/react-native-backdrop-provider";
 

@@ -43,6 +43,14 @@ export default function Description(props) {
     user ? setUserLogged(true) : setUserLogged(false);
   });
 
+  var user = firebase.auth().currentUser;
+  var uid;
+  if (user) {
+    uid = user.uid;
+  } else {
+    uid = 0;
+  }
+
   useFocusEffect(
     useCallback(() => {
       db.collection("places")
@@ -61,7 +69,7 @@ export default function Description(props) {
     if (userLogged && place) {
       db.collection("favorites")
         .where("idFavorite", "==", place.id)
-        .where("idUser", "==", firebase.auth().currentUser.uid)
+        .where("idUser", "==", uid)
         .get()
         .then((response) => {
           if (response.docs.length === 1) {
@@ -78,7 +86,7 @@ export default function Description(props) {
       );
     } else {
       const payload = {
-        idUser: firebase.auth().currentUser.uid,
+        idUser: uid,
         idFavorite: place.id,
         type: "place",
       };
@@ -96,7 +104,7 @@ export default function Description(props) {
   const removeFavorites = () => {
     db.collection("favorites")
       .where("idFavorite", "==", place.id)
-      .where("idUser", "==", firebase.auth().currentUser.uid)
+      .where("idUser", "==", uid)
       .get()
       .then((response) => {
         response.forEach((doc) => {

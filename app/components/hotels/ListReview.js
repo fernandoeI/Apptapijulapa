@@ -49,7 +49,7 @@ export default function ListReview(props) {
 
   useFocusEffect(
     useCallback(() => {
-      if (user != 0) {
+      if (user) {
         db.collection("reviewsHotel")
           .where("idUser", "==", user.uid)
           .where("idHotel", "==", idHotel)
