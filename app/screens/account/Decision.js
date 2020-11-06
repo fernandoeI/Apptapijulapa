@@ -16,7 +16,7 @@ export default function Decision() {
         experiencias todo en una sola aplicación. Regsitrate y comienza ahora!
       </Text>
       <View style={styles.viewBtn}>
-        <GoButton screenName="Login" title="Soy un Comerciante" type="2" />
+        <GoButton screenName="Login" title="Soy un Prestador de Servicio" type="2" />
       </View>
       <View style={styles.viewBtn}>
         <GoButton screenName="Login" title="Soy un Turista" type="1" />

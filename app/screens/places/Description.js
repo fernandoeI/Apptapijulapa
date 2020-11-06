@@ -249,7 +249,7 @@ function ImageGallery(props) {
     <View style={styles.image2Row}>
       <ImageModal
         isTranslucent={Platform.OS === "android" ? true : false}
-        swipeToDismiss={false}
+        swipeToDismiss={true}
         imageBackgroundColor="#F2F2F2"
         resizeMode="contain"
         style={styles.image2}
@@ -409,11 +409,11 @@ const styles = StyleSheet.create({
     right: "5%",
   },
   exCoventoOxolotanRow: {
-    height: 43,
+    height: "20%",
     flexDirection: "row",
-    marginTop: 4,
     marginLeft: 22,
     marginRight: 16,
+    width: "60%"
   },
   image: {
     top: 0,
@@ -428,35 +428,34 @@ const styles = StyleSheet.create({
   group1: {
     width: 49,
     height: 49,
-    marginTop: 45,
-    marginLeft: 10,
+    marginTop: 35,
+    marginLeft: 20,
+  
   },
   icon1: {
     top: 3,
-    left: 5,
+    left: 3,
     position: "absolute",
-    color: "rgba(128,128,128,1)",
+    color: "#fff",
     fontSize: 40,
   },
   button3: {
-    top: 0,
-    left: 0,
     width: 49,
     height: 49,
     position: "absolute",
     borderRadius: 100,
-    backgroundColor: "rgba(255,255,255,1)",
-    opacity: 0.2,
+    backgroundColor: "rgb(255,255,255)",
+    opacity:0.3
   },
   icon1Stack: {
     width: 49,
     height: 49,
   },
   rect2: {
-    top: "97%",
+    top: "96%",
     left: 0,
     width: widthScreen,
-    height: 10,
+    height: 20,
     position: "absolute",
     backgroundColor: "#F2F2F2",
     borderTopLeftRadius: 15,
@@ -509,6 +508,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
     resizeMode: "cover",
     borderRadius: 15,
+    borderColor: "#F2F2F2"
   },
 
   image2Row: {

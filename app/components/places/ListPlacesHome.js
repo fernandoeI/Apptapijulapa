@@ -66,8 +66,8 @@ function Place(props) {
             style={styles.image1}
             PlaceholderContent={<ActivityIndicator color="fff" />}
           />
-          <Text style={styles.oxolotan}>{area}</Text>
-          <Text style={styles.exConvento}>{name}</Text>
+          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.area}>{area}</Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -114,18 +114,14 @@ const styles = StyleSheet.create({
     borderColor: "rgba(249,249,249,1)",
     borderRadius: 10,
   },
-  oxolotan: {
-    top: 185,
-    left: 0,
-    position: "absolute",
+  area: {
     color: "rgba(132,132,132,1)",
+    marginTop: 5
   },
-  exConvento: {
-    top: 160,
-    left: 0,
-    position: "absolute",
+  name: {
     color: "rgba(0,0,0,1)",
     fontSize: 16,
+    marginTop: 10
   },
   buttonStack: {
     width: 133,

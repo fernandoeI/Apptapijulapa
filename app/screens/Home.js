@@ -192,7 +192,7 @@ export default function Home(props) {
             />
           </View>
 
-          <Text style={styles.subtitles}>Servicios</Text>
+          <Text style={styles.services}>Servicios</Text>
           <View style={styles.cardServiceRow}>
             <TouchableOpacity
               onPress={() => navigation.navigate("Restaurants")}
@@ -276,18 +276,20 @@ const styles = StyleSheet.create({
   subtitles: {
     color: "rgba(0,0,0,1)",
     marginLeft: 3,
-    marginTop: 10,
     fontSize: 16,
     width: widthScreen * 0.7,
   },
+  services: {
+    color: "rgba(0,0,0,1)",
+    marginLeft: 3,
+    fontSize: 16,
+    marginTop:10
+  },
   cardSubtitles: {
     flexDirection: "row",
-
-    marginTop: 10,
   },
   scrollContent: {
-    height: 211,
-    marginTop: 14,
+    marginTop: 10,
     marginLeft: 3,
   },
 
@@ -332,6 +334,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     marginTop: 5,
     marginLeft: 29,
+    marginBottom: 5
   },
   verMas: {
     marginLeft: 5,
