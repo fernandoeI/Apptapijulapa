@@ -34,7 +34,7 @@ function CardService(props) {
 const styles = StyleSheet.create({
   container: {},
   rect2: {
-    width: widthScreen * 0.4,
+    width: "115%",
     height: 89,
     backgroundColor: "rgba(255,255,255,1)",
     borderRadius: 10,

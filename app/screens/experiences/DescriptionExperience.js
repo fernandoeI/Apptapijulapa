@@ -381,6 +381,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#000",
   },
+
+  rating: {
+    position: "absolute",
+    right: 15,
+    marginTop: 15,
+  },
+
   scrollArea: {
     width: widthScreen,
     height: 147,
@@ -402,10 +409,9 @@ const styles = StyleSheet.create({
   },
 
   locationCard: {
-    height: 120,
-    width: widthScreen,
+    height: 147,
+    width: 112,
     marginLeft: 24,
-    marginTop: 10,
   },
   basicInformationRow: {
     height: 147,
@@ -414,6 +420,8 @@ const styles = StyleSheet.create({
     marginRight: -167,
     marginLeft: -2110,
     marginTop: 2,
+
+    marginBottom: 15,
   },
   rect: {
     top: 30,
@@ -426,12 +434,12 @@ const styles = StyleSheet.create({
     color: "rgb(255,255,255)",
     letterSpacing: 2,
     fontSize: 12,
-    marginTop: heightScreen * 0.3,
+    marginTop: heightScreen * 0.32,
     marginLeft: 22,
   },
   exCoventoOxolotan: {
     color: "#FFF",
-    fontSize: 22,
+    fontSize: 20,
   },
   icon: {
     top: 0,
@@ -445,7 +453,6 @@ const styles = StyleSheet.create({
     left: 0,
     width: 40,
     height: 43,
-    position: "absolute",
   },
   iconStack: {
     position: "absolute",
@@ -453,11 +460,11 @@ const styles = StyleSheet.create({
     right: "5%",
   },
   exCoventoOxolotanRow: {
-    height: 43,
+    height: "20%",
     flexDirection: "row",
-    marginTop: 4,
     marginLeft: 22,
     marginRight: 16,
+    width: "80%"
   },
   image: {
     top: 0,
@@ -472,35 +479,34 @@ const styles = StyleSheet.create({
   group1: {
     width: 49,
     height: 49,
-    marginTop: 45,
-    marginLeft: 10,
+    marginTop: 35,
+    marginLeft: 20,
+  
   },
   icon1: {
     top: 3,
-    left: 5,
+    left: 3,
     position: "absolute",
-    color: "rgba(128,128,128,1)",
+    color: "#fff",
     fontSize: 40,
   },
   button3: {
-    top: 0,
-    left: 0,
     width: 49,
     height: 49,
     position: "absolute",
     borderRadius: 100,
-    backgroundColor: "rgba(255,255,255,1)",
-    opacity: 0.2,
+    backgroundColor: "rgb(255,255,255)",
+    opacity:0.3
   },
   icon1Stack: {
     width: 49,
     height: 49,
   },
   rect2: {
-    top: "97%",
+    top: "96%",
     left: 0,
     width: widthScreen,
-    height: 10,
+    height: 20,
     position: "absolute",
     backgroundColor: "#F2F2F2",
     borderTopLeftRadius: 15,
@@ -553,6 +559,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
     resizeMode: "cover",
     borderRadius: 15,
+    borderColor: "#F2F2F2"
   },
 
   image2Row: {

@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
     height: 80,
     borderWidth: 1,
     borderRadius: 10,
+    borderColor: "#F2F2F2"
   },
   restaurantName: {
     marginTop: 5,

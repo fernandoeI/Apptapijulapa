@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
+  Platform
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useFocusEffect } from "@react-navigation/native";
@@ -266,12 +267,11 @@ const styles = StyleSheet.create({
   },
   scrollArea: {
     width: widthScreen,
-    height: heightScreen,
     marginLeft: 29,
   },
   scrollArea_contentContainerStyle: {
     width: widthScreen * 0.95,
-    height: heightScreen * 1.5,
+    height: Platform.OS === 'ios' ? "125%" : "145%"
   },
   subtitles: {
     color: "rgba(0,0,0,1)",
@@ -313,13 +313,12 @@ const styles = StyleSheet.create({
   cardServiceRight: {
     width: 138,
     height: 89,
-    marginLeft: "15%",
+    marginLeft: "18%",
   },
   cardServiceRow: {
     height: 89,
     flexDirection: "row",
     marginTop: 15,
-    marginRight: 55,
   },
 
   holaAmy: {

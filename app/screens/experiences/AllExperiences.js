@@ -21,7 +21,7 @@ export default function AllExperiences(props) {
   const [startExperiences, setStartExperiences] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState("");
-  const limit = 5;
+  const limit = 30;
 
   useEffect(() => {
     if (search) {
@@ -45,7 +45,7 @@ export default function AllExperiences(props) {
     const resultExperiences = [];
 
     db.collection("experiences")
-      .orderBy("createAt", "desc")
+      .orderBy("rating", "desc")
       .limit(limit)
       .get()
       .then((response) => {
@@ -65,8 +65,8 @@ export default function AllExperiences(props) {
     experiences.length < totalExperiences && setIsLoading(true);
 
     db.collection("experiences")
-      .orderBy("createAt", "desc")
-      .startAfter(startExperiences.data().createAt)
+      .orderBy("rating", "desc")
+      .startAfter(startExperiences.data().rating)
       .limit(limit)
       .get()
       .then((response) => {
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
     height: 42,
     backgroundColor: "rgba(255,255,255,1)",
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,1)",
+    borderColor: "#f2f2f2",
     borderRadius: 5,
     marginLeft: 10,
   },

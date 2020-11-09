@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, TouchableOpacity, Image, Text } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Image, Text, Platform } from "react-native";
 import { SearchBar } from "react-native-elements";
 
 import ListPlaces from "../../components/places/ListPlaces";
@@ -23,7 +23,7 @@ export default function AllPlaces(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState("");
 
-  const limit = 5;
+  const limit = 30;
 
   useEffect(() => {
     if (search) {
@@ -52,7 +52,6 @@ export default function AllPlaces(props) {
       .get()
       .then((response) => {
         setStartPlaces(response.docs[response.docs.length - 1]);
-
         response.forEach((doc) => {
           const place = doc.data();
           place.id = doc.id;
@@ -82,7 +81,6 @@ export default function AllPlaces(props) {
           place.id = doc.id;
           resultPlaces.push(place);
         });
-
         setPlaces([...places, ...resultPlaces]);
       });
   };
@@ -233,7 +231,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   scrollContent: {
-    height: "60%",
+    height: Platform.OS === 'ios' ? "70%" : "60%",
   },
   searchBar: {
     width: "98%",

@@ -21,7 +21,7 @@ export default function AllExperiences(props) {
   const [startExperiences, setStartExperiences] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState("");
-  const limit = 5;
+  const limit = 30;
 
   useEffect(() => {
     if (search) {
