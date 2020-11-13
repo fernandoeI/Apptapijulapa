@@ -197,7 +197,8 @@ function RatingPlace(props) {
           imageSize={20}
           readonly
           startingValue={parseFloat(rating)}
-          ratingTextColor="red"
+          ratingBackgroundColor="#fff"
+          tintColor="#f2f2f2"
         />
       </View>
     </View>

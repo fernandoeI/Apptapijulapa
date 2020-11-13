@@ -10,6 +10,9 @@ import {
   FlatList,
   Image,
   Linking,
+
+  Modal,
+  TouchableHighlight
 } from "react-native";
 import { Rating, Icon } from "react-native-elements";
 import { useFocusEffect } from "@react-navigation/native";
@@ -39,6 +42,7 @@ export default function Description(props) {
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [userLogged, setUserLogged] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const toastRef = useRef();
 
   firebase.auth().onAuthStateChanged((user) => {
@@ -121,6 +125,26 @@ export default function Description(props) {
 
   return (
     <View style={styles.container}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+          <Text style={styles.modalText} >{experience.description}</Text>
+
+            <TouchableHighlight
+              style={{ ...styles.openButton, backgroundColor: "rgb(34, 21, 81)" }}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <Text style={styles.textStyle}>Cerrar</Text>
+            </TouchableHighlight>
+          </View>
+        </View>
+      </Modal>
       <ExperiencePresentation
         experience={experience}
         navigation={navigation}
@@ -136,7 +160,10 @@ export default function Description(props) {
         >
           <RatingExperience rating={rating} />
           <View style={styles.loremIpsumStack}>
-            <Text style={styles.loremIpsum2}>{experience.description}</Text>
+            <Text style={styles.loremIpsum2} numberOfLines={3}>{experience.description}</Text>
+            <Text style={{position: "absolute", top: 55, right: 0, fontWeight:"bold" }} onPress={() => {
+                setModalVisible(!modalVisible);
+              }}>Leer más</Text>
           </View>
           <Text style={styles.subtitles}>Información básica</Text>
           <Informacion experience={experience} />
@@ -167,7 +194,8 @@ function RatingExperience(props) {
           imageSize={20}
           readonly
           startingValue={parseFloat(rating)}
-          ratingTextColor="red"
+          ratingBackgroundColor="#fff"
+          tintColor="#f2f2f2"
         />
       </View>
     </View>
@@ -520,7 +548,6 @@ const styles = StyleSheet.create({
     textAlign: "justify",
   },
   loremIpsumStack: {
-    overflow: "hidden",
     width: widthScreen * 0.9,
     height: 60,
     marginTop: 5,
@@ -582,4 +609,40 @@ const styles = StyleSheet.create({
     right: 15,
     marginTop: 15,
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  }
 });

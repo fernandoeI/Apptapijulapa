@@ -112,11 +112,12 @@ export default function RegisterForm(props) {
               width: "95%",
               marginTop: 20,
               marginLeft: 10,
-              lineHeight: 2,
-              lineHeight: 50,
+              fontSize: 18,
+              lineHeight: 20,
               borderBottomColor: "#96989A",
               borderBottomWidth: 1.2,
-              fontSize: 18,
+              color:"#9c9c9c",
+              paddingBottom: 10
             },
             inputAndroid: {
               width: "95%",
@@ -126,6 +127,7 @@ export default function RegisterForm(props) {
               borderBottomColor: "#96989A",
               borderBottomWidth: 1.2,
               fontSize: 18,
+              color:"#9c9c9c",
             },
           }}
         />
