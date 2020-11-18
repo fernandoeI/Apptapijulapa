@@ -8,7 +8,8 @@
       "android",
       "web"
     ],
-    "version": "1.1.0",
+    "version": "1.0.2",
+    
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -28,6 +29,7 @@
     },
     "android": {
       "package": "com.sectur.tapijulapa",
+      "versionCode": 2,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyC2BRYkoR_s41JBL6wbmqSvzJzAomrO7-w"
