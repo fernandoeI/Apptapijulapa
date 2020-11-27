@@ -32,7 +32,7 @@ export default function ListExperiences(props) {
       ) : (
         <View style={{ alignItems: "center", justifyContent: "center" }}>
           <ActivityIndicator size="large" />
-          <Text style={styles.noMore}>Cargando Restaurantes</Text>
+          <Text style={styles.noMore}>Cargando Gastronomía</Text>
         </View>
       )}
     </View>

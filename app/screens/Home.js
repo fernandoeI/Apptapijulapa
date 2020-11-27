@@ -199,15 +199,16 @@ export default function Home(props) {
               onPress={() => navigation.navigate("Restaurants")}
             >
               <CardService
-                restaurantes="Alimentos"
+                restaurantes="Gastronomía"
                 style={styles.cardServiceLeft}
+                
               />
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => navigation.navigate("Artesanias")}>
               <CardService
                 iconName="md-restaurant"
-                restaurantes="Artesanias"
+                restaurantes="Artesanías"
                 icon="ios-cart"
                 style={styles.cardServiceRight}
               />
@@ -218,7 +219,7 @@ export default function Home(props) {
             <TouchableOpacity onPress={() => navigation.navigate("Hotels")}>
               <CardService
                 iconName="md-restaurant"
-                restaurantes="Hospedaje"
+                restaurantes="Hoteles"
                 icon="ios-business"
                 style={styles.cardServiceLeft}
               />
@@ -236,7 +237,7 @@ export default function Home(props) {
             <TouchableOpacity onPress={() => navigation.navigate("Miscelanea")}>
               <CardService
                 iconName="md-restaurant"
-                restaurantes="Miscelanea"
+                restaurantes="Tours"
                 icon="ios-basket"
                 style={styles.cardServiceLeft}
               />

@@ -283,7 +283,7 @@ function ExperiencePresentation(props) {
           </View>
         </View>
       </ImageBackground>
-      <Text style={styles.lugares}>RESTAURANTE</Text>
+      <Text style={styles.lugares}>GASTRONOMÍA</Text>
       <View style={styles.exCoventoOxolotanRow}>
         <Text style={styles.exCoventoOxolotan}>
           {experience.name}, {experience.area}

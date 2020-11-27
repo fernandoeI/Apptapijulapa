@@ -122,7 +122,7 @@ export default function AllExperiences(props) {
           ></Image>
         </View>
       </View>
-      <Text style={styles.loremIpsum}>Restaurantes</Text>
+      <Text style={styles.loremIpsum}>Gastronomía</Text>
 
       <SearchBar
         placeholder="Buscar restaurantes"
@@ -132,7 +132,7 @@ export default function AllExperiences(props) {
         lightTheme={true}
       />
       <View style={styles.todosLosHotelesRow}>
-        <Text style={styles.todosLosHoteles}>Todas los restaurantes </Text>
+        <Text style={styles.todosLosHoteles}>Toda la Gastronomía </Text>
       </View>
       <View style={styles.scrollContent}>
         {experiences.length === 0 ? (
