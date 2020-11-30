@@ -234,7 +234,7 @@ function PlacePresentation(props) {
           </View>
         </View>
       </ImageBackground>
-      <Text style={styles.lugares}>LUGARES</Text>
+      <Text style={styles.lugares}>SITIOS DE INTERÉS</Text>
       <View style={styles.exCoventoOxolotanRow}>
         <Text style={styles.exCoventoOxolotan}>
           {place.name}, {place.area}

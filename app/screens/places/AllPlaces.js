@@ -110,22 +110,22 @@ export default function AllPlaces(props) {
             ></Ellipse>
           </Svg>
           <Image
-            source={require("../../../assets/images/icons8-estatua-del-cristo-redentor-64.png")}
+            source={require("../../../assets/images/lugares.png")}
             resizeMode="contain"
             style={styles.image}
           ></Image>
         </View>
       </View>
-      <Text style={styles.loremIpsum}>Lugares</Text>
+      <Text style={styles.loremIpsum}>Sitios de Interés</Text>
       <SearchBar
-        placeholder="Buscar lugares"
+        placeholder="Buscar sitios "
         onChangeText={(e) => setSearch(e)}
         value={search}
         containerStyle={styles.searchBar}
         lightTheme={true}
       />
       <View style={styles.todosLosHotelesRow}>
-        <Text style={styles.todosLosHoteles}>Todos los lugares</Text>
+        <Text style={styles.todosLosHoteles}>Todos los sitios</Text>
       </View>
       <View style={styles.scrollContent}>
         {places.length === 0 ? (

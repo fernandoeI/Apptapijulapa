@@ -157,7 +157,7 @@ export default function Home(props) {
           contentContainerStyle={styles.scrollArea_contentContainerStyle}
         >
           <View style={styles.cardSubtitles}>
-            <Text style={styles.subtitles}>Lugares</Text>
+            <Text style={styles.subtitles}>Sitios de interés</Text>
             <Text
               style={styles.verMas}
               onPress={() => navigation.navigate("AllPlaces")}
@@ -201,15 +201,14 @@ export default function Home(props) {
               <CardService
                 restaurantes="Gastronomía"
                 style={styles.cardServiceLeft}
-                
+                icon="gastronomia"
               />
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => navigation.navigate("Artesanias")}>
               <CardService
-                iconName="md-restaurant"
                 restaurantes="Artesanías"
-                icon="ios-cart"
+                icon="artesanias"
                 style={styles.cardServiceRight}
               />
             </TouchableOpacity>
@@ -218,17 +217,15 @@ export default function Home(props) {
           <View style={styles.cardServiceRow}>
             <TouchableOpacity onPress={() => navigation.navigate("Hotels")}>
               <CardService
-                iconName="md-restaurant"
                 restaurantes="Hoteles"
-                icon="ios-business"
+                icon="hoteles"
                 style={styles.cardServiceLeft}
               />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("Guias")}>
               <CardService
-                iconName="md-restaurant"
                 restaurantes="Guías"
-                icon="ios-people"
+                icon="guias"
                 style={styles.cardServiceRight}
               />
             </TouchableOpacity>
@@ -236,17 +233,15 @@ export default function Home(props) {
           <View style={styles.cardServiceRow}>
             <TouchableOpacity onPress={() => navigation.navigate("Miscelanea")}>
               <CardService
-                iconName="md-restaurant"
                 restaurantes="Tours"
-                icon="ios-basket"
+                icon="tours"
                 style={styles.cardServiceLeft}
               />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("Otros")}>
               <CardService
-                iconName="md-restaurant"
                 restaurantes="Otros"
-                icon="ios-glasses"
+                icon="otros"
                 style={styles.cardServiceRight}
               />
             </TouchableOpacity>
@@ -272,7 +267,7 @@ const styles = StyleSheet.create({
   },
   scrollArea_contentContainerStyle: {
     width: widthScreen * 0.95,
-    height: Platform.OS === 'ios' ? "125%" : "145%"
+    height: 1000,
   },
   subtitles: {
     color: "rgba(0,0,0,1)",
@@ -337,7 +332,6 @@ const styles = StyleSheet.create({
     marginBottom: 5
   },
   verMas: {
-    marginLeft: 5,
-    marginTop: 10,
+    fontWeight:"bold"
   },
 });

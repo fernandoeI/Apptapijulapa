@@ -1,12 +1,33 @@
+import { concat } from "lodash";
 import React from "react";
-import { StyleSheet, View, Text, Dimensions } from "react-native";
+import { StyleSheet, View, Text, Dimensions, Image } from "react-native";
 import Svg, { Ellipse } from "react-native-svg";
 import Icon from "react-native-vector-icons/Ionicons";
 
 const widthScreen = Dimensions.get("window").width;
 const heightScreen = Dimensions.get("window").height;
 
+
+
 function CardService(props) {
+  var icon;
+  
+  switch(props.icon){
+    case "artesanias" : icon = require('../../assets/images/artesanias.png')
+    break;
+    case "gastronomia" : icon = require('../../assets/images/gastronomia.png');
+    break;
+    case "hoteles" : icon = require('../../assets/images/hoteles.png');
+    break;
+    case "guias" : icon = require('../../assets/images/guias.png');
+    break;
+    case "tours" : icon = require('../../assets/images/tours.png');
+    break;
+    case "otros" : icon = require('../../assets/images/otros.png');
+    break;
+  }
+  
+
   return (
     <View style={[styles.container, props.style]}>
       <View style={styles.rect2}>
@@ -21,7 +42,7 @@ function CardService(props) {
               fill="rgba(250,250,250,1)"
             ></Ellipse>
           </Svg>
-          <Icon name={props.icon || "md-restaurant"} style={styles.icon}></Icon>
+          <Image source={ icon} style={styles.icon}></Image>
         </View>
         <Text style={styles.restaurantes}>
           {props.restaurantes || "Restaurantes"}
@@ -47,13 +68,13 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   icon: {
-    top: 4,
-    left: 10,
+    top: 9,
+    left: 9,
     position: "absolute",
     color: "rgba(32,14,50,1)",
     fontSize: 40,
-    height: 43,
-    width: 34,
+    height: 35,
+    width: 35,
   },
   ellipseStack: {
     width: 52,

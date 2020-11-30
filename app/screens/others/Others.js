@@ -122,17 +122,17 @@ export default function AllExperiences(props) {
           ></Image>
         </View>
       </View>
-      <Text style={styles.loremIpsum}>Otros</Text>
+      <Text style={styles.loremIpsum}>Tours</Text>
 
       <SearchBar
-        placeholder="Buscar Otros"
+        placeholder="Buscar Tours"
         onChangeText={(e) => setSearch(e)}
         value={search}
         containerStyle={styles.searchBar}
         lightTheme={true}
       />
       <View style={styles.todosLosHotelesRow}>
-        <Text style={styles.todosLosHoteles}>Todos los Otros</Text>
+        <Text style={styles.todosLosHoteles}>Todos los Tours</Text>
       </View>
       <View style={styles.scrollContent}>
         {experiences.length === 0 ? (

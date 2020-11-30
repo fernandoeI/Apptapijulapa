@@ -33,7 +33,7 @@ export default function ListPlaces(props) {
       ) : (
         <View style={{ paddingTop: 60 }}>
           <ActivityIndicator size="large" />
-          <Text style={{ textAlign: "center" }}>Cargando Lugares</Text>
+          <Text style={{ textAlign: "center" }}>Cargando Sitios</Text>
         </View>
       )}
     </View>

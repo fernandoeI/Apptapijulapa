@@ -110,7 +110,7 @@ export default function AllExperiences(props) {
             ></Ellipse>
           </Svg>
           <Image
-            source={require("../../../assets/images/icons8-bungee-jumping-80.png")}
+            source={require("../../../assets/images/experiencias.png")}
             resizeMode="contain"
             style={styles.image}
           ></Image>
