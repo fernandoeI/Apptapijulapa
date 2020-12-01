@@ -116,23 +116,23 @@ export default function AllExperiences(props) {
             ></Ellipse>
           </Svg>
           <Image
-            source={require("../../../assets/images/icons8-grocery-bag-96.png")}
+            source={require("../../../assets/images/tours.png")}
             resizeMode="contain"
             style={styles.image}
           ></Image>
         </View>
       </View>
-      <Text style={styles.loremIpsum}>Miscelaneas</Text>
+      <Text style={styles.loremIpsum}>Tours</Text>
 
       <SearchBar
-        placeholder="Buscar Miscelaneas"
+        placeholder="Buscar Tours"
         onChangeText={(e) => setSearch(e)}
         value={search}
         containerStyle={styles.searchBar}
         lightTheme={true}
       />
       <View style={styles.todosLosHotelesRow}>
-        <Text style={styles.todosLosHoteles}>Todas las Miscelaneas</Text>
+        <Text style={styles.todosLosHoteles}>Todos los Tours</Text>
       </View>
       <View style={styles.scrollContent}>
         {experiences.length === 0 ? (

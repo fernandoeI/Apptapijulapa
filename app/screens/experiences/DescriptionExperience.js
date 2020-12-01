@@ -354,9 +354,19 @@ function Informacion(props) {
           ></Path>
         </Svg>
         <View style={styles.basicInformationRow}>
+        <BasicInformation
+            title="Desde"
+            data={
+              experience.price == null || experience.price == 0
+                ? "Gratis"
+                : "$ " +experience.price
+            }
+            style={styles.basicInformation}
+            pic={4}
+          />
           <BasicInformation
             style={styles.basicInformation}
-            title="Mejores Meses"
+            title="Duración"
             data={experience.bestMonths}
             pic={1}
           />
@@ -376,16 +386,7 @@ function Informacion(props) {
             style={styles.basicInformation}
             pic={3}
           />
-          <BasicInformation
-            title="Desde"
-            data={
-              experience.price == null || experience.price == 0
-                ? "Gratis"
-                : experience.price
-            }
-            style={styles.basicInformation}
-            pic={4}
-          />
+          
         </View>
       </ScrollView>
     </View>

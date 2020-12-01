@@ -119,7 +119,7 @@ export default function AllExperiences(props) {
       <Text style={styles.loremIpsum}>Experiencias</Text>
 
       <SearchBar
-        placeholder="Buscar lugares"
+        placeholder="Buscar experiencias"
         onChangeText={(e) => setSearch(e)}
         value={search}
         containerStyle={styles.searchBar}

@@ -116,7 +116,7 @@ export default function AllExperiences(props) {
             ></Ellipse>
           </Svg>
           <Image
-            source={require("../../../assets/images/icons8-hand-with-bracelet-96.png")}
+            source={require("../../../assets/images/artesanias.png")}
             resizeMode="contain"
             style={styles.image}
           ></Image>
@@ -125,14 +125,14 @@ export default function AllExperiences(props) {
       <Text style={styles.loremIpsum}>Artesanías</Text>
 
       <SearchBar
-        placeholder="Buscar artesanos"
+        placeholder="Buscar "
         onChangeText={(e) => setSearch(e)}
         value={search}
         containerStyle={styles.searchBar}
         lightTheme={true}
       />
       <View style={styles.todosLosHotelesRow}>
-        <Text style={styles.todosLosHoteles}>Todas los artesanos</Text>
+        <Text style={styles.todosLosHoteles}>Todas las Artesanías</Text>
       </View>
       <View style={styles.scrollContent}>
         {experiences.length === 0 ? (

@@ -328,7 +328,7 @@ function Informacion(props) {
             data={
               place.price == null || place.price == 0
                 ? "Gratis"
-                : "Desde: $" + place.price
+                : " $" + place.price
             }
             style={styles.basicInformation}
             pic={4}

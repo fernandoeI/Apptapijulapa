@@ -71,8 +71,6 @@ const styles = StyleSheet.create({
     top: 9,
     left: 9,
     position: "absolute",
-    color: "rgba(32,14,50,1)",
-    fontSize: 40,
     height: 35,
     width: 35,
   },

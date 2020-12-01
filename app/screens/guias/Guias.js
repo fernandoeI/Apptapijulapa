@@ -116,16 +116,16 @@ export default function AllExperiences(props) {
             ></Ellipse>
           </Svg>
           <Image
-            source={require("../../../assets/images/icons8-tourist-guide-96.png")}
+            source={require("../../../assets/images/guias.png")}
             resizeMode="contain"
             style={styles.image}
           ></Image>
         </View>
       </View>
-      <Text style={styles.loremIpsum}>Guia</Text>
+      <Text style={styles.loremIpsum}>Guías</Text>
 
       <SearchBar
-        placeholder="Buscar Guia"
+        placeholder="Buscar Guías"
         onChangeText={(e) => setSearch(e)}
         value={search}
         containerStyle={styles.searchBar}
