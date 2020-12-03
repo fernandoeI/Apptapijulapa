@@ -25,7 +25,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.sectur.tapijulapa"
+      "bundleIdentifier": "com.sectur.tapijulapa",
+      "usesAppleSignIn" : true
     },
     "android": {
       "package": "com.sectur.tapijulapa",

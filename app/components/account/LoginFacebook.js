@@ -5,11 +5,16 @@ import * as Facebook from "expo-facebook";
 import { FacebookApi } from "../../utils/Social";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "../Loading";
+import * as Crypto from "expo-crypto";
+import * as AppleAuthentication from "expo-apple-authentication";
+import { firebaseApp } from "../../utils/FireBase";
+
 
 export default function LoginFacebook(props) {
   const { toastRef } = props;
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
+
 
   const login = async () => {
     try {
@@ -24,7 +29,7 @@ export default function LoginFacebook(props) {
     if (type === "success") {
       setLoading(true);
       const credentials = firebase.auth.FacebookAuthProvider.credential(token);
-       firebase
+      firebase
         .auth()
         .signInWithCredential(credentials)
         .then(() => {
@@ -44,6 +49,9 @@ export default function LoginFacebook(props) {
     }
   };
 
+
+ 
+ 
   return (
     <>
     <SocialIcon
@@ -52,6 +60,32 @@ export default function LoginFacebook(props) {
       type="facebook"
       onPress={login}
     />
+    
+      
+    <AppleAuthentication.AppleAuthenticationButton
+      buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+      buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+      cornerRadius={5}
+      style={{ width: 200, height: 44 }}
+      onPress={async () => {
+        try {
+          const credential = await AppleAuthentication.signInAsync({
+            requestedScopes: [
+              AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+              AppleAuthentication.AppleAuthenticationScope.EMAIL,
+            ],
+          });
+          // signed in
+        } catch (e) {
+          if (e.code === 'ERR_CANCELED') {
+            // handle that the user canceled the sign-in flow
+          } else {
+            // handle other errors
+          }
+        }
+      }}
+    />
+     
     <Loading isVisible={loading} text="Iniciando sesión" />
     </>
   );
