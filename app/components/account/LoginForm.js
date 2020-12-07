@@ -10,7 +10,7 @@ import Loading from "../Loading";
 export default function LoginForm(props) {
   const navigation = useNavigation();
   const { toastRef } = props;
-  const [hidePassword, setHidePassword] = useState(true);
+  const [hidePassword, setHidePassword] = useState(false);
   const [formData, setFormData] = useState(defaultFormValue());
   const [loading, setLoading] = useState(false);
 

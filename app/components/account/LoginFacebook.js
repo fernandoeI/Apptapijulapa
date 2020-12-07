@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import Loading from "../Loading";
 import * as Crypto from "expo-crypto";
 import * as AppleAuthentication from "expo-apple-authentication";
-import { firebaseApp } from "../../utils/FireBase";
+
 
 
 export default function LoginFacebook(props) {
@@ -49,9 +49,22 @@ export default function LoginFacebook(props) {
     }
   };
 
-
- 
- 
+  // const loginWithApple = async () => {
+  //   const csrf = Math.random().toString(36).substring(2, 15);
+  //   const nonce = Math.random().toString(36).substring(2, 10);
+  //   const hashedNonce = await Crypto.digestStringAsync(
+  //     Crypto.CryptoDigestAlgorithm.SHA256, nonce);
+  //   const appleCredential = await AppleAuthentication.signInAsync({
+  //     requestedScopes: [
+  //       AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+  //       AppleAuthentication.AppleAuthenticationScope.EMAIL
+  //     ],
+  //     state: csrf,
+  //     nonce: hashedNonce
+  //   });
+  //   const { identityToken, email, state } = appleCredential;
+  // }
+  
   return (
     <>
     <SocialIcon
@@ -60,32 +73,13 @@ export default function LoginFacebook(props) {
       type="facebook"
       onPress={login}
     />
-    
-      
-    <AppleAuthentication.AppleAuthenticationButton
-      buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-      buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
-      cornerRadius={5}
-      style={{ width: 200, height: 44 }}
-      onPress={async () => {
-        try {
-          const credential = await AppleAuthentication.signInAsync({
-            requestedScopes: [
-              AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-              AppleAuthentication.AppleAuthenticationScope.EMAIL,
-            ],
-          });
-          // signed in
-        } catch (e) {
-          if (e.code === 'ERR_CANCELED') {
-            // handle that the user canceled the sign-in flow
-          } else {
-            // handle other errors
-          }
-        }
-      }}
-    />
-     
+    {/* <AppleAuthentication.AppleAuthenticationButton
+          buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+          buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+          cornerRadius={5}
+          style={{ width: 250, height: 50 }}
+          onPress={loginWithApple}
+      /> */}
     <Loading isVisible={loading} text="Iniciando sesión" />
     </>
   );

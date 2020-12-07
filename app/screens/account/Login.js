@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { StyleSheet, View, ScrollView, Text, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, View, ScrollView, Text, Image, TouchableOpacity, Platform } from "react-native";
 import { Divider } from "react-native-elements";
 import CreateAccount from "../../components/CreateAccount";
 import LoginForm from "../../components/account/LoginForm";
@@ -34,7 +34,8 @@ export default function Login(props) {
       </View>
       <Divider stye={styles.divider} />
       <View style={styles.viewContainer}>
-        <LoginFacebook toastRef={toastRef} typeUser={type} />
+      {Platform.OS === 'ios' ? <View></View> : <LoginFacebook toastRef={toastRef} typeUser={type} /> }
+        
       </View>
       <Toast ref={toastRef} position="center" opacity={0.5} />
     </ScrollView>

@@ -8,7 +8,7 @@
       "android",
       "web"
     ],
-    "version": "1.0.2",
+    "version": "1.0.3",
     
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -26,11 +26,14 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.sectur.tapijulapa",
-      "usesAppleSignIn" : true
+      "usesAppleSignIn" : true,
+      "infoPlist":{
+        "NSPhotoLibraryUsageDescription" : "Permite que la aplicación acceda a tu galería de imágenes para que puedas seleccionar una como foto de perfil"
+      }
     },
     "android": {
       "package": "com.sectur.tapijulapa",
-      "versionCode": 2,
+      "versionCode": 3,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyC2BRYkoR_s41JBL6wbmqSvzJzAomrO7-w"

@@ -116,7 +116,7 @@ export default function AllExperiences(props) {
             ></Ellipse>
           </Svg>
           <Image
-            source={require("../../../assets/images/icons8-mesa-de-restaurante-96.png")}
+            source={require("../../../assets/images/gastronomia.png")}
             resizeMode="contain"
             style={styles.image}
           ></Image>
