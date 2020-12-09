@@ -217,7 +217,7 @@ export default function Home(props) {
           <View style={styles.cardServiceRow}>
             <TouchableOpacity onPress={() => navigation.navigate("Hotels")}>
               <CardService
-                restaurantes="Hoteles"
+                restaurantes="Hospedajes"
                 icon="hoteles"
                 style={styles.cardServiceLeft}
               />
@@ -262,8 +262,10 @@ const styles = StyleSheet.create({
     fontSize: 32,
   },
   scrollArea: {
+    flex: 1,
     width: widthScreen,
     marginLeft: 29,
+    
   },
   scrollArea_contentContainerStyle: {
     width: widthScreen * 0.95,
@@ -283,8 +285,10 @@ const styles = StyleSheet.create({
   },
   cardSubtitles: {
     flexDirection: "row",
+    marginTop: 15
   },
   scrollContent: {
+    flex: 1,
     marginTop: 10,
     marginLeft: 3,
   },
@@ -314,7 +318,7 @@ const styles = StyleSheet.create({
   cardServiceRow: {
     height: 89,
     flexDirection: "row",
-    marginTop: 15,
+    marginTop: "6%",
   },
 
   holaAmy: {
@@ -325,7 +329,7 @@ const styles = StyleSheet.create({
   exploraTapijulapa: {
     color: "#121212",
     height: 42,
-    width: 268,
+    
     fontSize: 28,
     marginTop: 5,
     marginLeft: 29,

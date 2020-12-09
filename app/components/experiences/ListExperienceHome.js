@@ -96,13 +96,10 @@ const styles = StyleSheet.create({
   container: {
     marginRight: 15,
   },
-  button: {
-    width: 133,
-    height: 223,
-  },
+  
   noMore: {
     textAlign: "center",
-    width: 133,
+    width: 33,
     height: 223,
     marginRight: 20,
     alignItems: "center",
@@ -125,6 +122,6 @@ const styles = StyleSheet.create({
   },
   buttonStack: {
     width: 133,
-    height: 223,
+    height: 300,
   },
 });

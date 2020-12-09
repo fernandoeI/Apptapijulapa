@@ -165,11 +165,11 @@ export default function Description(props) {
           <RatingPlace rating={rating} />
           <View style={styles.loremIpsumStack}>
             <Text style={styles.loremIpsum2} numberOfLines={3}> {place.description}</Text>
-            <Text style={{position: "absolute", top: 55, right: 0, fontWeight:"bold" }} onPress={() => {
+            
+          </View>
+          <Text style={{fontWeight:"bold", left: "75%", top: 7}} onPress={() => {
                 setModalVisible(!modalVisible);
               }}>Leer más</Text>
-          </View>
-          
           <Text style={styles.subtitles}>Información básica</Text>
           <Informacion place={place} />
           <Text style={styles.subtitles}>Galeria</Text>
@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
 
   scrollArea: {
     width: widthScreen,
-    height: 147,
+    height: "7%",
     marginLeft: 22,
     marginTop: 10,
   },

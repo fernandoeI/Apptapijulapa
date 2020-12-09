@@ -122,17 +122,17 @@ export default function AllExperiences(props) {
           ></Image>
         </View>
       </View>
-      <Text style={styles.loremIpsum}>Hoteles</Text>
+      <Text style={styles.loremIpsum}>Hospedaje</Text>
 
       <SearchBar
-        placeholder="Buscar Hoteles"
+        placeholder="Buscar Hospedaje"
         onChangeText={(e) => setSearch(e)}
         value={search}
         containerStyle={styles.searchBar}
         lightTheme={true}
       />
       <View style={styles.todosLosHotelesRow}>
-        <Text style={styles.todosLosHoteles}>Todos los hoteles</Text>
+        <Text style={styles.todosLosHoteles}>Todos los hospedajes</Text>
       </View>
       <View style={styles.scrollContent}>
         {experiences.length === 0 ? (
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     marginLeft: 124,
   },
   todosLosHotelesRow: {
-    height: 17,
+    height: "4%",
     flexDirection: "row",
     marginTop: 25,
     marginLeft: 20,

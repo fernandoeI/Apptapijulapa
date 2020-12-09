@@ -112,6 +112,8 @@ const styles = StyleSheet.create({
   viewRestaurant: {
     flexDirection: "row",
     margin: 10,
+    flex: 1,
+    alignItems: "center",
   },
   viewRestaurantImage: {
     marginRight: 15,
@@ -126,6 +128,7 @@ const styles = StyleSheet.create({
   restaurantName: {
     marginTop: 5,
     fontWeight: "bold",
+    width: "80%"
   },
   restaurantAddress: {
     paddingTop: 2,

@@ -220,25 +220,12 @@ const styles = StyleSheet.create({
     marginTop: 25,
     marginLeft: 10,
   },
-  input: {
-    marginTop: 15,
-    width: "95%",
-    height: 42,
-    backgroundColor: "rgba(255,255,255,1)",
-    borderWidth: 1,
-    borderColor: "#f2f2f2",
-    borderRadius: 5,
-    marginLeft: 10,
-  },
+  
   todosLosHoteles: {
     color: "#121212",
   },
-  ordenar: {
-    color: "rgba(132,132,132,1)",
-    marginLeft: 124,
-  },
   todosLosHotelesRow: {
-    height: 17,
+    height: "4%",
     flexDirection: "row",
     marginTop: 25,
     marginLeft: 20,

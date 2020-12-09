@@ -55,8 +55,8 @@ function CardService(props) {
 const styles = StyleSheet.create({
   container: {},
   rect2: {
-    width: "115%",
-    height: 89,
+    width: widthScreen * 0.4,
+    height: "110%",
     backgroundColor: "rgba(255,255,255,1)",
     borderRadius: 10,
   },
@@ -82,8 +82,8 @@ const styles = StyleSheet.create({
   },
   restaurantes: {
     color: "#121212",
-    height: 18,
-    width: 101,
+    height: "100%",
+    width: "100%",
     marginTop: 3,
     marginLeft: 23,
   },

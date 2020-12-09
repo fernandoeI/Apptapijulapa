@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     marginLeft: 124,
   },
   todosLosHotelesRow: {
-    height: 17,
+    height: "4%",
     flexDirection: "row",
     marginTop: 25,
     marginLeft: 20,

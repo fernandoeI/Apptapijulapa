@@ -219,11 +219,12 @@ const styles = StyleSheet.create({
     marginTop: 25,
     marginLeft: 10,
   },
+  
   todosLosHoteles: {
     color: "#121212",
   },
   todosLosHotelesRow: {
-    height: 17,
+    height: "4%",
     flexDirection: "row",
     marginTop: 25,
     marginLeft: 20,
@@ -231,13 +232,14 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   scrollContent: {
-    height: Platform.OS === 'ios' ? "70%" : "60%",
+    height: "60%",
   },
   searchBar: {
     width: "98%",
     marginRight: 20,
   },
 });
+
 // import React, { useState, useEffect } from "react";
 // import { StyleSheet, View, Text, FlatList, Image } from "react-native";
 // import { SearchBar, ListItem, Icon } from "react-native-elements";

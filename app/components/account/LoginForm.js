@@ -34,9 +34,10 @@ export default function LoginForm(props) {
             setLoading(false);
             navigation.navigate("Mi cuenta");
           })
-          .catch(() => {
+          .catch((e) => {
             setLoading(false);
             toastRef.current.show("Email o contraseñas incorrectas");
+            console.warn(e);
           });
       }
     }
