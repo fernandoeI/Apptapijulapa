@@ -6,19 +6,15 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
-  Platform
+  Platform,
 } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
 import { useFocusEffect } from "@react-navigation/native";
-import { isEmpty, set } from "lodash";
 
-import CardImage from "../components/CardImage";
 import CardService from "../components/CardService";
 import ListPlacesHome from "../components/places/ListPlacesHome";
 import ListExperiencesHome from "../components/experiences/ListExperienceHome";
 
 const widthScreen = Dimensions.get("window").width;
-const heightScreen = Dimensions.get("window").height;
 
 import { firebaseApp } from "../utils/FireBase";
 import firebase from "firebase/app";
@@ -34,7 +30,7 @@ export default function Home(props) {
   const [startPlaces, setStartPlaces] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingExp, setIsLoadingExp] = useState(false);
-  const limit = 5;
+  const limit = 6;
 
   const [experiences, setExperiences] = useState([]);
   const [totalExperiences, setTotalExperiences] = useState(0);
@@ -141,7 +137,7 @@ export default function Home(props) {
         response.forEach((doc) => {
           const experience = doc.data();
           experience.id = doc.id;
-          resultExperiences.push(place);
+          resultExperiences.push(experience);
         });
 
         setExperiences([...experiences, ...resultExperiences]);
@@ -197,53 +193,45 @@ export default function Home(props) {
           <View style={styles.cardServiceRow}>
             <TouchableOpacity
               onPress={() => navigation.navigate("Restaurants")}
+              style={styles.cardService}
             >
-              <CardService
-                restaurantes="Gastronomía"
-                style={styles.cardServiceLeft}
-                icon="gastronomia"
-              />
+              <CardService restaurantes="Gastronomía" icon="gastronomia" />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => navigation.navigate("Artesanias")}>
-              <CardService
-                restaurantes="Artesanías"
-                icon="artesanias"
-                style={styles.cardServiceRight}
-              />
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Artesanias")}
+              style={styles.cardService}
+            >
+              <CardService restaurantes="Artesanías" icon="artesanias" />
             </TouchableOpacity>
           </View>
 
           <View style={styles.cardServiceRow}>
-            <TouchableOpacity onPress={() => navigation.navigate("Hotels")}>
-              <CardService
-                restaurantes="Hospedajes"
-                icon="hoteles"
-                style={styles.cardServiceLeft}
-              />
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Hotels")}
+              style={styles.cardService}
+            >
+              <CardService restaurantes="Hospedajes" icon="hoteles" />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("Guias")}>
-              <CardService
-                restaurantes="Guías"
-                icon="guias"
-                style={styles.cardServiceRight}
-              />
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Guias")}
+              style={styles.cardService}
+            >
+              <CardService restaurantes="Guías" icon="guias" />
             </TouchableOpacity>
           </View>
           <View style={styles.cardServiceRow}>
-            <TouchableOpacity onPress={() => navigation.navigate("Miscelanea")}>
-              <CardService
-                restaurantes="Tours"
-                icon="tours"
-                style={styles.cardServiceLeft}
-              />
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Miscelanea")}
+              style={styles.cardService}
+            >
+              <CardService restaurantes="Tours" icon="tours" />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("Otros")}>
-              <CardService
-                restaurantes="Otros"
-                icon="otros"
-                style={styles.cardServiceRight}
-              />
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Otros")}
+              style={styles.cardService}
+            >
+              <CardService restaurantes="Otros" icon="otros" />
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -265,27 +253,27 @@ const styles = StyleSheet.create({
     flex: 1,
     width: widthScreen,
     marginLeft: 29,
-    
   },
   scrollArea_contentContainerStyle: {
     width: widthScreen * 0.95,
-    height: 1000,
   },
   subtitles: {
     color: "rgba(0,0,0,1)",
     marginLeft: 3,
     fontSize: 16,
-    width: widthScreen * 0.7,
   },
   services: {
     color: "rgba(0,0,0,1)",
     marginLeft: 3,
     fontSize: 16,
-    marginTop:10
+    marginTop: 20,
+    marginBottom: 10,
   },
   cardSubtitles: {
     flexDirection: "row",
-    marginTop: 15
+    justifyContent: "space-between",
+    marginTop: 15,
+    marginRight: 30,
   },
   scrollContent: {
     flex: 1,
@@ -293,34 +281,15 @@ const styles = StyleSheet.create({
     marginLeft: 3,
   },
 
-  cardImage: {
-    height: 223,
-    width: 133,
-    marginRight: 16,
-  },
-
-  cardImageRow: {
-    height: 223,
-    flexDirection: "row",
-    flex: 1,
-    marginRight: 27,
-  },
-
-  cardServiceLeft: {
-    height: 89,
-    width: 138,
-  },
-  cardServiceRight: {
-    width: 138,
-    height: 89,
-    marginLeft: "18%",
-  },
   cardServiceRow: {
-    height: 89,
     flexDirection: "row",
-    marginTop: "6%",
+    justifyContent: "space-between",
+    marginBottom: 20,
+    marginRight: 30,
   },
-
+  cardService: {
+    width: "47%",
+  },
   holaAmy: {
     color: "rgba(132,132,132,1)",
     marginTop: "15%",
@@ -329,13 +298,13 @@ const styles = StyleSheet.create({
   exploraTapijulapa: {
     color: "#121212",
     height: 42,
-    
+
     fontSize: 28,
     marginTop: 5,
     marginLeft: 29,
-    marginBottom: 5
+    marginBottom: 5,
   },
   verMas: {
-    fontWeight:"bold"
+    fontWeight: "bold",
   },
 });

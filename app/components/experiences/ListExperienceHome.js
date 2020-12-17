@@ -6,8 +6,8 @@ import {
   FlatList,
   ActivityIndicator,
   TouchableOpacity,
-  Image,
 } from "react-native";
+import { Image } from "react-native-elements";
 import { size } from "lodash";
 import { useNavigation } from "@react-navigation/native";
 
@@ -31,8 +31,10 @@ export default function ListExperience(props) {
           ListFooterComponent={<FooterList isLoading={isLoading} />}
         />
       ) : (
-        <View style={{ paddingTop: 60 }}>
-          <ActivityIndicator size="large" color="#00ff00"/>
+        <View
+          style={{ flex: 1, alignContent: "center", justifyContent: "center" }}
+        >
+          <ActivityIndicator size="large" color="#0000ff" />
           <Text style={{ textAlign: "center" }}>Cargando Experiencias</Text>
         </View>
       )}
@@ -53,24 +55,27 @@ function Experience(props) {
   };
 
   return (
-    <View style={[styles.container, props.style]}>
-      <TouchableOpacity onPress={goExperience} style={styles.button}>
-        <View style={styles.buttonStack}>
-          <Image
-            source={
-              imageExperience
-                ? { uri: imageExperience }
-                : require("../../../assets/img/noimage.jpg")
-            }
-            resizeMode="cover"
-            style={styles.image1}
-            PlaceholderContent={<ActivityIndicator color="#00ff00" />}
-          />
-          <Text style={styles.name}>{name}</Text>
-          <Text style={styles.area}>{area}</Text>
-        </View>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity onPress={goExperience} style={styles.buttonStack}>
+      <Image
+        source={
+          imageExperience
+            ? { uri: imageExperience }
+            : require("../../../assets/img/noimage.jpg")
+        }
+        resizeMode="cover"
+        containerStyle={styles.image1}
+        PlaceholderContent={<ActivityIndicator size="large" color="#0000ff" />}
+        placeholderStyle={{
+          flex: 1,
+          alignContent: "center",
+          justifyContent: "center",
+          backgroundColor: "#f2f2f2",
+        }}
+        fadeDuration={30}
+      />
+      <Text style={styles.name}>{name}</Text>
+      <Text style={styles.area}>{area}</Text>
+    </TouchableOpacity>
   );
 }
 
@@ -80,13 +85,14 @@ function FooterList(props) {
   if (isLoading) {
     return (
       <View style={styles.noMore}>
-        <ActivityIndicator size="large" color="#00ff00"/>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text>Cargando más experiencias</Text>
       </View>
     );
   } else {
     return (
-      <View>
-        <Text style={styles.noMore}>Echa un vistazo de nuevo</Text>
+      <View style={styles.noMore}>
+        <Text style={{ textAlign: "center" }}>Echa un vistazo de nuevo</Text>
       </View>
     );
   }
@@ -96,13 +102,13 @@ const styles = StyleSheet.create({
   container: {
     marginRight: 15,
   },
-  
+
   noMore: {
-    textAlign: "center",
-    width: 33,
-    height: 223,
-    marginRight: 20,
+    flex: 0.7,
     alignItems: "center",
+    justifyContent: "center",
+    width: 133,
+    marginRight: 30,
   },
   image1: {
     width: 133,
@@ -110,18 +116,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(249,249,249,1)",
     borderRadius: 10,
+    overflow: "hidden",
   },
   area: {
     color: "rgba(132,132,132,1)",
-    marginTop: 5
+    marginTop: 5,
   },
   name: {
     color: "rgba(0,0,0,1)",
     fontSize: 16,
-    marginTop: 10
+    marginTop: 10,
   },
   buttonStack: {
+    marginRight: 15,
     width: 133,
-    height: 300,
   },
 });
