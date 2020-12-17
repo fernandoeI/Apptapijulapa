@@ -31,7 +31,7 @@ export default function ListPlaces(props) {
         />
       ) : (
         <View style={{ alignItems: "center", justifyContent: "center" }}>
-          <ActivityIndicator size="large" />
+          <ActivityIndicator size="large" color="#0000ff" />
           <Text style={styles.noMore}>Cargando Sitios</Text>
         </View>
       )}
@@ -51,36 +51,34 @@ function Place(props) {
   };
 
   return (
-    <TouchableOpacity onPress={goPlace}>
-      <View style={styles.viewRestaurant}>
-        <View style={styles.viewRestaurantImage}>
-          <Image
-            resizeMode="cover"
-            PlaceholderContent={<ActivityIndicator color="fff" />}
-            source={
-              imagePlace
-                ? { uri: imagePlace }
-                : require("../../../assets/img/noimage.jpg")
-            }
-            style={styles.imageRestaurant}
-          />
-        </View>
-        <View style={{ width: "75%" }}>
+    <TouchableOpacity onPress={goPlace} style={styles.viewRestaurant}>
+      <View style={styles.viewRestaurantImage}>
+        <Image
+          resizeMode="cover"
+          PlaceholderContent={<ActivityIndicator color="fff" />}
+          source={
+            imagePlace
+              ? { uri: imagePlace }
+              : require("../../../assets/img/noimage.jpg")
+          }
+          style={styles.imageRestaurant}
+        />
+        <View style={styles.viewrestaurantInfo}>
           <Text style={styles.restaurantName}>{name}</Text>
           <Text style={styles.restaurantAddress}>{area}</Text>
-
-          <Text style={styles.rating}>
-            {rating}{" "}
-            <Image
-              source={require("../../../assets/images/icons8-estrella-96.png")}
-              style={styles.star}
-            />
-          </Text>
           <Text style={styles.restaurantDescription}>
             {price == null || price == 0 ? "Gratis" : "Desde: $" + price}
           </Text>
         </View>
       </View>
+
+      <Text style={styles.rating}>
+        {rating}{" "}
+        <Image
+          source={require("../../../assets/images/icons8-estrella-96.png")}
+          style={styles.star}
+        />
+      </Text>
     </TouchableOpacity>
   );
 }
@@ -103,31 +101,29 @@ function FooterList(props) {
   }
 }
 const styles = StyleSheet.create({
-  loaderRestaurants: {
-    marginTop: 10,
-    marginBottom: 10,
-    alignItems: "center",
-  },
   viewRestaurant: {
-    flexDirection: "row",
     margin: 10,
-    flex: 1,
-    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   viewRestaurantImage: {
     marginRight: 15,
+    width: "80%",
+    flexDirection: "row",
+  },
+  viewrestaurantInfo: {
+    marginLeft: 10,
   },
   imageRestaurant: {
     width: 80,
     height: 80,
     borderWidth: 1,
     borderRadius: 10,
-    borderColor: "#f2f2f2"
+    borderColor: "#f2f2f2",
   },
   restaurantName: {
     marginTop: 5,
     fontWeight: "bold",
-    width: "80%"
   },
   restaurantAddress: {
     paddingTop: 2,
@@ -144,9 +140,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   rating: {
-    position: "absolute",
-    right: 15,
-    top: 20,
+    marginRight: 15,
+    marginTop: 30,
   },
   star: {
     width: 15,

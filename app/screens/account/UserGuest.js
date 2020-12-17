@@ -16,7 +16,7 @@ export default function UserGuest({ navigation }) {
         experiencias todo en una sola aplicación. Regsitrate y comienza ahora!
       </Text>
       <View style={styles.viewBtn}>
-        <GoButton screenName="Decision" title="Ver tu perfil" />
+        <GoButton screenName="Decision" title="Inicia Sesión" />
       </View>
     </ScrollView>
   );

@@ -27,7 +27,7 @@ export default function AllExperiences(props) {
     if (search) {
       fireSQL
         .query(
-          `SELECT * FROM users WHERE name LIKE '${search}%' OR area LIKE '${search}%' AND giro="restaurante" `
+          `SELECT * FROM users WHERE giro="restaurante" AND name LIKE '${search}%'  `
         )
         .then((response) => {
           setExperiences(response);
