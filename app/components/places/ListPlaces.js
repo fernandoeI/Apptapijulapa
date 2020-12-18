@@ -15,26 +15,20 @@ export default function ListPlaces(props) {
   const { places, isLoading, handleLoadMore } = props;
 
   const navigation = useNavigation();
-  return (
-    <View>
-      {size(places) > 0 ? (
-        <FlatList
-          data={places}
-          renderItem={(place) => (
-            <Place place={place} navigation={navigation} />
-          )}
-          keyExtractor={(item, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
-          onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.5}
-          ListFooterComponent={<FooterList isLoading={isLoading} />}
-        />
-      ) : (
-        <View style={{ alignItems: "center", justifyContent: "center" }}>
-          <ActivityIndicator size="large" color="#0000ff" />
-          <Text style={styles.noMore}>Cargando Sitios</Text>
-        </View>
-      )}
+  return size(places) > 0 ? (
+    <FlatList
+      data={places}
+      renderItem={(place) => <Place place={place} navigation={navigation} />}
+      keyExtractor={(item, index) => index.toString()}
+      showsVerticalScrollIndicator={false}
+      onEndReached={handleLoadMore}
+      onEndReachedThreshold={0.5}
+      ListFooterComponent={<FooterList isLoading={isLoading} />}
+    />
+  ) : (
+    <View style={{ alignItems: "center", justifyContent: "center" }}>
+      <ActivityIndicator size="large" color="#0000ff" />
+      <Text style={styles.noMore}>Cargando Sitios</Text>
     </View>
   );
 }

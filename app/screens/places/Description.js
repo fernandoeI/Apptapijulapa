@@ -9,7 +9,7 @@ import {
   Dimensions,
   FlatList,
   Modal,
-  TouchableHighlight
+  TouchableHighlight,
 } from "react-native";
 import { Rating, Icon } from "react-native-elements";
 import { useFocusEffect } from "@react-navigation/native";
@@ -128,18 +128,17 @@ export default function Description(props) {
 
   if (!place) return <Loading isVisible={true} text="Cargando..." />;
   return (
-    <View style={styles.container}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-      >
+    <View>
+      <Modal animationType="slide" transparent={true} visible={modalVisible}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-          <Text style={styles.modalText}>{place.description}</Text>
+            <Text style={styles.modalText}>{place.description}</Text>
 
             <TouchableHighlight
-              style={{ ...styles.openButton, backgroundColor: "rgb(34, 21, 81)" }}
+              style={{
+                ...styles.openButton,
+                backgroundColor: "rgb(34, 21, 81)",
+              }}
               onPress={() => {
                 setModalVisible(!modalVisible);
               }}
@@ -156,20 +155,23 @@ export default function Description(props) {
         addFavorites={addFavorites}
         removeFavorites={removeFavorites}
       />
-      <View style={{ height: heightScreen * 0.6, backgroundColor: "#f2f2f2" }}>
-        <ScrollView
-          style={{
-            height: heightScreen * 0.8,
-          }}
-        >
-          <RatingPlace rating={rating} />
+      <View style={{ backgroundColor: "#f2f2f2" }}>
+        <ScrollView>
+          <RatingPlace rating={rating} place={place} />
           <View style={styles.loremIpsumStack}>
-            <Text style={styles.loremIpsum2} numberOfLines={3}> {place.description}</Text>
-            
+            <Text style={styles.loremIpsum2} numberOfLines={3}>
+              {" "}
+              {place.description}
+            </Text>
           </View>
-          <Text style={{fontWeight:"bold", left: "75%", top: 7}} onPress={() => {
-                setModalVisible(!modalVisible);
-              }}>Leer más</Text>
+          <Text
+            style={{ fontWeight: "bold", left: "75%", top: 7 }}
+            onPress={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            Leer más
+          </Text>
           <Text style={styles.subtitles}>Información básica</Text>
           <Informacion place={place} />
           <Text style={styles.subtitles}>Galeria</Text>
@@ -186,21 +188,26 @@ export default function Description(props) {
 }
 
 function RatingPlace(props) {
-  const { rating } = props;
+  const { rating, place } = props;
   return (
     <View>
-      <View style={{ flexDirection: "row" }}>
-        <Text style={styles.subtitles}>Acerca de</Text>
-        <Rating
-          type="custom"
-          style={styles.rating}
-          imageSize={20}
-          readonly
-          startingValue={parseFloat(rating)}
-          ratingBackgroundColor="#fff"
-          tintColor="#f2f2f2"
-        />
-      </View>
+      <Text style={styles.exCoventoOxolotan}>
+        {place.name}, {place.area}
+      </Text>
+      <Rating
+        type="custom"
+        imageSize={20}
+        readonly
+        startingValue={parseFloat(rating)}
+        ratingBackgroundColor="#fff"
+        tintColor="#f2f2f2"
+        style={{ marginLeft: 20 }}
+      />
+
+      <Text style={{ marginTop: -18, marginLeft: 130 }}>
+        {rating} valoración
+      </Text>
+      <Text style={styles.subtitles}>Acerca de</Text>
     </View>
   );
 }
@@ -220,6 +227,8 @@ function PlacePresentation(props) {
         resizeMode="cover"
         style={styles.image}
         imageStyle={styles.image_imageStyle}
+        borderBottomLeftRadius={20}
+        borderBottomRightRadius={20}
       >
         <View style={styles.group1}>
           <View style={styles.icon1Stack}>
@@ -235,11 +244,6 @@ function PlacePresentation(props) {
         </View>
       </ImageBackground>
       <Text style={styles.lugares}>SITIOS DE INTERÉS</Text>
-      <View style={styles.exCoventoOxolotanRow}>
-        <Text style={styles.exCoventoOxolotan}>
-          {place.name}, {place.area}
-        </Text>
-      </View>
       <View style={styles.iconStack}>
         <Icon
           type="material-community"
@@ -250,7 +254,6 @@ function PlacePresentation(props) {
           onPress={isFavorite ? removeFavorites : addFavorites}
         />
       </View>
-      <View style={styles.rect2}></View>
     </View>
   );
 }
@@ -353,17 +356,6 @@ function LocationPlace(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#000",
-  },
-
-  rating: {
-    position: "absolute",
-    right: 15,
-    marginTop: 15,
-  },
-
   scrollArea: {
     width: widthScreen,
     height: "7%",
@@ -399,23 +391,21 @@ const styles = StyleSheet.create({
 
     marginBottom: 15,
   },
-  rect: {
-    top: 30,
-    left: 0,
-    width: 360,
-    height: 240,
-    position: "absolute",
-  },
+
   lugares: {
-    color: "rgb(255,255,255)",
+    color: "#fff",
     letterSpacing: 2,
-    fontSize: 12,
-    marginTop: heightScreen * 0.32,
-    marginLeft: 22,
+    fontSize: 18,
+    marginTop: heightScreen * 0.33,
+    marginLeft: 20,
   },
   exCoventoOxolotan: {
-    color: "#FFF",
-    fontSize: 20,
+    marginTop: 10,
+    color: "#000",
+    fontSize: 16,
+    marginLeft: 20,
+    width: "60%",
+    fontWeight: "bold",
   },
   icon: {
     top: 0,
@@ -435,29 +425,22 @@ const styles = StyleSheet.create({
     top: "80%",
     right: "5%",
   },
-  exCoventoOxolotanRow: {
-    height: "20%",
-    flexDirection: "row",
-    marginLeft: 22,
-    marginRight: 16,
-    width: "80%"
-  },
+
   image: {
     top: 0,
     left: 0,
     width: widthScreen,
-    height: heightScreen * 0.4,
+    height: heightScreen * 0.38,
     position: "absolute",
   },
   image_imageStyle: {
-    opacity: 0.5,
+    opacity: 0.6,
   },
   group1: {
     width: 49,
     height: 49,
     marginTop: 35,
     marginLeft: 20,
-  
   },
   icon1: {
     top: 3,
@@ -472,33 +455,25 @@ const styles = StyleSheet.create({
     position: "absolute",
     borderRadius: 100,
     backgroundColor: "rgb(255,255,255)",
-    opacity:0.3
+    opacity: 0.3,
   },
   icon1Stack: {
     width: 49,
     height: 49,
   },
-  rect2: {
-    top: "96%",
-    left: 0,
-    width: widthScreen,
-    height: 20,
-    position: "absolute",
-    backgroundColor: "#F2F2F2",
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-  },
 
   rectStack: {
     width: widthScreen,
-    height: heightScreen * 0.4,
+    height: heightScreen * 0.38,
+    backgroundColor: "#000",
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
 
   loremIpsum2: {
     position: "absolute",
     color: "#121212",
     textAlign: "justify",
-    
   },
   loremIpsumStack: {
     width: widthScreen * 0.9,
@@ -535,7 +510,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
     resizeMode: "cover",
     borderRadius: 15,
-    borderColor: "#F2F2F2"
+    borderColor: "#F2F2F2",
   },
 
   image2Row: {
@@ -547,7 +522,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    marginTop: 22,
   },
   modalView: {
     margin: 20,
@@ -558,25 +533,25 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
+    elevation: 5,
   },
   openButton: {
     backgroundColor: "#F194FF",
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
   },
   textStyle: {
     color: "white",
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
   },
   modalText: {
     marginBottom: 15,
-    textAlign: "center"
-  }
+    textAlign: "center",
+  },
 });

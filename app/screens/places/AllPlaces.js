@@ -131,19 +131,18 @@ export default function AllPlaces(props) {
       <View style={styles.todosLosHotelesRow}>
         <Text style={styles.todosLosHoteles}>Todos los sitios</Text>
       </View>
-      <View style={styles.scrollContent}>
-        {places.length === 0 ? (
-          <NoFound />
-        ) : (
-          <ListPlaces
-            places={places}
-            isLoading={isLoading}
-            handleLoadMore={handleLoadMorePlaces}
-            scrollEnabled={true}
-            keyExtractor={(item, index) => index.toString()}
-          />
-        )}
-      </View>
+
+      {places.length === 0 ? (
+        <NoFound />
+      ) : (
+        <ListPlaces
+          places={places}
+          isLoading={isLoading}
+          handleLoadMore={handleLoadMorePlaces}
+          scrollEnabled={true}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      )}
     </View>
   );
 }
@@ -165,6 +164,8 @@ function NoFound() {
 
 const styles = StyleSheet.create({
   view: {
+    flex: 1,
+    flexDirection: "column",
     marginTop: 30,
     marginLeft: 15,
     marginRight: 15,
@@ -206,6 +207,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     marginTop: 25,
     marginLeft: 10,
+    marginBottom: 10,
   },
 
   todosLosHoteles: {
@@ -219,7 +221,6 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginBottom: 10,
   },
-  scrollContent: {},
   searchBar: {
     width: "98%",
     marginRight: 20,
