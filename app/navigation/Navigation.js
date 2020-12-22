@@ -3,8 +3,7 @@ import { NavigationContainer, StackActions } from "@react-navigation/native";
 import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import Icon from "react-native-vector-icons/Entypo";
-import IoniconsIcon from "react-native-vector-icons/Ionicons";
+import IoniconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Home from "../screens/Home";
 import MyAccount from "../screens/account/MyAccount";
@@ -207,7 +206,9 @@ export default function Navigation() {
           name="Inicio"
           component={HomeStack}
           options={{
-            tabBarIcon: () => <Icon name="home" style={styles.icon} />,
+            tabBarIcon: () => (
+              <IoniconsIcon name="home-outline" style={styles.icon} />
+            ),
           }}
         />
 
@@ -216,7 +217,7 @@ export default function Navigation() {
           component={Favorites}
           options={{
             tabBarIcon: () => (
-              <IoniconsIcon name="md-heart" style={styles.icon} />
+              <IoniconsIcon name="heart-outline" style={styles.icon} type />
             ),
           }}
         />
@@ -226,7 +227,7 @@ export default function Navigation() {
           component={MyAccountStack}
           options={{
             tabBarIcon: () => (
-              <IoniconsIcon name="md-person" style={styles.icon} />
+              <IoniconsIcon name="account-outline" style={styles.icon} />
             ),
           }}
         />

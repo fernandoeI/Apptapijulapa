@@ -14,6 +14,7 @@ import {
 import { Rating, Icon } from "react-native-elements";
 import { useFocusEffect } from "@react-navigation/native";
 import Toast from "react-native-easy-toast";
+import CameraRollGallery from "react-native-camera-roll-gallery";
 
 import ImageModal from "react-native-image-modal";
 import Loading from "../../components/Loading";
@@ -39,7 +40,6 @@ export default function Description(props) {
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [userLogged, setUserLogged] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
   const toastRef = useRef();
 
   firebase.auth().onAuthStateChanged((user) => {
@@ -126,52 +126,64 @@ export default function Description(props) {
       });
   };
 
+  function ReadMore(props) {
+    const { place } = props;
+    const [textShown, setTextShown] = useState(false); //To show ur remaining Text
+    const [lengthMore, setLengthMore] = useState(false); //to show the "Read more & Less Line"
+    const toggleNumberOfLines = () => {
+      //To toggle the show text or hide it
+      setTextShown(!textShown);
+    };
+
+    const onTextLayout = useCallback((e) => {
+      setLengthMore(e.nativeEvent.lines.length >= 3); //to check the text is more than 4 lines or not
+      // console.log(e.nativeEvent);
+    }, []);
+
+    return (
+      <View>
+        <Text
+          onTextLayout={onTextLayout}
+          numberOfLines={textShown ? undefined : 3}
+          style={{ lineHeight: 18, textAlign: "justify" }}
+        >
+          {place.description}
+        </Text>
+
+        {lengthMore ? (
+          <Text
+            onPress={toggleNumberOfLines}
+            style={{
+              lineHeight: 15,
+              marginTop: 10,
+              fontWeight: "bold",
+              color: "#3b3a3d",
+              textAlign: "right",
+            }}
+          >
+            {textShown ? "Leer menos" : "Leer más"}
+          </Text>
+        ) : null}
+      </View>
+    );
+  }
+
   if (!place) return <Loading isVisible={true} text="Cargando..." />;
   return (
     <View>
-      <Modal animationType="slide" transparent={true} visible={modalVisible}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>{place.description}</Text>
-
-            <TouchableHighlight
-              style={{
-                ...styles.openButton,
-                backgroundColor: "rgb(34, 21, 81)",
-              }}
-              onPress={() => {
-                setModalVisible(!modalVisible);
-              }}
-            >
-              <Text style={styles.textStyle}>Cerrar</Text>
-            </TouchableHighlight>
-          </View>
-        </View>
-      </Modal>
-      <PlacePresentation
-        place={place}
-        navigation={navigation}
-        isFavorite={isFavorite}
-        addFavorites={addFavorites}
-        removeFavorites={removeFavorites}
-      />
       <View style={{ backgroundColor: "#f2f2f2" }}>
         <ScrollView>
+          <PlacePresentation
+            place={place}
+            navigation={navigation}
+            isFavorite={isFavorite}
+            addFavorites={addFavorites}
+            removeFavorites={removeFavorites}
+          />
           <RatingPlace rating={rating} place={place} />
-          <View style={styles.loremIpsumStack}>
-            <Text style={styles.loremIpsum2} numberOfLines={3}>
-              {" "}
-              {place.description}
-            </Text>
+          <View style={styles.description}>
+            <ReadMore place={place} />
           </View>
-          <Text
-            style={{ fontWeight: "bold", left: "75%", top: 7 }}
-            onPress={() => {
-              setModalVisible(!modalVisible);
-            }}
-          >
-            Leer más
-          </Text>
           <Text style={styles.subtitles}>Información básica</Text>
           <Informacion place={place} />
           <Text style={styles.subtitles}>Galeria</Text>
@@ -191,23 +203,18 @@ function RatingPlace(props) {
   const { rating, place } = props;
   return (
     <View>
-      <Text style={styles.exCoventoOxolotan}>
-        {place.name}, {place.area}
-      </Text>
+      <Text style={styles.name}>{place.name}</Text>
+      <Text style={styles.area}>{place.area}</Text>
+
       <Rating
         type="custom"
-        imageSize={20}
+        imageSize={16}
         readonly
         startingValue={parseFloat(rating)}
         ratingBackgroundColor="#fff"
         tintColor="#f2f2f2"
-        style={{ marginLeft: 20 }}
+        style={{ position: "absolute", top: 15, right: 15 }}
       />
-
-      <Text style={{ marginTop: -18, marginLeft: 130 }}>
-        {rating} valoración
-      </Text>
-      <Text style={styles.subtitles}>Acerca de</Text>
     </View>
   );
 }
@@ -221,29 +228,26 @@ function PlacePresentation(props) {
     removeFavorites,
   } = props;
   return (
-    <View style={styles.rectStack}>
+    <View style={styles.viewImagePrincipal}>
       <ImageBackground
         source={{ uri: place.image[0] }}
         resizeMode="cover"
         style={styles.image}
-        imageStyle={styles.image_imageStyle}
+        imageStyle={styles.imageStylePrincipal}
         borderBottomLeftRadius={20}
         borderBottomRightRadius={20}
       >
-        <View style={styles.group1}>
-          <View style={styles.icon1Stack}>
-            <EntypoIcon
-              name="chevron-small-left"
-              style={styles.icon1}
-            ></EntypoIcon>
-            <TouchableOpacity
-              onPress={() => navigation.goBack()}
-              style={styles.button3}
-            ></TouchableOpacity>
-          </View>
+        <View style={styles.groupIconBack}>
+          <EntypoIcon
+            name="chevron-small-left"
+            style={styles.iconBack}
+          ></EntypoIcon>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.goBack}
+          ></TouchableOpacity>
         </View>
       </ImageBackground>
-      <Text style={styles.lugares}>SITIOS DE INTERÉS</Text>
       <View style={styles.iconStack}>
         <Icon
           type="material-community"
@@ -261,13 +265,35 @@ function PlacePresentation(props) {
 function Galeria(props) {
   const { place } = props;
   return (
-    <View style={styles.scrollArea2}>
-      <FlatList
-        data={place.image}
-        horizontal={true}
-        renderItem={(places) => <ImageGallery imageGallery={places} />}
-      />
-    </View>
+    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+      <View style={styles.viewGalleryScroll}>
+        <CameraRollGallery
+          enableCameraRoll={false}
+          imageMargin={0}
+          backgroundColor="#f2f2f2"
+          onGetData={(fetchParams, resolve) => {
+            resolve({
+              assets: [
+                {
+                  uri: place.image[0],
+                },
+                {
+                  uri: place.image[1],
+                },
+                {
+                  uri: place.image[2],
+                },
+              ],
+              pageInfo: {
+                hasNextPage: false,
+              },
+            });
+          }}
+          enableModal={true}
+          imageContainerStyle={styles.image2}
+        />
+      </View>
+    </ScrollView>
   );
 }
 
@@ -276,7 +302,7 @@ function ImageGallery(props) {
   const imagePlace = imageGallery.item;
 
   return (
-    <View style={styles.image2Row}>
+    <View style={styles.viewGallery}>
       <ImageModal
         isTranslucent={Platform.OS === "android" ? true : false}
         swipeToDismiss={true}
@@ -293,37 +319,17 @@ function Informacion(props) {
   const { place } = props;
   return (
     <View style={styles.scrollArea}>
-      <ScrollView
-        horizontal={true}
-        contentContainerStyle={styles.scrollArea_contentContainerStyle}
-        showsHorizontalScrollIndicator={false}
-      >
-        <Svg viewBox="0 0 68.91 19.8" style={styles.path}>
-          <Path
-            strokeWidth="0"
-            stroke="grey"
-            fill="rgba(230, 230, 230,1)"
-            type="path"
-            d="M0.00 0.00 L68.91 19.80 L0.00 0.00 Z"
-          ></Path>
-        </Svg>
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         <View style={styles.basicInformationRow}>
           <BasicInformation
-            style={styles.basicInformation}
             title="Mejores Meses"
             data={place.bestMonths}
             pic={1}
           />
-          <BasicInformation
-            title="Abierto de"
-            data={place.days}
-            style={styles.basicInformation}
-            pic={2}
-          />
+          <BasicInformation title="Abierto de" data={place.days} pic={2} />
           <BasicInformation
             title="Horario"
             data={place.open ? place.open + " - " + place.close : "No mostrada"}
-            style={styles.basicInformation}
             pic={3}
           />
           <BasicInformation
@@ -333,7 +339,6 @@ function Informacion(props) {
                 ? "Gratis"
                 : " $" + place.price
             }
-            style={styles.basicInformation}
             pic={4}
           />
         </View>
@@ -346,143 +351,90 @@ function LocationPlace(props) {
   const { place } = props;
   return (
     <LocationCard
-      style={styles.locationCard}
       name={place.name}
       location={place.location}
       height={200}
-      top={10}
-    ></LocationCard>
+      top={15}
+    />
   );
 }
 
 const styles = StyleSheet.create({
   scrollArea: {
-    width: widthScreen,
-    height: "7%",
     marginLeft: 22,
     marginTop: 10,
   },
-  scrollArea_contentContainerStyle: {
-    width: widthScreen * 1.5,
-    flexDirection: "row",
-  },
-  path: {
-    width: 69,
-    height: 20,
-    marginLeft: 2041,
-    marginTop: 1937,
-  },
-  basicInformation: {
-    marginRight: 24,
-  },
 
-  locationCard: {
-    height: 147,
-    width: 112,
-    marginLeft: 24,
-  },
   basicInformationRow: {
-    height: 147,
     flexDirection: "row",
-    flex: 1,
-    marginRight: -167,
-    marginLeft: -2110,
-    marginTop: 2,
-
-    marginBottom: 15,
   },
 
-  lugares: {
-    color: "#fff",
-    letterSpacing: 2,
-    fontSize: 18,
-    marginTop: heightScreen * 0.33,
-    marginLeft: 20,
-  },
-  exCoventoOxolotan: {
-    marginTop: 10,
+  name: {
+    marginTop: 15,
     color: "#000",
-    fontSize: 16,
+    fontSize: 18,
     marginLeft: 20,
     width: "60%",
     fontWeight: "bold",
   },
-  icon: {
-    top: 0,
-    left: 2,
-    position: "absolute",
-    color: "rgba(255,255,255,1)",
-    fontSize: 40,
+  area: {
+    fontSize: 14,
+    marginLeft: 20,
+    marginTop: 10,
+    width: "60%",
+    fontWeight: "bold",
+    color: "#6d6d6d",
   },
-  button2: {
-    top: 0,
-    left: 0,
-    width: 40,
-    height: 43,
-  },
+
   iconStack: {
     position: "absolute",
-    top: "80%",
-    right: "5%",
+    top: 25,
+    right: 15,
   },
 
   image: {
     top: 0,
     left: 0,
     width: widthScreen,
-    height: heightScreen * 0.38,
+    height: heightScreen * 0.45,
     position: "absolute",
   },
-  image_imageStyle: {
+  imageStylePrincipal: {
     opacity: 0.6,
   },
-  group1: {
+  groupIconBack: {
     width: 49,
     height: 49,
-    marginTop: 35,
-    marginLeft: 20,
+    marginTop: 20,
+    marginLeft: 10,
   },
-  icon1: {
-    top: 3,
-    left: 3,
+  iconBack: {
     position: "absolute",
     color: "#fff",
     fontSize: 40,
   },
-  button3: {
+  goBack: {
     width: 49,
     height: 49,
     position: "absolute",
     borderRadius: 100,
-    backgroundColor: "rgb(255,255,255)",
-    opacity: 0.3,
-  },
-  icon1Stack: {
-    width: 49,
-    height: 49,
   },
 
-  rectStack: {
+  viewImagePrincipal: {
     width: widthScreen,
-    height: heightScreen * 0.38,
+    height: heightScreen * 0.45,
     backgroundColor: "#000",
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },
 
-  loremIpsum2: {
-    position: "absolute",
-    color: "#121212",
-    textAlign: "justify",
-  },
-  loremIpsumStack: {
-    width: widthScreen * 0.9,
-    height: 60,
-    marginTop: 5,
+  description: {
+    marginTop: 10,
     marginLeft: 22,
+    marginRight: 15,
   },
   subtitles: {
-    color: "rgba(0,0,0,1)",
+    color: "#5a5a5a",
     marginLeft: 22,
     marginTop: 15,
     fontWeight: "bold",
@@ -491,18 +443,11 @@ const styles = StyleSheet.create({
     color: "rgba(0,0,0,1)",
     marginLeft: 22,
   },
-  scrollArea2: {
-    width: 353,
-    height: 101,
-    backgroundColor: "#F2F2F2",
+  viewGalleryScroll: {
     marginTop: 10,
     marginLeft: 22,
   },
-  scrollArea2_contentContainerStyle: {
-    width: 400,
-    height: 101,
-    flexDirection: "row",
-  },
+
   image2: {
     width: 101,
     height: 101,
@@ -513,45 +458,9 @@ const styles = StyleSheet.create({
     borderColor: "#F2F2F2",
   },
 
-  image2Row: {
+  viewGallery: {
     height: 101,
     flexDirection: "row",
     flex: 1,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  openButton: {
-    backgroundColor: "#F194FF",
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
   },
 });

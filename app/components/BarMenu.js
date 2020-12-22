@@ -26,71 +26,71 @@ function BarMenu(props) {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row"
+    flexDirection: "row",
   },
   icon: {
     top: 4,
     left: 11,
     position: "absolute",
     color: "rgba(128,128,128,1)",
-    fontSize: 30
+    fontSize: 30,
   },
   button: {
     top: 0,
     left: 0,
     width: 52,
     height: 41,
-    position: "absolute"
+    position: "absolute",
   },
   iconStack: {
     width: 52,
     height: 41,
-    marginTop: 1
+    marginTop: 1,
   },
   icon2: {
     top: 5,
     position: "absolute",
     color: "rgba(128,128,128,1)",
     fontSize: 30,
-    left: 13
+    left: 13,
   },
   button1: {
     top: 0,
     width: 52,
     height: 41,
     position: "absolute",
-    left: 0
+    left: 0,
   },
   icon2Stack: {
     width: 52,
     height: 41,
     marginLeft: 60,
-    marginTop: 1
+    marginTop: 1,
   },
   icon3: {
     top: 5,
     left: 15,
     position: "absolute",
     color: "rgba(128,128,128,1)",
-    fontSize: 30
+    fontSize: 30,
   },
   button2: {
     top: 0,
     width: 52,
     height: 41,
     position: "absolute",
-    left: 0
+    left: 0,
   },
   icon3Stack: {
     width: 52,
     height: 41,
-    marginLeft: 56
+    marginLeft: 56,
   },
   iconStackRow: {
     height: 42,
     flexDirection: "row",
-    flex: 1
-  }
+    flex: 1,
+  },
 });
 
 export default BarMenu;

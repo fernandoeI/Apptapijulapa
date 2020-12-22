@@ -6,64 +6,59 @@ function BasicInformation(props) {
   const { title, data, pic } = props;
 
   return (
-    <View style={[styles.container, props.style]}>
-      <TouchableOpacity style={styles.button}>
-        <View style={styles.ellipseStack}>
-          <Svg viewBox="0 0 41.51 41.51" style={styles.ellipse}>
-            <Ellipse
-              stroke="rgba(230, 230, 230,1)"
-              strokeWidth={0}
-              fill="rgba(250,250,250,1)"
-              cx={21}
-              cy={21}
-              rx={21}
-              ry={21}
-            ></Ellipse>
-          </Svg>
-          {pic === 1 ? (
-            <Image
-              source={require("../../assets/images/icons8-calendario-40.png")}
-              resizeMode="contain"
-              style={styles.image2}
-            />
-          ) : null}
-          {pic === 2 ? (
-            <Image
-              source={require("../../assets/images/icons8-domingo-80.png")}
-              resizeMode="contain"
-              style={styles.image2}
-            />
-          ) : null}
-          {pic === 3 ? (
-            <Image
-              source={require("../../assets/images/icons8-reloj-128.png")}
-              resizeMode="contain"
-              style={styles.image2}
-            />
-          ) : null}
-          {pic === 4 ? (
-            <Image
-              source={require("../../assets/images/icons8-dinero-100.png")}
-              resizeMode="contain"
-              style={styles.image2}
-            />
-          ) : null}
-        </View>
-        <Text style={styles.mejoresMeses}>{title}</Text>
-        <Text style={styles.junAgo}>{data}</Text>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity style={styles.button}>
+      <View style={styles.ellipseStack}>
+        <Svg style={styles.ellipse}>
+          <Ellipse
+            stroke="rgba(230, 230, 230,1)"
+            strokeWidth={0}
+            fill="rgba(250,250,250,1)"
+            cx={21}
+            cy={21}
+            rx={21}
+            ry={21}
+          ></Ellipse>
+        </Svg>
+        {pic === 1 ? (
+          <Image
+            source={require("../../assets/images/icons8-calendario-40.png")}
+            resizeMode="contain"
+            style={styles.image2}
+          />
+        ) : null}
+        {pic === 2 ? (
+          <Image
+            source={require("../../assets/images/icons8-domingo-80.png")}
+            resizeMode="contain"
+            style={styles.image2}
+          />
+        ) : null}
+        {pic === 3 ? (
+          <Image
+            source={require("../../assets/images/icons8-reloj-128.png")}
+            resizeMode="contain"
+            style={styles.image2}
+          />
+        ) : null}
+        {pic === 4 ? (
+          <Image
+            source={require("../../assets/images/icons8-dinero-100.png")}
+            resizeMode="contain"
+            style={styles.image2}
+          />
+        ) : null}
+      </View>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.subtit}>{data}</Text>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-  },
   button: {
-    marginTop: 30,
     width: 112,
-    height: "120%",
+    paddingBottom: 15,
+    marginRight: 15,
     backgroundColor: "rgba(255,255,255,1)",
     borderWidth: 1,
     borderColor: "rgba(255,255,255,1)",
@@ -90,13 +85,13 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginLeft: 10,
   },
-  mejoresMeses: {
+  title: {
     color: "rgba(132,132,132,1)",
     fontSize: 12,
-    marginTop: 38,
+    marginTop: 15,
     marginLeft: 10,
   },
-  junAgo: {
+  subtit: {
     color: "#121212",
     marginTop: 10,
     marginLeft: 10,
