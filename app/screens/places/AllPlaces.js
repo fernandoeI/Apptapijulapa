@@ -166,17 +166,14 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
     flexDirection: "column",
-    marginTop: 30,
     marginLeft: 15,
     marginRight: 15,
   },
   header: {
     flexDirection: "row",
-    marginTop: 48,
-    marginLeft: 11,
-    marginRight: 161,
+    marginTop: 40,
     justifyContent: "space-between",
-    width: "52%",
+    width: "58%",
   },
   button: {
     width: 49,

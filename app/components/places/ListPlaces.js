@@ -6,10 +6,10 @@ import {
   FlatList,
   ActivityIndicator,
   TouchableOpacity,
-  Image,
 } from "react-native";
 import { size } from "lodash";
 import { useNavigation } from "@react-navigation/native";
+import { Image } from "react-native-elements";
 
 export default function ListPlaces(props) {
   const { places, isLoading, handleLoadMore } = props;
@@ -27,7 +27,7 @@ export default function ListPlaces(props) {
     />
   ) : (
     <View style={{ alignItems: "center", justifyContent: "center" }}>
-      <ActivityIndicator size="large" color="#0000ff" />
+      <ActivityIndicator size="large" color="#150c35" />
       <Text style={styles.noMore}>Cargando Sitios</Text>
     </View>
   );
@@ -49,13 +49,21 @@ function Place(props) {
       <View style={styles.viewRestaurantImage}>
         <Image
           resizeMode="cover"
-          PlaceholderContent={<ActivityIndicator color="fff" />}
+          PlaceholderContent={
+            <ActivityIndicator color="#150c35" size="large" />
+          }
+          placeholderStyle={{
+            flex: 1,
+            alignContent: "center",
+            justifyContent: "center",
+            backgroundColor: "#f2f2f2",
+          }}
           source={
             imagePlace
               ? { uri: imagePlace }
               : require("../../../assets/img/noimage.jpg")
           }
-          style={styles.imageRestaurant}
+          containerStyle={styles.imageRestaurant}
         />
         <View style={styles.viewrestaurantInfo}>
           <Text style={styles.restaurantName}>{name}</Text>
@@ -83,7 +91,7 @@ function FooterList(props) {
   if (isLoading) {
     return (
       <View style={styles.noMore}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" color="#150c35" />
       </View>
     );
   } else {
@@ -112,8 +120,9 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderWidth: 1,
+    borderColor: "rgba(249,249,249,1)",
     borderRadius: 10,
-    borderColor: "#f2f2f2",
+    overflow: "hidden",
   },
   restaurantName: {
     marginTop: 5,

@@ -1,9 +1,9 @@
 import * as React from "react";
 import { NavigationContainer, StackActions } from "@react-navigation/native";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import IoniconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import IoniconsIcon from "react-native-vector-icons/Ionicons";
 
 import Home from "../screens/Home";
 import MyAccount from "../screens/account/MyAccount";
@@ -201,36 +201,41 @@ function MyAccountStack() {
 export default function Navigation() {
   return (
     <NavigationContainer>
-      <Tab.Navigator initialRouteName="Inicio" style={styles.containerMenu}>
-        <Tab.Screen
-          name="Inicio"
-          component={HomeStack}
-          options={{
-            tabBarIcon: () => (
-              <IoniconsIcon name="home-outline" style={styles.icon} />
-            ),
-          }}
-        />
+      <Tab.Navigator
+        initialRouteName="Inicio"
+        style={styles.containerMenu}
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
 
-        <Tab.Screen
-          name="Favoritos"
-          component={Favorites}
-          options={{
-            tabBarIcon: () => (
-              <IoniconsIcon name="heart-outline" style={styles.icon} type />
-            ),
-          }}
-        />
+            if (route.name === "Inicio") {
+              iconName = focused
+                ? require("../../assets/images/home-outline-selected.png")
+                : require("../../assets/images/home-outline.png");
+            } else if (route.name === "Favoritos") {
+              iconName = focused
+                ? require("../../assets/images/heart-outline-selected.png")
+                : require("../../assets/images/heart-outline.png");
+            } else if (route.name === "Mi Cuenta") {
+              iconName = focused
+                ? require("../../assets/images/person-outline-selected.png")
+                : require("../../assets/images/person-outline.png");
+            }
 
-        <Tab.Screen
-          name="Mi Cuenta"
-          component={MyAccountStack}
-          options={{
-            tabBarIcon: () => (
-              <IoniconsIcon name="account-outline" style={styles.icon} />
-            ),
-          }}
-        />
+            // You can return any component that you like here!
+            return (
+              <Image source={iconName} style={{ width: 22, height: 22 }} />
+            );
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: "black",
+          inactiveTintColor: "gray",
+        }}
+      >
+        <Tab.Screen name="Inicio" component={HomeStack} />
+        <Tab.Screen name="Favoritos" component={Favorites} />
+        <Tab.Screen name="Mi Cuenta" component={MyAccountStack} />
       </Tab.Navigator>
     </NavigationContainer>
   );

@@ -34,7 +34,7 @@ export default function ListPlaces(props) {
         <View
           style={{ flex: 1, alignContent: "center", justifyContent: "center" }}
         >
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator size="large" color="#150c35" />
           <Text style={{ textAlign: "center" }}>Cargando Sitios</Text>
         </View>
       )}
@@ -64,14 +64,14 @@ function Place(props) {
         }
         resizeMode="cover"
         containerStyle={styles.image1}
-        PlaceholderContent={<ActivityIndicator size="large" color="#0000ff" />}
+        PlaceholderContent={<ActivityIndicator size="large" color="#150c35" />}
         placeholderStyle={{
           flex: 1,
           alignContent: "center",
           justifyContent: "center",
           backgroundColor: "#f2f2f2",
         }}
-        fadeDuration={30}
+        fadeDuration={1}
       />
       <Text style={styles.name}>{name}</Text>
       <Text style={styles.area}>{area}</Text>
@@ -85,7 +85,7 @@ function FooterList(props) {
   if (isLoading) {
     return (
       <View style={styles.noMore}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#150c35" />
         <Text>Cargando más sitios</Text>
       </View>
     );

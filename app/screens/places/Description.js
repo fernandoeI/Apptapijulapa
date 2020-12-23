@@ -172,7 +172,7 @@ export default function Description(props) {
   return (
     <View>
       <View style={{ backgroundColor: "#f2f2f2" }}>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <PlacePresentation
             place={place}
             navigation={navigation}
