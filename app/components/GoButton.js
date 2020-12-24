@@ -21,6 +21,6 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(34, 21, 81)",
   },
   btnContainer: {
-    width: "80%",
+    width: "95%",
   },
 });

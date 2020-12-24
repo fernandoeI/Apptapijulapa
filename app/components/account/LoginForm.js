@@ -18,8 +18,7 @@ export default function LoginForm(props) {
     setFormData({ ...formData, [type]: e.nativeEvent.text });
   };
 
-
-  const onSubmit =  () => {
+  const onSubmit = () => {
     if (isEmpty(formData.email) || isEmpty(formData.password)) {
       toastRef.current.show("Todos los campos son obligatorios");
     } else {
@@ -27,7 +26,7 @@ export default function LoginForm(props) {
         toastRef.current.show("El email no es correcto");
       } else {
         setLoading(true);
-         firebase
+        firebase
           .auth()
           .signInWithEmailAndPassword(formData.email, formData.password)
           .then(() => {
@@ -78,7 +77,7 @@ export default function LoginForm(props) {
         buttonStyle={styles.btnLogin}
         onPress={onSubmit}
       />
-       <Loading isVisible={loading} text="Iniciando sesión" />
+      <Loading isVisible={loading} text="Iniciando sesión" />
     </View>
   );
 }
@@ -95,10 +94,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 30,
   },
   inputForm: {
-    width: "100%",
     marginTop: 20,
   },
   iconRight: {

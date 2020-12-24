@@ -55,7 +55,6 @@ export default function Favorites(props) {
                 place.type = type[au];
                 places.push(place);
                 au++;
-                console.log(place);
               });
               setPlaces(places);
             });

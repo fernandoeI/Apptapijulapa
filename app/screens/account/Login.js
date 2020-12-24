@@ -1,5 +1,13 @@
 import React, { useRef } from "react";
-import { StyleSheet, View, ScrollView, Text, Image, TouchableOpacity, Platform } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Text,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import { Divider } from "react-native-elements";
 import CreateAccount from "../../components/CreateAccount";
 import LoginForm from "../../components/account/LoginForm";
@@ -13,40 +21,49 @@ export default function Login(props) {
 
   const toastRef = useRef();
   return (
-    <ScrollView>
-      <View style={styles.group}>
-          <View style={styles.iconStack}>
-            <Icon name="chevron-small-left" style={styles.icon}></Icon>
-            <TouchableOpacity
-              onPress={() => props.navigation.goBack()}
-              style={styles.button}
-            ></TouchableOpacity>
-          </View>
+    <>
+      <TouchableOpacity
+        onPress={() => props.navigation.goBack()}
+        style={styles.button}
+      >
+        <Icon name="chevron-small-left" style={styles.icon} />
+      </TouchableOpacity>
+      <ScrollView
+        style={styles.viewBody}
+        centerContent={true}
+        showsVerticalScrollIndicator={false}
+      >
+        <Image
+          source={require("../../../assets/img/tapijulapa.png")}
+          style={styles.logo}
+          resizeMode="cover"
+        />
+        <View style={styles.viewContainer}>
+          <LoginForm toastRef={toastRef} typeUser={type} />
+          <CreateAccount screenName="Register" typeUser={type} />
         </View>
-      <Image
-        source={require("../../../assets/img/tapijulapa.png")}
-        style={styles.logo}
-        resizeMode="contain"
-      />
-      <View style={styles.viewContainer}>
-        <LoginForm toastRef={toastRef} typeUser={type} />
-        <CreateAccount screenName="Register" typeUser={type} />
-      </View>
-      <Divider stye={styles.divider} />
-      <View style={styles.viewContainer}>
-      {Platform.OS === 'ios' ? <View></View> : <LoginFacebook toastRef={toastRef} typeUser={type} /> }
-        
-      </View>
-      <Toast ref={toastRef} position="center" opacity={0.5} />
-    </ScrollView>
+        <Divider stye={styles.divider} />
+        <View style={styles.viewContainer}>
+          {Platform.OS === "ios" ? (
+            <View></View>
+          ) : (
+            <LoginFacebook toastRef={toastRef} typeUser={type} />
+          )}
+        </View>
+        <Toast ref={toastRef} position="center" opacity={0.5} />
+      </ScrollView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
+  viewBody: {
+    marginLeft: 20,
+    marginRight: 20,
+  },
   logo: {
+    height: 250,
     width: "100%",
-    height: 150,
-    marginTop: 60,
   },
   viewContainer: {
     marginRight: 40,
@@ -56,27 +73,12 @@ const styles = StyleSheet.create({
   divider: {
     backgroundColor: "rgb(34, 21, 81 )",
   },
-  group: {
-    marginTop:"10%",
-    width: 49,
-    height: 49,
-  },
-  iconStack: {
-    width: 49,
-    height: 49,
-  },
   icon: {
-    top: 3,
-    left: 5,
-    position: "absolute",
     color: "rgba(128,128,128,1)",
     fontSize: 40,
   },
   button: {
-    top: 0,
-    left: 0,
-    width: 49,
-    height: 49,
-    position: "absolute",
+    marginTop: 30,
+    marginLeft: 10,
   },
 });
