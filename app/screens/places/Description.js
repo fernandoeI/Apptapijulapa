@@ -7,16 +7,12 @@ import {
   TouchableOpacity,
   ImageBackground,
   Dimensions,
-  FlatList,
-  Modal,
-  TouchableHighlight,
 } from "react-native";
 import { Rating, Icon } from "react-native-elements";
 import { useFocusEffect } from "@react-navigation/native";
 import Toast from "react-native-easy-toast";
 import CameraRollGallery from "react-native-camera-roll-gallery";
 
-import ImageModal from "react-native-image-modal";
 import Loading from "../../components/Loading";
 import ListReview from "../../components/places/ListReview";
 
@@ -24,7 +20,6 @@ import { firebaseApp } from "../../utils/FireBase";
 import firebase from "firebase/app";
 import "firebase/firestore";
 
-import Svg, { Path } from "react-native-svg";
 import BasicInformation from "../../components/BasicInformation";
 import LocationCard from "../../components/LocationCard";
 import EntypoIcon from "react-native-vector-icons/Entypo";
@@ -170,31 +165,29 @@ export default function Description(props) {
 
   if (!place) return <Loading isVisible={true} text="Cargando..." />;
   return (
-    <View>
-      <View style={{ backgroundColor: "#f2f2f2" }}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <PlacePresentation
-            place={place}
-            navigation={navigation}
-            isFavorite={isFavorite}
-            addFavorites={addFavorites}
-            removeFavorites={removeFavorites}
-          />
-          <RatingPlace rating={rating} place={place} />
-          <View style={styles.description}>
-            <ReadMore place={place} />
-          </View>
-          <Text style={styles.subtitles}>Información básica</Text>
-          <Informacion place={place} />
-          <Text style={styles.subtitles}>Galeria</Text>
-          <Galeria place={place} />
-          <Text style={styles.subtitles}>Comentarios</Text>
-          <ListReview navigation={navigation} idPlace={place.id} />
-          <Toast ref={toastRef} position="center" opacity={0.9} />
-          <Text style={styles.subtitles}>Ubicación</Text>
-          <LocationPlace place={place} />
-        </ScrollView>
-      </View>
+    <View style={{ backgroundColor: "#f2f2f2" }}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <PlacePresentation
+          place={place}
+          navigation={navigation}
+          isFavorite={isFavorite}
+          addFavorites={addFavorites}
+          removeFavorites={removeFavorites}
+        />
+        <RatingPlace rating={rating} place={place} />
+        <View style={styles.description}>
+          <ReadMore place={place} />
+        </View>
+        <Text style={styles.subtitles}>Información básica</Text>
+        <Informacion place={place} />
+        <Text style={styles.subtitles}>Galeria</Text>
+        <Galeria place={place} />
+        <Text style={styles.subtitles}>Comentarios</Text>
+        <ListReview navigation={navigation} idPlace={place.id} />
+        <Toast ref={toastRef} position="center" opacity={0.9} />
+        <Text style={styles.subtitles}>Ubicación</Text>
+        <LocationPlace place={place} />
+      </ScrollView>
     </View>
   );
 }
@@ -297,24 +290,6 @@ function Galeria(props) {
   );
 }
 
-function ImageGallery(props) {
-  const { imageGallery } = props;
-  const imagePlace = imageGallery.item;
-
-  return (
-    <View style={styles.viewGallery}>
-      <ImageModal
-        isTranslucent={Platform.OS === "android" ? true : false}
-        swipeToDismiss={true}
-        imageBackgroundColor="#F2F2F2"
-        resizeMode="contain"
-        style={styles.image2}
-        source={imagePlace ? { uri: imagePlace } : null}
-      />
-    </View>
-  );
-}
-
 function Informacion(props) {
   const { place } = props;
   return (
@@ -388,7 +363,7 @@ const styles = StyleSheet.create({
 
   iconStack: {
     position: "absolute",
-    top: 25,
+    top: 35,
     right: 15,
   },
 
@@ -405,7 +380,7 @@ const styles = StyleSheet.create({
   groupIconBack: {
     width: 49,
     height: 49,
-    marginTop: 20,
+    marginTop: 35,
     marginLeft: 10,
   },
   iconBack: {

@@ -34,7 +34,7 @@ export default function ListExperience(props) {
         <View
           style={{ flex: 1, alignContent: "center", justifyContent: "center" }}
         >
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator size="large" color="#150c35" />
           <Text style={{ textAlign: "center" }}>Cargando Experiencias</Text>
         </View>
       )}
@@ -64,7 +64,7 @@ function Experience(props) {
         }
         resizeMode="cover"
         containerStyle={styles.image1}
-        PlaceholderContent={<ActivityIndicator size="large" color="#0000ff" />}
+        PlaceholderContent={<ActivityIndicator size="large" color="#150c35" />}
         placeholderStyle={{
           flex: 1,
           alignContent: "center",
@@ -85,7 +85,7 @@ function FooterList(props) {
   if (isLoading) {
     return (
       <View style={styles.noMore}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#150c35" />
         <Text>Cargando más experiencias</Text>
       </View>
     );

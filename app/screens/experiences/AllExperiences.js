@@ -4,7 +4,7 @@ import { SearchBar } from "react-native-elements";
 
 import ListExperiences from "../../components/experiences/ListExperiences";
 
-import Icon from "react-native-vector-icons/Entypo";
+import IconEntypo from "react-native-vector-icons/Entypo";
 import Svg, { Ellipse } from "react-native-svg";
 
 import { FireSQL } from "firesql";
@@ -87,37 +87,32 @@ export default function AllExperiences(props) {
 
   return (
     <View style={styles.view}>
-      <View style={styles.groupRow}>
-        <View style={styles.group}>
-          <View style={styles.iconStack}>
-            <Icon name="chevron-small-left" style={styles.icon}></Icon>
-            <TouchableOpacity
-              onPress={() => props.navigation.goBack()}
-              style={styles.button}
-            ></TouchableOpacity>
-          </View>
-        </View>
-        <View style={styles.ellipseStack}>
-          <Svg viewBox="0 0 52.67 52.67" style={styles.ellipse}>
-            <Ellipse
-              stroke="rgba(230, 230, 230,1)"
-              strokeWidth={0}
-              fill="rgba(255,255,255,1)"
-              cx={26}
-              cy={26}
-              rx={26}
-              ry={26}
-            ></Ellipse>
-          </Svg>
+      <View style={styles.header}>
+        <TouchableOpacity
+          onPress={() => props.navigation.goBack()}
+          style={styles.button}
+        >
+          <IconEntypo name="chevron-small-left" style={styles.icon} />
+        </TouchableOpacity>
+
+        <Svg viewBox="0 0 52.67 52.67" style={styles.ellipse}>
+          <Ellipse
+            stroke="rgba(230, 230, 230,1)"
+            strokeWidth={0}
+            fill="rgba(255,255,255,1)"
+            cx={26}
+            cy={26}
+            rx={26}
+            ry={26}
+          />
           <Image
             source={require("../../../assets/images/experiencias.png")}
             resizeMode="contain"
             style={styles.image}
-          ></Image>
-        </View>
+          />
+        </Svg>
       </View>
       <Text style={styles.loremIpsum}>Experiencias</Text>
-
       <SearchBar
         placeholder="Buscar experiencias"
         onChangeText={(e) => setSearch(e)}
@@ -128,32 +123,31 @@ export default function AllExperiences(props) {
       <View style={styles.todosLosHotelesRow}>
         <Text style={styles.todosLosHoteles}>Todas las experiencias </Text>
       </View>
-      <View style={styles.scrollContent}>
-        {experiences.length === 0 ? (
-          <NoFound />
-        ) : (
-          <ListExperiences
-            experiences={experiences}
-            isLoading={isLoading}
-            handleLoadMore={handleLoadMoreExperiences}
-            scrollEnabled={true}
-            keyExtractor={(item, index) => index.toString()}
-          />
-        )}
-      </View>
+
+      {experiences.length === 0 ? (
+        <NoFound />
+      ) : (
+        <ListExperiences
+          experiences={experiences}
+          isLoading={isLoading}
+          handleLoadMore={handleLoadMoreExperiences}
+          scrollEnabled={true}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      )}
     </View>
   );
 }
 
 function NoFound() {
   return (
-    <View style={{ flex: 1, alignItems: "center" }}>
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Image
-        source={require("../../../assets/images/undraw_page_not_found_su7k.png")}
+        source={require("../../../assets/images/undraw_the_search_s0xf.png")}
         resizeMode="contain"
         style={{ width: 300, height: 300 }}
       />
-      <Text style={{ fontWeight: "bold", marginTop: -50, fontSize: 18 }}>
+      <Text style={{ fontWeight: "bold", fontSize: 18 }}>
         No encontramos lo que buscas
       </Text>
     </View>
@@ -162,78 +156,58 @@ function NoFound() {
 
 const styles = StyleSheet.create({
   view: {
-    marginTop: 30,
+    flex: 1,
+    flexDirection: "column",
     marginLeft: 15,
     marginRight: 15,
   },
-  groupRow: {
-    height: 53,
+  header: {
     flexDirection: "row",
-    marginTop: 48,
-    marginLeft: 11,
-    marginRight: 161,
-  },
-  group: {
-    width: 49,
-    height: 49,
-  },
-  iconStack: {
-    width: 49,
-    height: 49,
+    marginTop: 45,
+    justifyContent: "space-between",
+    width: "58%",
   },
   icon: {
-    top: 3,
-    left: 5,
-    position: "absolute",
     color: "rgba(128,128,128,1)",
     fontSize: 40,
   },
   button: {
-    top: 0,
-    left: 0,
     width: 49,
     height: 49,
-    position: "absolute",
   },
   image: {
-    top: 8,
-    left: 10,
     width: 33,
     height: 33,
     position: "absolute",
+    marginTop: 10,
+    marginLeft: 10,
   },
-  ellipseStack: {
-    width: 53,
-    height: 53,
-    marginLeft: 101,
-  },
+
   ellipse: {
-    top: 0,
     width: 53,
     height: 53,
-    position: "absolute",
-    left: 0,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   loremIpsum: {
     color: "#121212",
     fontSize: 28,
     marginTop: 25,
     marginLeft: 10,
+    marginBottom: 10,
   },
-  
+
   todosLosHoteles: {
     color: "#121212",
+    fontWeight: "bold",
   },
   todosLosHotelesRow: {
-    height: "4%",
     flexDirection: "row",
-    marginTop: 25,
-    marginLeft: 20,
+    marginTop: 15,
+    marginLeft: 10,
     marginRight: 20,
-    marginBottom: 15,
-  },
-  scrollContent: {
-    height: "60%",
+    marginBottom: 10,
   },
   searchBar: {
     width: "98%",

@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Image,
-  Text,
-  Platform,
-} from "react-native";
+import { StyleSheet, View, TouchableOpacity, Image, Text } from "react-native";
 import { SearchBar } from "react-native-elements";
 
 import ListPlaces from "../../components/places/ListPlaces";
@@ -23,13 +16,11 @@ const fireSQL = new FireSQL(firebase.firestore(), { includeId: "id" });
 const db = firebase.firestore(firebaseApp);
 
 export default function AllPlaces(props) {
-  const { route } = props;
   const [places, setPlaces] = useState([]);
   const [totalPlaces, setTotalPlaces] = useState(0);
   const [startPlaces, setStartPlaces] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState("");
-
   const limit = 30;
 
   useEffect(() => {
@@ -171,7 +162,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: "row",
-    marginTop: 40,
+    marginTop: 45,
     justifyContent: "space-between",
     width: "58%",
   },
