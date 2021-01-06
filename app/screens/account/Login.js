@@ -34,9 +34,9 @@ export default function Login(props) {
         showsVerticalScrollIndicator={false}
       >
         <Image
-          source={require("../../../assets/img/tapijulapa.png")}
+          source={require("../../../assets/images/tapijulapa.png")}
           style={styles.logo}
-          resizeMode="cover"
+          resizeMode="contain"
         />
         <View style={styles.viewContainer}>
           <LoginForm toastRef={toastRef} typeUser={type} />
@@ -62,13 +62,13 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   logo: {
-    height: 250,
-    width: "100%",
+    height: 300,
+    width: "70%",
+    marginLeft: 60,
   },
   viewContainer: {
-    marginRight: 40,
-    marginLeft: 40,
-    marginTop: 20,
+    marginRight: 20,
+    marginLeft: 20,
   },
   divider: {
     backgroundColor: "rgb(34, 21, 81 )",
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   button: {
-    marginTop: 30,
+    marginTop: 45,
     marginLeft: 10,
   },
 });
