@@ -14,12 +14,6 @@ import Icon from "react-native-vector-icons/Entypo";
 export default function Decision(props) {
   return (
     <>
-      <TouchableOpacity
-        onPress={() => props.navigation.goBack()}
-        style={styles.button}
-      >
-        <Icon name="chevron-small-left" style={styles.icon} />
-      </TouchableOpacity>
       <ScrollView
         style={styles.viewBody}
         showsVerticalScrollIndicator={false}
@@ -32,7 +26,7 @@ export default function Decision(props) {
         <Image
           source={require("../../../assets/images/undraw_trip_dv9f.png")}
           style={styles.image}
-          resizeMode="cover"
+          resizeMode="contain"
         />
         <Text style={styles.title}>Selecciona lo que mejor te describa</Text>
 
@@ -47,6 +41,12 @@ export default function Decision(props) {
           <GoButton screenName="Login" title="Soy un Turista" type="1" />
         </View>
       </ScrollView>
+      <TouchableOpacity
+        onPress={() => props.navigation.goBack()}
+        style={styles.button}
+      >
+        <Icon name="chevron-small-left" style={styles.icon} />
+      </TouchableOpacity>
     </>
   );
 }
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   image: {
-    height: 250,
+    height: 210,
     width: "100%",
   },
   title: {
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   button: {
+    position: "absolute",
     marginTop: 45,
     marginLeft: 10,
   },

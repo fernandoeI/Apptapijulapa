@@ -56,6 +56,7 @@ export default function LoginForm(props) {
           />
         }
       />
+
       <Input
         placeholder="Contraseña"
         containerStyle={styles.inputForm}
@@ -71,6 +72,7 @@ export default function LoginForm(props) {
           />
         }
       />
+
       <Button
         title="Iniciar Sesión"
         containerStyle={styles.btnContainerLogin}

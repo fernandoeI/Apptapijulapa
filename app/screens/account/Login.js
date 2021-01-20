@@ -14,6 +14,7 @@ import LoginForm from "../../components/account/LoginForm";
 import Toast from "react-native-easy-toast";
 import LoginFacebook from "../../components/account/LoginFacebook";
 import Icon from "react-native-vector-icons/Entypo";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function Login(props) {
   const { route } = props;
@@ -22,26 +23,23 @@ export default function Login(props) {
   const toastRef = useRef();
   return (
     <>
-      <TouchableOpacity
-        onPress={() => props.navigation.goBack()}
-        style={styles.button}
-      >
-        <Icon name="chevron-small-left" style={styles.icon} />
-      </TouchableOpacity>
       <ScrollView
         style={styles.viewBody}
         centerContent={true}
         showsVerticalScrollIndicator={false}
       >
-        <Image
-          source={require("../../../assets/images/tapijulapa.png")}
-          style={styles.logo}
-          resizeMode="contain"
-        />
-        <View style={styles.viewContainer}>
-          <LoginForm toastRef={toastRef} typeUser={type} />
-          <CreateAccount screenName="Register" typeUser={type} />
-        </View>
+        <KeyboardAwareScrollView>
+          <Image
+            source={require("../../../assets/images/tapijulapa.png")}
+            style={styles.logo}
+            resizeMode="contain"
+          />
+          <View style={styles.viewContainer}>
+            <LoginForm toastRef={toastRef} typeUser={type} />
+
+            <CreateAccount screenName="Register" typeUser={type} />
+          </View>
+        </KeyboardAwareScrollView>
         <Divider stye={styles.divider} />
         <View style={styles.viewContainer}>
           {Platform.OS === "ios" ? (
@@ -52,19 +50,24 @@ export default function Login(props) {
         </View>
         <Toast ref={toastRef} position="center" opacity={0.5} />
       </ScrollView>
+      <TouchableOpacity
+        onPress={() => props.navigation.goBack()}
+        style={styles.button}
+      >
+        <Icon name="chevron-small-left" style={styles.icon} />
+      </TouchableOpacity>
     </>
   );
 }
 
 const styles = StyleSheet.create({
   viewBody: {
-    marginLeft: 20,
-    marginRight: 20,
+    backgroundColor: "transparent",
   },
   logo: {
-    height: 300,
+    height: 180,
     width: "70%",
-    marginLeft: 60,
+    marginLeft: "15%",
   },
   viewContainer: {
     marginRight: 20,
@@ -78,7 +81,9 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   button: {
+    position: "absolute",
     marginTop: 45,
     marginLeft: 10,
+    width: 50,
   },
 });

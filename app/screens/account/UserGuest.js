@@ -33,8 +33,10 @@ const styles = StyleSheet.create({
     marginRight: 30,
   },
   image: {
-    height: 300,
-    width: "100%",
+    height: "50%",
+    width: "90%",
+    marginBottom: 15,
+    marginLeft: 15,
   },
   description: {
     textAlign: "center",
