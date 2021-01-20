@@ -12,17 +12,17 @@ export default function Register(props) {
   const toastRef = useRef();
   return (
     <>
-    <View style={styles.group}>
-          <View style={styles.iconStack}>
-            <Icon name="chevron-small-left" style={styles.icon}></Icon>
-            <TouchableOpacity
-              onPress={() => props.navigation.goBack()}
-              style={styles.button}
-            ></TouchableOpacity>
-          </View>
+      <View style={styles.group}>
+        <View style={styles.iconStack}>
+          <Icon name="chevron-small-left" style={styles.icon}></Icon>
+          <TouchableOpacity
+            onPress={() => props.navigation.goBack()}
+            style={styles.button}
+          ></TouchableOpacity>
         </View>
+      </View>
       <Image
-        source={require("../../../assets/img/tapijulapa.png")}
+        source={require("../../../assets/images/tapijulapa.png")}
         style={styles.logo}
         resizeMode="contain"
       />
@@ -36,16 +36,15 @@ export default function Register(props) {
 
 const styles = StyleSheet.create({
   logo: {
+    height: 250,
     width: "100%",
-    height: 150,
-    marginTop: 60,
   },
   viewForm: {
     marginLeft: 40,
     marginRight: 40,
   },
   group: {
-    marginTop:"10%",
+    marginTop: "10%",
     width: 49,
     height: 49,
   },

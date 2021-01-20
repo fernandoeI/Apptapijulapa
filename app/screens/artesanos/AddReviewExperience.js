@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { AirbnbRating, Button, Input } from "react-native-elements";
 import Toast from "react-native-easy-toast";
 import Loading from "../../components/Loading";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { firebaseApp } from "../../utils/FireBase";
 import firebase from "firebase/app";
@@ -129,12 +130,14 @@ export default function AddReviewExperience(props) {
           inputContainerStyle={styles.textArea}
           onChange={(e) => setReview(e.nativeEvent.text)}
         />
-        <Button
-          title="Enviar comentario"
-          containerStyle={styles.btnContainer}
-          buttonStyle={styles.btn}
-          onPress={option == "add" ? addReview : editReview}
-        />
+        <KeyboardAwareScrollView>
+          <Button
+            title="Enviar comentario"
+            containerStyle={styles.btnContainer}
+            buttonStyle={styles.btn}
+            onPress={option == "add" ? addReview : editReview}
+          />
+        </KeyboardAwareScrollView>
       </View>
       <Toast ref={toastRef} position="center" opacity={0.9} />
       <Loading isVisible={isLoading} text="Enviando comentario" />

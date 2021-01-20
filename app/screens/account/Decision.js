@@ -22,8 +22,12 @@ export default function Decision(props) {
       </TouchableOpacity>
       <ScrollView
         style={styles.viewBody}
-        centerContent={true}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          flex: 1,
+          alignContent: "center",
+          justifyContent: "center",
+        }}
       >
         <Image
           source={require("../../../assets/images/undraw_trip_dv9f.png")}
@@ -61,10 +65,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
   },
-
   viewBtn: {
-    flex: 1,
-    alignItems: "center",
     marginTop: 10,
   },
   iconStack: {
