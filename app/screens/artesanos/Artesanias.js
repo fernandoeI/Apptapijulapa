@@ -17,33 +17,10 @@ const db = firebase.firestore(firebaseApp);
 
 export default function AllExperiences(props) {
   const [experiences, setExperiences] = useState([]);
-  const [totalExperiences, setTotalExperiences] = useState(0);
-  const [startExperiences, setStartExperiences] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState("");
   const limit = 50;
 
-  useEffect(() => {
-    if (search) {
-      fireSQL
-        .query(
-          `SELECT * FROM users WHERE name LIKE '${search}%' OR area LIKE '${search}%' AND giro="artesania"   `
-        )
-        .then((response) => {
-          setExperiences(response);
-        });
-    }
-  }, [search]);
-
-  useEffect(() => {
-    db.collection("users")
-      .where("giro", "==", "artesania")
-      .where("isVisible", "==", true)
-      .get()
-      .then((snap) => {
-        setTotalExperiences(snap.size);
-      });
-
+  const load = () => {
     const resultExperiences = [];
 
     db.collection("users")
@@ -53,8 +30,6 @@ export default function AllExperiences(props) {
       .limit(limit)
       .get()
       .then((response) => {
-        setStartExperiences(response.docs[response.docs.length - 1]);
-
         response.forEach((doc) => {
           const experience = doc.data();
           experience.id = doc.id;
@@ -62,47 +37,31 @@ export default function AllExperiences(props) {
         });
         setExperiences(resultExperiences);
       });
-  }, []);
-
-  const handleLoadMoreExperiences = () => {
-    const resultExperiences = [];
-    experiences.length < totalExperiences && setIsLoading(true);
-
-    db.collection("users")
-      .where("giro", "==", "artesania")
-      .where("isVisible", "==", true)
-      .orderBy("ratingOrder", "desc")
-      .startAfter(startExperiences.data().ratingOrder)
-      .limit(limit)
-      .get()
-      .then((response) => {
-        if (response.docs.length > 0) {
-          setStartExperiences(response.docs[response.docs.length - 1]);
-        } else {
-          setIsLoading(false);
-        }
-        response.forEach((doc) => {
-          const experience = doc.data();
-          experience.id = doc.id;
-          resultExperiences.push(experience);
-        });
-
-        setExperiences([...experiences, ...resultExperiences]);
-      });
   };
+  useEffect(() => {
+    if (search) {
+      fireSQL
+        .query(
+          `SELECT * FROM users WHERE giro="artesania AND name LIKE '${search}%' OR area LIKE '${search}%'"   `
+        )
+        .then((response) => {
+          setExperiences(response);
+        });
+    } else if (!search) {
+      load();
+    }
+  }, [search]);
 
   return (
     <View style={styles.view}>
-      <View style={styles.groupRow}>
-        <View style={styles.group}>
-          <View style={styles.iconStack}>
-            <Icon name="chevron-small-left" style={styles.icon}></Icon>
-            <TouchableOpacity
-              onPress={() => props.navigation.goBack()}
-              style={styles.button}
-            ></TouchableOpacity>
-          </View>
-        </View>
+      <View style={styles.header}>
+        <TouchableOpacity
+          onPress={() => props.navigation.goBack()}
+          style={styles.button}
+        >
+          <Icon name="chevron-small-left" style={styles.icon} />
+        </TouchableOpacity>
+
         <View style={styles.ellipseStack}>
           <Svg viewBox="0 0 52.67 52.67" style={styles.ellipse}>
             <Ellipse
@@ -113,13 +72,13 @@ export default function AllExperiences(props) {
               cy={26}
               rx={26}
               ry={26}
-            ></Ellipse>
+            />
+            <Image
+              source={require("../../../assets/images/artesanias.png")}
+              resizeMode="contain"
+              style={styles.image}
+            />
           </Svg>
-          <Image
-            source={require("../../../assets/images/artesanias.png")}
-            resizeMode="contain"
-            style={styles.image}
-          ></Image>
         </View>
       </View>
       <Text style={styles.loremIpsum}>Artesanías</Text>
@@ -130,23 +89,23 @@ export default function AllExperiences(props) {
         value={search}
         containerStyle={styles.searchBar}
         lightTheme={true}
+        round
+        searchIcon={false}
       />
       <View style={styles.todosLosHotelesRow}>
         <Text style={styles.todosLosHoteles}>Todas las Artesanías</Text>
       </View>
-      <View style={styles.scrollContent}>
-        {experiences.length === 0 ? (
-          <NoFound />
-        ) : (
-          <ListExperiences
-            experiences={experiences}
-            isLoading={isLoading}
-            handleLoadMore={handleLoadMoreExperiences}
-            scrollEnabled={true}
-            keyExtractor={(item, index) => index.toString()}
-          />
-        )}
-      </View>
+
+      {experiences.length === 0 ? (
+        <NoFound />
+      ) : (
+        <ListExperiences
+          experiences={experiences}
+          isLoading={false}
+          scrollEnabled={true}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      )}
     </View>
   );
 }
@@ -155,11 +114,11 @@ function NoFound() {
   return (
     <View style={{ flex: 1, alignItems: "center" }}>
       <Image
-        source={require("../../../assets/images/undraw_page_not_found_su7k.png")}
+        source={require("../../../assets/images/undraw_the_search_s0xf.png")}
         resizeMode="contain"
         style={{ width: 300, height: 300 }}
       />
-      <Text style={{ fontWeight: "bold", marginTop: -50, fontSize: 18 }}>
+      <Text style={{ fontWeight: "bold", fontSize: 18 }}>
         No encontramos lo que buscas
       </Text>
     </View>
@@ -168,94 +127,63 @@ function NoFound() {
 
 const styles = StyleSheet.create({
   view: {
-    marginTop: 30,
+    flex: 1,
+    flexDirection: "column",
     marginLeft: 15,
     marginRight: 15,
   },
-  groupRow: {
-    height: 53,
+  header: {
     flexDirection: "row",
-    marginTop: 48,
-    marginLeft: 11,
-    marginRight: 161,
+    marginTop: 45,
+    justifyContent: "space-between",
+    width: "58%",
   },
-  group: {
-    width: 49,
-    height: 49,
-  },
-  iconStack: {
+  button: {
     width: 49,
     height: 49,
   },
   icon: {
-    top: 3,
-    left: 5,
-    position: "absolute",
     color: "rgba(128,128,128,1)",
     fontSize: 40,
   },
-  button: {
-    top: 0,
-    left: 0,
-    width: 49,
-    height: 49,
-    position: "absolute",
-  },
   image: {
-    top: 8,
-    left: 10,
     width: 33,
     height: 33,
     position: "absolute",
+    marginTop: 10,
+    marginLeft: 10,
   },
-  ellipseStack: {
-    width: 53,
-    height: 53,
-    marginLeft: 101,
-  },
+
   ellipse: {
-    top: 0,
     width: 53,
     height: 53,
-    position: "absolute",
-    left: 0,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   loremIpsum: {
     color: "#121212",
     fontSize: 28,
     marginTop: 25,
     marginLeft: 10,
+    marginBottom: 10,
   },
-  input: {
-    marginTop: 15,
-    width: "95%",
-    height: 42,
-    backgroundColor: "rgba(255,255,255,1)",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,1)",
-    borderRadius: 5,
-    marginLeft: 10,
-  },
+
   todosLosHoteles: {
     color: "#121212",
+    fontWeight: "bold",
   },
-  ordenar: {
-    color: "rgba(132,132,132,1)",
-    marginLeft: 124,
-  },
+
   todosLosHotelesRow: {
-    height: "4%",
     flexDirection: "row",
-    marginTop: 25,
-    marginLeft: 20,
+    marginTop: 15,
+    marginLeft: 10,
     marginRight: 20,
-    marginBottom: 15,
-  },
-  scrollContent: {
-    height: "60%",
+    marginBottom: 10,
   },
   searchBar: {
     width: "98%",
     marginRight: 20,
+    backgroundColor: "transparent",
   },
 });

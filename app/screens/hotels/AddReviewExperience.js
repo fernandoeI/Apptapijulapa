@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { AirbnbRating, Button, Input } from "react-native-elements";
 import Toast from "react-native-easy-toast";
 import Loading from "../../components/Loading";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { firebaseApp } from "../../utils/FireBase";
 import firebase from "firebase/app";
@@ -113,29 +114,31 @@ export default function AddReviewExperience(props) {
 
   return (
     <View style={styles.viewBody}>
-      <View style={styles.viewRating}>
-        <AirbnbRating
-          count={5}
-          reviews={["Pésimo", "Malo", "Regular", "Bueno", "Excelente!"]}
-          defaultRating={0}
-          size={35}
-          onFinishRating={(value) => setRating(value)}
-        />
-      </View>
-      <View style={styles.formReview}>
-        <Input
-          placeholder="Comentario..."
-          multiline={true}
-          inputContainerStyle={styles.textArea}
-          onChange={(e) => setReview(e.nativeEvent.text)}
-        />
-        <Button
-          title="Enviar comentario"
-          containerStyle={styles.btnContainer}
-          buttonStyle={styles.btn}
-          onPress={option == "add" ? addReview : editReview}
-        />
-      </View>
+      <KeyboardAwareScrollView>
+        <View style={styles.viewRating}>
+          <AirbnbRating
+            count={5}
+            reviews={["Pésimo", "Malo", "Regular", "Bueno", "Excelente!"]}
+            defaultRating={0}
+            size={35}
+            onFinishRating={(value) => setRating(value)}
+          />
+        </View>
+        <View style={styles.formReview}>
+          <Input
+            placeholder="Comentario..."
+            multiline={true}
+            inputContainerStyle={styles.textArea}
+            onChange={(e) => setReview(e.nativeEvent.text)}
+          />
+          <Button
+            title="Enviar comentario"
+            containerStyle={styles.btnContainer}
+            buttonStyle={styles.btn}
+            onPress={option == "add" ? addReview : editReview}
+          />
+        </View>
+      </KeyboardAwareScrollView>
       <Toast ref={toastRef} position="center" opacity={0.9} />
       <Loading isVisible={isLoading} text="Enviando comentario" />
     </View>
@@ -154,7 +157,7 @@ const styles = StyleSheet.create({
     width: "95%",
   },
   textArea: {
-    height: 150,
+    height: 100,
     width: "100%",
     padding: 0,
     margin: 0,

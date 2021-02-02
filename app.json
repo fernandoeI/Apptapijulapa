@@ -3,13 +3,9 @@
     "name": "Tapijulapa",
     "slug": "Tapijulapa",
     "privacy": "public",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "version": "1.0.4",
-    
+    "platforms": ["ios", "android", "web"],
+    "version": "1.0.5",
+
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -20,20 +16,18 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.sectur.tapijulapa",
-      "usesAppleSignIn" : true,
-      "infoPlist":{
-        "NSPhotoLibraryUsageDescription" : "Permite que la aplicación acceda a tu galería de imágenes para que puedas seleccionar una como foto de perfil"
+      "usesAppleSignIn": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Permite que la aplicación acceda a tu galería de imágenes para que puedas seleccionar una como foto de perfil"
       }
     },
     "android": {
       "package": "com.sectur.tapijulapa",
-      "versionCode": 4,
+      "versionCode": 5,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyC2BRYkoR_s41JBL6wbmqSvzJzAomrO7-w"

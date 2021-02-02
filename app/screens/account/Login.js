@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     height: 180,
     width: "70%",
     marginLeft: "15%",
+    marginTop: "10%",
   },
   viewContainer: {
     marginRight: 20,

@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Image } from "react-native-elements";
 
 export default function ListExperiences(props) {
-  const { experiences, isLoading, handleLoadMore } = props;
+  const { experiences, isLoading } = props;
 
   const navigation = useNavigation();
   return size(experiences) > 0 ? (
@@ -23,8 +23,6 @@ export default function ListExperiences(props) {
       )}
       keyExtractor={(item, index) => index.toString()}
       showsVerticalScrollIndicator={false}
-      onEndReached={handleLoadMore}
-      onEndReachedThreshold={0.5}
       ListFooterComponent={<FooterList isLoading={isLoading} />}
     />
   ) : (

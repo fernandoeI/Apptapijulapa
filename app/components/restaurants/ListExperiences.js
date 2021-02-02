@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   StyleSheet,
   View,
@@ -6,35 +6,29 @@ import {
   FlatList,
   ActivityIndicator,
   TouchableOpacity,
-  Image,
 } from "react-native";
 import { size } from "lodash";
 import { useNavigation } from "@react-navigation/native";
+import { Image } from "react-native-elements";
 
 export default function ListExperiences(props) {
-  const { experiences, isLoading, handleLoadMore } = props;
+  const { experiences, isLoading } = props;
 
   const navigation = useNavigation();
-  return (
-    <View>
-      {size(experiences) > 0 ? (
-        <FlatList
-          data={experiences}
-          renderItem={(experience) => (
-            <Experience experience={experience} navigation={navigation} />
-          )}
-          keyExtractor={(item, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
-          onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.5}
-          ListFooterComponent={<FooterList isLoading={isLoading} />}
-        />
-      ) : (
-        <View style={{ alignItems: "center", justifyContent: "center" }}>
-          <ActivityIndicator size="large" />
-          <Text style={styles.noMore}>Cargando Gastronomía</Text>
-        </View>
+  return size(experiences) > 0 ? (
+    <FlatList
+      data={experiences}
+      renderItem={(experience) => (
+        <Experience experience={experience} navigation={navigation} />
       )}
+      keyExtractor={(item, index) => index.toString()}
+      showsVerticalScrollIndicator={false}
+      ListFooterComponent={<FooterList isLoading={isLoading} />}
+    />
+  ) : (
+    <View style={{ alignItems: "center", justifyContent: "center" }}>
+      <ActivityIndicator size="large" color="#150c35" />
+      <Text style={styles.noMore}>Cargando Gastronomía</Text>
     </View>
   );
 }
@@ -51,47 +45,52 @@ function Experience(props) {
   };
 
   return (
-    <TouchableOpacity onPress={goExperience}>
-      <View style={styles.viewRestaurant}>
-        <View style={styles.viewRestaurantImage}>
-          <Image
-            resizeMode="cover"
-            PlaceholderContent={<ActivityIndicator color="fff" />}
-            source={
-              imageExperience
-                ? { uri: imageExperience }
-                : require("../../../assets/img/noimage.jpg")
-            }
-            style={styles.imageRestaurant}
-          />
-        </View>
-        <View style={{ width: "75%" }}>
+    <TouchableOpacity onPress={goExperience} style={styles.viewRestaurant}>
+      <View style={styles.viewRestaurantImage}>
+        <Image
+          resizeMode="cover"
+          PlaceholderContent={
+            <ActivityIndicator size="large" color="#150c35" />
+          }
+          placeholderStyle={{
+            flex: 1,
+            alignContent: "center",
+            justifyContent: "center",
+            backgroundColor: "#f2f2f2",
+          }}
+          source={
+            imageExperience
+              ? { uri: imageExperience }
+              : require("../../../assets/img/noimage.jpg")
+          }
+          containerStyle={styles.imageRestaurant}
+        />
+
+        <View style={styles.viewrestaurantInfo}>
           <Text style={styles.restaurantName}>{name}</Text>
           <Text style={styles.restaurantAddress}>{area}</Text>
-
-          <Text style={styles.rating}>
-            {rating}{" "}
-            <Image
-              source={require("../../../assets/images/icons8-estrella-96.png")}
-              style={styles.star}
-            />
-          </Text>
           <Text style={styles.restaurantDescription}>
             {price == null || price == 0 ? "Gratis" : "Desde: $" + price}
           </Text>
         </View>
       </View>
+      <Text style={styles.rating}>
+        {rating}{" "}
+        <Image
+          source={require("../../../assets/images/icons8-estrella-96.png")}
+          style={styles.star}
+        />
+      </Text>
     </TouchableOpacity>
   );
 }
 
 function FooterList(props) {
   const { isLoading } = props;
-
   if (isLoading) {
     return (
       <View style={styles.noMore}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" color="#150c35" />
       </View>
     );
   } else {
@@ -104,31 +103,31 @@ function FooterList(props) {
 }
 
 const styles = StyleSheet.create({
-  loaderRestaurants: {
-    marginTop: 10,
-    marginBottom: 10,
-    alignItems: "center",
-  },
   viewRestaurant: {
-    flexDirection: "row",
     margin: 10,
-    flex: 1,
-    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   viewRestaurantImage: {
     marginRight: 15,
+    width: "80%",
+    flexDirection: "row",
+  },
+  viewrestaurantInfo: {
+    marginLeft: 10,
   },
   imageRestaurant: {
     width: 80,
     height: 80,
     borderWidth: 1,
+    borderColor: "rgba(249,249,249,1)",
     borderRadius: 10,
-    borderColor: "#f2f2f2"
+    overflow: "hidden",
   },
   restaurantName: {
     marginTop: 5,
     fontWeight: "bold",
-    width: "80%"
+    width: "80%",
   },
   restaurantAddress: {
     paddingTop: 2,
@@ -145,9 +144,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   rating: {
-    position: "absolute",
-    right: 15,
-    top: 20,
+    marginRight: 15,
+    marginTop: 30,
   },
   star: {
     width: 15,

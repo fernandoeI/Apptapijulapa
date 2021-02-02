@@ -286,7 +286,7 @@ function ExperiencePresentation(props) {
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             style={styles.goBack}
-          ></TouchableOpacity>
+          />
         </View>
       </ImageBackground>
       <View style={styles.iconStack}>

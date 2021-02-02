@@ -7,17 +7,14 @@ import {
   TouchableOpacity,
   ImageBackground,
   Dimensions,
-  FlatList,
   Image,
   Linking,
-  Modal,
-  TouchableHighlight
 } from "react-native";
 import { Rating, Icon } from "react-native-elements";
 import { useFocusEffect } from "@react-navigation/native";
 import Toast from "react-native-easy-toast";
+import CameraRollGallery from "react-native-camera-roll-gallery";
 
-import ImageModal from "react-native-image-modal";
 import Loading from "../../components/Loading";
 import ListReview from "../../components/others/ListReview";
 
@@ -25,7 +22,6 @@ import { firebaseApp } from "../../utils/FireBase";
 import firebase from "firebase/app";
 import "firebase/firestore";
 
-import Svg, { Path } from "react-native-svg";
 import BasicInformation from "../../components/BasicInformation";
 import LocationCard from "../../components/LocationCard";
 import EntypoIcon from "react-native-vector-icons/Entypo";
@@ -41,7 +37,6 @@ export default function Description(props) {
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [userLogged, setUserLogged] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
   const toastRef = useRef();
 
   firebase.auth().onAuthStateChanged((user) => {
@@ -119,85 +114,95 @@ export default function Description(props) {
         });
       });
   };
+  function ReadMore(props) {
+    const { experience } = props;
+    const [textShown, setTextShown] = useState(false); //To show ur remaining Text
+    const [lengthMore, setLengthMore] = useState(false); //to show the "Read more & Less Line"
+    const toggleNumberOfLines = () => {
+      //To toggle the show text or hide it
+      setTextShown(!textShown);
+    };
+
+    const onTextLayout = useCallback((e) => {
+      setLengthMore(e.nativeEvent.lines.length >= 3); //to check the text is more than 4 lines or not
+      // console.log(e.nativeEvent);
+    }, []);
+
+    return (
+      <View>
+        <Text
+          onTextLayout={onTextLayout}
+          numberOfLines={textShown ? undefined : 3}
+          style={{ lineHeight: 18, textAlign: "justify" }}
+        >
+          {experience.description}
+        </Text>
+
+        {lengthMore ? (
+          <Text
+            onPress={toggleNumberOfLines}
+            style={{
+              lineHeight: 15,
+              marginTop: 10,
+              fontWeight: "bold",
+              color: "#3b3a3d",
+              textAlign: "right",
+            }}
+          >
+            {textShown ? "Leer menos" : "Leer más"}
+          </Text>
+        ) : null}
+      </View>
+    );
+  }
 
   if (!experience) return <Loading isVisible={true} text="Cargando..." />;
-
   return (
-    <View style={styles.container}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-          <Text style={styles.modalText} >{experience.description}</Text>
+    <View style={{ backgroundColor: "#f2f2f2" }}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <ExperiencePresentation
+          experience={experience}
+          navigation={navigation}
+          isFavorite={isFavorite}
+          addFavorites={addFavorites}
+          removeFavorites={removeFavorites}
+        />
 
-            <TouchableHighlight
-              style={{ ...styles.openButton, backgroundColor: "rgb(34, 21, 81)" }}
-              onPress={() => {
-                setModalVisible(!modalVisible);
-              }}
-            >
-              <Text style={styles.textStyle}>Cerrar</Text>
-            </TouchableHighlight>
-          </View>
+        <RatingExperience rating={rating} experience={experience} />
+        <View style={styles.description}>
+          <ReadMore experience={experience} />
         </View>
-      </Modal>
-      <ExperiencePresentation
-        experience={experience}
-        navigation={navigation}
-        isFavorite={isFavorite}
-        addFavorites={addFavorites}
-        removeFavorites={removeFavorites}
-      />
-      <View style={{ height: heightScreen * 0.6, backgroundColor: "#f2f2f2" }}>
-        <ScrollView
-          style={{
-            height: heightScreen,
-          }}
-        >
-          <RatingExperience rating={rating} />
-          <View style={styles.loremIpsumStack}>
-            <Text style={styles.loremIpsum2} numberOfLines={3}>{experience.description}</Text>
-            
-          </View>
-          <Text style={{fontWeight:"bold", left: "75%", top: 7}} onPress={() => {
-                setModalVisible(!modalVisible);
-              }}>Leer más</Text>
-          <Text style={styles.subtitles}>Información básica</Text>
-          <Informacion experience={experience} />
-          <Text style={styles.subtitles}>Galeria</Text>
-          <Galeria experience={experience} />
-          <Text style={styles.subtitles}>Contacto</Text>
-          <Contacto experience={experience} />
-          <Text style={styles.subtitles}>Comentarios</Text>
-          <ListReview navigation={navigation} idOther={experience.id} />
-          <Toast ref={toastRef} position="center" opacity={0.9} />
-          <Text style={styles.subtitles}>Ubicación</Text>
-          <LocationExperience experience={experience} />
-        </ScrollView>
-      </View>
+        <Text style={styles.subtitles}>Información básica</Text>
+        <Informacion experience={experience} />
+        <Text style={styles.subtitles}>Galeria</Text>
+        <Galeria experience={experience} />
+        <Text style={styles.subtitles}>Contacto</Text>
+        <Contacto experience={experience} />
+        <Text style={styles.subtitles}>Comentarios</Text>
+        <ListReview navigation={navigation} idOther={experience.id} />
+        <Toast ref={toastRef} position="center" opacity={0.9} />
+        <Text style={styles.subtitles}>Ubicación</Text>
+        <LocationExperience experience={experience} />
+      </ScrollView>
     </View>
   );
 }
 
 function RatingExperience(props) {
-  const { rating } = props;
+  const { rating, experience } = props;
   return (
     <View>
-      <View style={{ flexDirection: "row" }}>
-        <Text style={styles.subtitles}>Acerca de</Text>
-        <Rating
-          type="custom"
-          style={styles.rating}
-          imageSize={20}
-          readonly
-          startingValue={parseFloat(rating)}
-          ratingBackgroundColor="#fff"
-          tintColor="#f2f2f2"
-        />
-      </View>
+      <Text style={styles.name}>{experience.name}</Text>
+      <Text style={styles.area}>{experience.area}</Text>
+      <Rating
+        type="custom"
+        imageSize={16}
+        readonly
+        startingValue={parseFloat(rating)}
+        ratingBackgroundColor="#fff"
+        tintColor="#f2f2f2"
+        style={{ position: "absolute", top: 15, right: 15 }}
+      />
     </View>
   );
 }
@@ -263,32 +268,24 @@ function ExperiencePresentation(props) {
     removeFavorites,
   } = props;
   return (
-    <View style={styles.rectStack}>
+    <View style={styles.viewImagePrincipal}>
       <ImageBackground
         source={{ uri: experience.image[0] }}
         resizeMode="cover"
         style={styles.image}
-        imageStyle={styles.image_imageStyle}
+        imageStyle={styles.imageStylePrincipal}
+        borderBottomLeftRadius={20}
+        borderBottomRightRadius={20}
       >
-        <View style={styles.group1}>
-          <View style={styles.icon1Stack}>
-            <EntypoIcon
-              name="chevron-small-left"
-              style={styles.icon1}
-            ></EntypoIcon>
-            <TouchableOpacity
-              onPress={() => navigation.goBack()}
-              style={styles.button3}
-            ></TouchableOpacity>
-          </View>
+        <View style={styles.groupIconBack}>
+          <EntypoIcon name="chevron-small-left" style={styles.iconBack} />
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.button3}
+          />
         </View>
       </ImageBackground>
-      <Text style={styles.lugares}>OTROS</Text>
-      <View style={styles.exCoventoOxolotanRow}>
-        <Text style={styles.exCoventoOxolotan}>
-          {experience.name}, {experience.area}
-        </Text>
-      </View>
+
       <View style={styles.iconStack}>
         <Icon
           type="material-community"
@@ -299,7 +296,6 @@ function ExperiencePresentation(props) {
           onPress={isFavorite ? removeFavorites : addFavorites}
         />
       </View>
-      <View style={styles.rect2}></View>
     </View>
   );
 }
@@ -307,33 +303,35 @@ function ExperiencePresentation(props) {
 function Galeria(props) {
   const { experience } = props;
   return (
-    <View style={styles.scrollArea2}>
-      <FlatList
-        data={experience.image}
-        horizontal={true}
-        renderItem={(experiences) => (
-          <ImageGallery imageGallery={experiences} />
-        )}
-      />
-    </View>
-  );
-}
-
-function ImageGallery(props) {
-  const { imageGallery } = props;
-  const imageExperience = imageGallery.item;
-
-  return (
-    <View style={styles.image2Row}>
-      <ImageModal
-        isTranslucent={Platform.OS === "android" ? true : false}
-        swipeToDismiss={false}
-        imageBackgroundColor="#F2F2F2"
-        resizeMode="contain"
-        style={styles.image2}
-        source={imageExperience ? { uri: imageExperience } : null}
-      />
-    </View>
+    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+      <View style={styles.viewGalleryScroll}>
+        <CameraRollGallery
+          enableCameraRoll={false}
+          imageMargin={0}
+          backgroundColor="#f2f2f2"
+          onGetData={(fetchParams, resolve) => {
+            resolve({
+              assets: [
+                {
+                  uri: experience.image[0],
+                },
+                {
+                  uri: experience.image[1],
+                },
+                {
+                  uri: experience.image[2],
+                },
+              ],
+              pageInfo: {
+                hasNextPage: false,
+              },
+            });
+          }}
+          enableModal={true}
+          imageContainerStyle={styles.image2}
+        />
+      </View>
+    </ScrollView>
   );
 }
 
@@ -341,27 +339,9 @@ function Informacion(props) {
   const { experience } = props;
   return (
     <View style={styles.scrollArea}>
-      <ScrollView
-        horizontal={true}
-        contentContainerStyle={styles.scrollArea_contentContainerStyle}
-        showsHorizontalScrollIndicator={false}
-      >
-        <Svg viewBox="0 0 68.91 19.8" style={styles.path}>
-          <Path
-            strokeWidth="0"
-            stroke="grey"
-            fill="rgba(230, 230, 230,1)"
-            type="path"
-            d="M0.00 0.00 L68.91 19.80 L0.00 0.00 Z"
-          ></Path>
-        </Svg>
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         <View style={styles.basicInformationRow}>
-          <BasicInformation
-            title="Abierto de"
-            data={experience.days}
-            style={styles.basicInformation}
-            pic={2}
-          />
+          <BasicInformation title="Abierto de" data={experience.days} pic={2} />
           <BasicInformation
             title="Horario"
             data={
@@ -369,7 +349,6 @@ function Informacion(props) {
                 ? experience.open + " - " + experience.close
                 : "No mostrada"
             }
-            style={styles.basicInformation}
             pic={3}
           />
           <BasicInformation
@@ -379,7 +358,6 @@ function Informacion(props) {
                 ? "Gratis"
                 : "$ " + experience.price
             }
-            style={styles.basicInformation}
             pic={4}
           />
         </View>
@@ -394,167 +372,86 @@ function LocationExperience(props) {
       name={experience.name}
       location={experience.location}
       height={200}
-      top={10}
+      top={15}
     />
   );
 }
 
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#000",
-  },
-
-  rating: {
-    position: "absolute",
-    right: 15,
-    marginTop: 15,
-  },
-
   scrollArea: {
-    width: widthScreen,
-    height: "7%",
     marginLeft: 22,
     marginTop: 10,
   },
-  scrollArea_contentContainerStyle: {
-    width: widthScreen * 1.5,
-    flexDirection: "row",
-  },
-  path: {
-    width: 69,
-    height: 20,
-    marginLeft: 2041,
-    marginTop: 1937,
-  },
-  basicInformation: {
-    marginRight: 24,
-  },
 
-  locationCard: {
-    height: 147,
-    width: 112,
-    marginLeft: 24,
-  },
   basicInformationRow: {
-    height: 147,
     flexDirection: "row",
-    flex: 1,
-    marginRight: -167,
-    marginLeft: -2110,
-    marginTop: 2,
+  },
+  name: {
+    marginTop: 15,
+    color: "#000",
+    fontSize: 18,
+    marginLeft: 20,
+    width: "60%",
+    fontWeight: "bold",
+  },
+  area: {
+    fontSize: 14,
+    marginLeft: 20,
+    marginTop: 10,
+    width: "60%",
+    fontWeight: "bold",
+    color: "#6d6d6d",
+  },
 
-    marginBottom: 15,
-  },
-  rect: {
-    top: 30,
-    left: 0,
-    width: 360,
-    height: 240,
-    position: "absolute",
-  },
-  lugares: {
-    color: "rgb(255,255,255)",
-    letterSpacing: 2,
-    fontSize: 12,
-    marginTop: heightScreen * 0.32,
-    marginLeft: 22,
-  },
-  exCoventoOxolotan: {
-    color: "#FFF",
-    fontSize: 20,
-  },
-  icon: {
-    top: 0,
-    left: 2,
-    position: "absolute",
-    color: "rgba(255,255,255,1)",
-    fontSize: 40,
-  },
-  button2: {
-    top: 0,
-    left: 0,
-    width: 40,
-    height: 43,
-  },
   iconStack: {
     position: "absolute",
-    top: "80%",
-    right: "5%",
+    top: 35,
+    right: 15,
   },
-  exCoventoOxolotanRow: {
-    height: "20%",
-    flexDirection: "row",
-    marginLeft: 22,
-    marginRight: 16,
-    width: "80%"
-  },
+
   image: {
     top: 0,
     left: 0,
     width: widthScreen,
-    height: heightScreen * 0.4,
+    height: heightScreen * 0.45,
     position: "absolute",
   },
-  image_imageStyle: {
-    opacity: 0.5,
+  imageStylePrincipal: {
+    opacity: 0.6,
   },
-  group1: {
+  groupIconBack: {
     width: 49,
     height: 49,
     marginTop: 35,
-    marginLeft: 20,
-  
+    marginLeft: 10,
   },
-  icon1: {
-    top: 3,
-    left: 3,
+  iconBack: {
     position: "absolute",
     color: "#fff",
     fontSize: 40,
   },
-  button3: {
+  goBack: {
     width: 49,
     height: 49,
     position: "absolute",
     borderRadius: 100,
-    backgroundColor: "rgb(255,255,255)",
-    opacity:0.3
-  },
-  icon1Stack: {
-    width: 49,
-    height: 49,
-  },
-  rect2: {
-    top: "96%",
-    left: 0,
-    width: widthScreen,
-    height: 20,
-    position: "absolute",
-    backgroundColor: "#F2F2F2",
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
   },
 
-  rectStack: {
+  viewImagePrincipal: {
     width: widthScreen,
-    height: heightScreen * 0.4,
+    height: heightScreen * 0.45,
+    backgroundColor: "#000",
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
 
-  loremIpsum2: {
-    position: "absolute",
-    color: "#121212",
-    textAlign: "justify",
-  },
-  loremIpsumStack: {
-    width: widthScreen * 0.9,
-    height: 60,
-    marginTop: 5,
+  description: {
+    marginTop: 10,
     marginLeft: 22,
+    marginRight: 15,
   },
   subtitles: {
-    color: "rgba(0,0,0,1)",
+    color: "#5a5a5a",
     marginLeft: 22,
     marginTop: 15,
     fontWeight: "bold",
@@ -563,18 +460,11 @@ const styles = StyleSheet.create({
     color: "rgba(0,0,0,1)",
     marginLeft: 22,
   },
-  scrollArea2: {
-    width: 353,
-    height: 101,
-    backgroundColor: "#F2F2F2",
+  viewGalleryScroll: {
     marginTop: 10,
     marginLeft: 22,
   },
-  scrollArea2_contentContainerStyle: {
-    width: 400,
-    height: 101,
-    flexDirection: "row",
-  },
+
   image2: {
     width: 101,
     height: 101,
@@ -582,10 +472,9 @@ const styles = StyleSheet.create({
     marginRight: 15,
     resizeMode: "cover",
     borderRadius: 15,
-    borderColor: "#F2F2F2"
+    borderColor: "#F2F2F2",
   },
-
-  image2Row: {
+  viewGallery: {
     height: 101,
     flexDirection: "row",
     flex: 1,
@@ -593,7 +482,6 @@ const styles = StyleSheet.create({
   viewIcons: {
     flexDirection: "row",
     marginTop: 10,
-    width: widthScreen,
     marginLeft: 20,
     display: "flex",
     alignItems: "center",
@@ -604,45 +492,4 @@ const styles = StyleSheet.create({
     height: 50,
     marginRight: 40,
   },
-  rating: {
-    position: "absolute",
-    right: 15,
-    marginTop: 15,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5
-  },
-  openButton: {
-    backgroundColor: "#F194FF",
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  }
 });

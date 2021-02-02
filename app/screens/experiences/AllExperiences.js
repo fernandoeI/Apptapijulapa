@@ -17,12 +17,25 @@ const db = firebase.firestore(firebaseApp);
 
 export default function AllExperiences(props) {
   const [experiences, setExperiences] = useState([]);
-  const [totalExperiences, setTotalExperiences] = useState(0);
-  const [startExperiences, setStartExperiences] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState("");
   const limit = 30;
 
+  const load = () => {
+    const resultExperiences = [];
+
+    db.collection("experiences")
+      .orderBy("rating", "desc")
+      .limit(limit)
+      .get()
+      .then((response) => {
+        response.forEach((doc) => {
+          const experience = doc.data();
+          experience.id = doc.id;
+          resultExperiences.push(experience);
+        });
+        setExperiences(resultExperiences);
+      });
+  };
   useEffect(() => {
     if (search) {
       fireSQL
@@ -32,58 +45,10 @@ export default function AllExperiences(props) {
         .then((response) => {
           setExperiences(response);
         });
+    } else if (!search) {
+      load();
     }
   }, [search]);
-
-  useEffect(() => {
-    db.collection("experiences")
-      .get()
-      .then((snap) => {
-        setTotalExperiences(snap.size);
-      });
-
-    const resultExperiences = [];
-
-    db.collection("experiences")
-      .orderBy("rating", "desc")
-      .limit(limit)
-      .get()
-      .then((response) => {
-        setStartExperiences(response.docs[response.docs.length - 1]);
-
-        response.forEach((doc) => {
-          const experience = doc.data();
-          experience.id = doc.id;
-          resultExperiences.push(experience);
-        });
-        setExperiences(resultExperiences);
-      });
-  }, []);
-
-  const handleLoadMoreExperiences = () => {
-    const resultExperiences = [];
-    experiences.length < totalExperiences && setIsLoading(true);
-
-    db.collection("experiences")
-      .orderBy("rating", "desc")
-      .startAfter(startExperiences.data().rating)
-      .limit(limit)
-      .get()
-      .then((response) => {
-        if (response.docs.length > 0) {
-          setStartExperiences(response.docs[response.docs.length - 1]);
-        } else {
-          setIsLoading(false);
-        }
-        response.forEach((doc) => {
-          const experience = doc.data();
-          experience.id = doc.id;
-          resultExperiences.push(experience);
-        });
-
-        setExperiences([...experiences, ...resultExperiences]);
-      });
-  };
 
   return (
     <View style={styles.view}>
@@ -119,6 +84,8 @@ export default function AllExperiences(props) {
         value={search}
         containerStyle={styles.searchBar}
         lightTheme={true}
+        round
+        searchIcon={false}
       />
       <View style={styles.todosLosHotelesRow}>
         <Text style={styles.todosLosHoteles}>Todas las experiencias </Text>
@@ -129,8 +96,7 @@ export default function AllExperiences(props) {
       ) : (
         <ListExperiences
           experiences={experiences}
-          isLoading={isLoading}
-          handleLoadMore={handleLoadMoreExperiences}
+          isLoading={false}
           scrollEnabled={true}
           keyExtractor={(item, index) => index.toString()}
         />
@@ -212,5 +178,6 @@ const styles = StyleSheet.create({
   searchBar: {
     width: "98%",
     marginRight: 20,
+    backgroundColor: "transparent",
   },
 });

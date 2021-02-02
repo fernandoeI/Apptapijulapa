@@ -19,6 +19,7 @@ const widthScreen = Dimensions.get("window").width;
 import { firebaseApp } from "../utils/FireBase";
 import firebase from "firebase/app";
 import "firebase/firestore";
+import { Icon } from "react-native-elements";
 
 const db = firebase.firestore(firebaseApp);
 
@@ -147,6 +148,15 @@ export default function Home(props) {
   return (
     <View style={styles.container}>
       <Text style={styles.holaAmy}>Hola</Text>
+      <Icon
+        raised
+        name="heartbeat"
+        type="font-awesome"
+        color="#f50"
+        containerStyle={{ position: "absolute", top: 40, right: 10 }}
+        onPress={() => navigation.navigate("Emergency")}
+      />
+
       <Text style={styles.exploraTapijulapa}>Explora Tapijulapa</Text>
       <View style={styles.scrollArea}>
         <ScrollView
@@ -297,9 +307,9 @@ const styles = StyleSheet.create({
   },
   exploraTapijulapa: {
     color: "#121212",
-    height: 42,
+    height: 40,
 
-    fontSize: 28,
+    fontSize: 26,
     marginTop: 5,
     marginLeft: 29,
     marginBottom: 5,

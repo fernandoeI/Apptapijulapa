@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Image } from "react-native-elements";
 
 export default function ListPlaces(props) {
-  const { places, isLoading, handleLoadMore } = props;
+  const { places, isLoading } = props;
 
   const navigation = useNavigation();
   return size(places) > 0 ? (
@@ -21,8 +21,6 @@ export default function ListPlaces(props) {
       renderItem={(place) => <Place place={place} navigation={navigation} />}
       keyExtractor={(item, index) => index.toString()}
       showsVerticalScrollIndicator={false}
-      onEndReached={handleLoadMore}
-      onEndReachedThreshold={0.5}
       ListFooterComponent={<FooterList isLoading={isLoading} />}
     />
   ) : (
@@ -87,7 +85,6 @@ function Place(props) {
 
 function FooterList(props) {
   const { isLoading } = props;
-
   if (isLoading) {
     return (
       <View style={styles.noMore}>
@@ -127,6 +124,7 @@ const styles = StyleSheet.create({
   restaurantName: {
     marginTop: 5,
     fontWeight: "bold",
+    width: "80%",
   },
   restaurantAddress: {
     paddingTop: 2,

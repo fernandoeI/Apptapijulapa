@@ -1,6 +1,13 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { Avatar, Rating } from "react-native-elements";
+import Icon from "react-native-vector-icons/Entypo";
 
 import { map } from "lodash";
 
@@ -9,10 +16,21 @@ export default function AllReviewsHotels(props) {
   const { reviews } = route.params;
 
   return (
-    <View style={styles.viewBody}>
-      {map(reviews, (review, index) => (
-        <Review key={index} review={review} />
-      ))}
+    <View>
+      <Text style={{ fontSize: 18, textAlign: "center", marginTop: 50 }}>
+        Todos los comentarios
+      </Text>
+      <ScrollView>
+        {map(reviews, (review, index) => (
+          <Review key={index} review={review} />
+        ))}
+      </ScrollView>
+      <TouchableOpacity
+        onPress={() => props.navigation.goBack()}
+        style={styles.button}
+      >
+        <Icon name="chevron-small-left" style={styles.icon} />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -51,10 +69,6 @@ function Review(props) {
   );
 }
 const styles = StyleSheet.create({
-  viewBody: {
-    flex: 1,
-    marginTop: 30,
-  },
   viewReview: {
     flexDirection: "row",
     padding: 10,
@@ -89,5 +103,15 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 80,
     top: 15,
+  },
+  icon: {
+    color: "rgba(128,128,128,1)",
+    fontSize: 40,
+  },
+  button: {
+    position: "absolute",
+    marginTop: 45,
+    marginLeft: 10,
+    width: 50,
   },
 });

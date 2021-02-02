@@ -116,8 +116,8 @@ export default function RegisterForm(props) {
               lineHeight: 20,
               borderBottomColor: "#96989A",
               borderBottomWidth: 1.2,
-              color:"#9c9c9c",
-              paddingBottom: 10
+              color: "#9c9c9c",
+              paddingBottom: 10,
             },
             inputAndroid: {
               width: "95%",
@@ -127,7 +127,7 @@ export default function RegisterForm(props) {
               borderBottomColor: "#96989A",
               borderBottomWidth: 1.2,
               fontSize: 18,
-              color:"#9c9c9c",
+              color: "#9c9c9c",
             },
           }}
         />
@@ -202,10 +202,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 30,
   },
   inputForm: {
-    width: "100%",
     marginTop: 20,
   },
   iconRight: {
@@ -216,6 +214,7 @@ const styles = StyleSheet.create({
     width: "95%",
   },
   btnRegister: {
+    marginLeft: 10,
     backgroundColor: "rgb(34, 21, 81 )",
   },
 });

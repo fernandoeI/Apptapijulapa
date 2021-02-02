@@ -17,11 +17,25 @@ const db = firebase.firestore(firebaseApp);
 
 export default function AllPlaces(props) {
   const [places, setPlaces] = useState([]);
-  const [totalPlaces, setTotalPlaces] = useState(0);
-  const [startPlaces, setStartPlaces] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState("");
   const limit = 30;
+
+  const load = () => {
+    const resultPlaces = [];
+
+    db.collection("places")
+      .orderBy("ratingOrder", "desc")
+      .limit(limit)
+      .get()
+      .then((response) => {
+        response.forEach((doc) => {
+          const place = doc.data();
+          place.id = doc.id;
+          resultPlaces.push(place);
+        });
+        setPlaces(resultPlaces);
+      });
+  };
 
   useEffect(() => {
     if (search) {
@@ -33,56 +47,9 @@ export default function AllPlaces(props) {
           setPlaces(response);
         });
     } else if (!search) {
+      load();
     }
   }, [search]);
-
-  useEffect(() => {
-    db.collection("places")
-      .get()
-      .then((snap) => {
-        setTotalPlaces(snap.size);
-      });
-
-    const resultPlaces = [];
-
-    db.collection("places")
-      .orderBy("ratingOrder", "desc")
-      .limit(limit)
-      .get()
-      .then((response) => {
-        setStartPlaces(response.docs[response.docs.length - 1]);
-        response.forEach((doc) => {
-          const place = doc.data();
-          place.id = doc.id;
-          resultPlaces.push(place);
-        });
-        setPlaces(resultPlaces);
-      });
-  }, []);
-
-  const handleLoadMorePlaces = () => {
-    const resultPlaces = [];
-    places.length < totalPlaces && setIsLoading(true);
-
-    db.collection("places")
-      .orderBy("ratingOrder", "desc")
-      .startAfter(startPlaces.data().ratingOrder)
-      .limit(limit)
-      .get()
-      .then((response) => {
-        if (response.docs.length > 0) {
-          setStartPlaces(response.docs[response.docs.length - 1]);
-        } else {
-          setIsLoading(false);
-        }
-        response.forEach((doc) => {
-          const place = doc.data();
-          place.id = doc.id;
-          resultPlaces.push(place);
-        });
-        setPlaces([...places, ...resultPlaces]);
-      });
-  };
 
   return (
     <View style={styles.view}>
@@ -118,6 +85,8 @@ export default function AllPlaces(props) {
         value={search}
         containerStyle={styles.searchBar}
         lightTheme={true}
+        round
+        searchIcon={false}
       />
       <View style={styles.todosLosHotelesRow}>
         <Text style={styles.todosLosHoteles}>Todos los sitios</Text>
@@ -128,8 +97,7 @@ export default function AllPlaces(props) {
       ) : (
         <ListPlaces
           places={places}
-          isLoading={isLoading}
-          handleLoadMore={handleLoadMorePlaces}
+          isLoading={false}
           scrollEnabled={true}
           keyExtractor={(item, index) => index.toString()}
         />
@@ -174,7 +142,6 @@ const styles = StyleSheet.create({
     color: "rgba(128,128,128,1)",
     fontSize: 40,
   },
-
   image: {
     width: 33,
     height: 33,
@@ -212,6 +179,7 @@ const styles = StyleSheet.create({
   searchBar: {
     width: "98%",
     marginRight: 20,
+    backgroundColor: "transparent",
   },
 });
 

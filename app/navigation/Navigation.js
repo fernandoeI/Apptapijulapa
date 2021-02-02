@@ -3,9 +3,9 @@ import { NavigationContainer, StackActions } from "@react-navigation/native";
 import { StyleSheet, Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import IoniconsIcon from "react-native-vector-icons/Ionicons";
 
 import Home from "../screens/Home";
+import Emergency from "../screens/Emergency";
 import MyAccount from "../screens/account/MyAccount";
 import Login from "../screens/account/Login";
 import Register from "../screens/account/Register";
@@ -164,6 +164,7 @@ function HomeStack() {
       />
       <Stack.Screen name="AddReviewOther" component={AddReviewOther} />
       <Stack.Screen name="AllReviewsOther" component={AllReviewsOther} />
+      <Stack.Screen name="Emergency" component={Emergency} />
     </Stack.Navigator>
   );
 }
