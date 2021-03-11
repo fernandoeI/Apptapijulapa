@@ -6,20 +6,22 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
-  Platform,
+  Image
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 
 import CardService from "../components/CardService";
 import ListPlacesHome from "../components/places/ListPlacesHome";
 import ListExperiencesHome from "../components/experiences/ListExperienceHome";
+import Carousel from '../components/Carousel'
+import { dummyData } from '../data/Data'
 
 const widthScreen = Dimensions.get("window").width;
 
 import { firebaseApp } from "../utils/FireBase";
 import firebase from "firebase/app";
 import "firebase/firestore";
-import { Icon } from "react-native-elements";
+import Svg, { Ellipse } from "react-native-svg";
 
 const db = firebase.firestore(firebaseApp);
 
@@ -32,6 +34,7 @@ export default function Home(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingExp, setIsLoadingExp] = useState(false);
   const limit = 6;
+  const [news, setNews] = useState([]);
 
   const [experiences, setExperiences] = useState([]);
   const [totalExperiences, setTotalExperiences] = useState(0);
@@ -42,6 +45,23 @@ export default function Home(props) {
       setUser(userInfo);
     });
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      const resultNews = [];
+
+      db.collection("news")
+        .get()
+        .then((response) => {
+          response.forEach((doc) => {
+            const news = doc.data();
+            news.id = doc.id;
+            resultNews.push(news);
+          });
+          setNews(resultNews);
+        });
+    }, [])
+  );
 
   useFocusEffect(
     useCallback(() => {
@@ -147,106 +167,108 @@ export default function Home(props) {
 
   return (
     <View style={styles.container}>
+
       <Text style={styles.holaAmy}>Hola</Text>
-      <Icon
-        raised
-        name="heartbeat"
-        type="font-awesome"
-        color="#f50"
-        containerStyle={{ position: "absolute", top: 40, right: 10 }}
-        onPress={() => navigation.navigate("Emergency")}
-      />
 
+      <Svg viewBox="0 0 52.36 52.36" style={styles.ellipse} onPress={() => navigation.navigate("Emergency")}>
+        <Ellipse
+          strokeWidth={0}
+          cx={26}
+          cy={26}
+          rx={26}
+          ry={26}
+          fill="rgba(250,250,250,1)"
+        ></Ellipse>
+
+        <Image source={require("../../assets/images/emergency.png")} style={styles.emergency} />
+      </Svg>
       <Text style={styles.exploraTapijulapa}>Explora Tapijulapa</Text>
-      <View style={styles.scrollArea}>
-        <ScrollView
-          contentContainerStyle={styles.scrollArea_contentContainerStyle}
-        >
-          <View style={styles.cardSubtitles}>
-            <Text style={styles.subtitles}>Sitios de interés</Text>
-            <Text
-              style={styles.verMas}
-              onPress={() => navigation.navigate("AllPlaces")}
-            >
-              Ver todos
+
+      <ScrollView>
+        <Carousel data={news} />
+        <View style={styles.cardSubtitles}>
+          <Text style={styles.subtitles}>Sitios de interés</Text>
+          <Text
+            style={styles.verMas}
+            onPress={() => navigation.navigate("AllPlaces")}
+          >
+            Ver todos
             </Text>
-          </View>
+        </View>
 
-          <View style={styles.scrollContent}>
-            <ListPlacesHome
-              places={places}
-              isLoading={isLoading}
-              handleLoadMore={handleLoadMorePlaces}
-              keyExtractor={(item, index) => index.toString()}
-            />
-          </View>
+        <ListPlacesHome
+          places={places}
+          isLoading={isLoading}
+          handleLoadMore={handleLoadMorePlaces}
+          keyExtractor={(item, index) => index.toString()}
+        />
 
-          <View style={styles.cardSubtitles}>
-            <Text style={styles.subtitles}>Experiencias</Text>
-            <Text
-              style={styles.verMas}
-              onPress={() => navigation.navigate("AllExperiences")}
-            >
-              Ver todos
+
+        <View style={styles.cardSubtitles}>
+          <Text style={styles.subtitles}>Experiencias</Text>
+          <Text
+            style={styles.verMas}
+            onPress={() => navigation.navigate("AllExperiences")}
+          >
+            Ver todos
             </Text>
-          </View>
-          <View style={styles.scrollContent}>
-            <ListExperiencesHome
-              experiences={experiences}
-              isLoading={isLoadingExp}
-              handleLoadMore={handleLoadMoreExperiences}
-              keyExtractor={(item, index) => index.toString()}
-            />
-          </View>
+        </View>
+        <ListExperiencesHome
+          experiences={experiences}
+          isLoading={isLoadingExp}
+          handleLoadMore={handleLoadMoreExperiences}
+          keyExtractor={(item, index) => index.toString()}
+        />
 
-          <Text style={styles.services}>Servicios</Text>
-          <View style={styles.cardServiceRow}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Restaurants")}
-              style={styles.cardService}
-            >
-              <CardService restaurantes="Gastronomía" icon="gastronomia" />
-            </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Artesanias")}
-              style={styles.cardService}
-            >
-              <CardService restaurantes="Artesanías" icon="artesanias" />
-            </TouchableOpacity>
-          </View>
+        <Text style={styles.services}>Servicios</Text>
+        <View style={styles.cardServiceRow}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Restaurants")}
+            style={styles.cardService}
+          >
+            <CardService restaurantes="Gastronomía" icon="gastronomia" />
+          </TouchableOpacity>
 
-          <View style={styles.cardServiceRow}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Hotels")}
-              style={styles.cardService}
-            >
-              <CardService restaurantes="Hospedajes" icon="hoteles" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Guias")}
-              style={styles.cardService}
-            >
-              <CardService restaurantes="Guías" icon="guias" />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.cardServiceRow}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Miscelanea")}
-              style={styles.cardService}
-            >
-              <CardService restaurantes="Tours" icon="tours" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Otros")}
-              style={styles.cardService}
-            >
-              <CardService restaurantes="Otros" icon="otros" />
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-      </View>
-    </View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Artesanias")}
+            style={styles.cardService}
+          >
+            <CardService restaurantes="Artesanías" icon="artesanias" />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.cardServiceRow}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Hotels")}
+            style={styles.cardService}
+          >
+            <CardService restaurantes="Hospedajes" icon="hoteles" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Guias")}
+            style={styles.cardService}
+          >
+            <CardService restaurantes="Guías" icon="guias" />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.cardServiceRow}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Miscelanea")}
+            style={styles.cardService}
+          >
+            <CardService restaurantes="Tours" icon="tours" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Otros")}
+            style={styles.cardService}
+          >
+            <CardService restaurantes="Otros" icon="otros" />
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+
+    </View >
   );
 }
 
@@ -259,14 +281,8 @@ const styles = StyleSheet.create({
     color: "rgba(32,14,50,1)",
     fontSize: 32,
   },
-  scrollArea: {
-    flex: 1,
-    width: widthScreen,
-    marginLeft: 29,
-  },
-  scrollArea_contentContainerStyle: {
-    width: widthScreen * 0.95,
-  },
+
+
   subtitles: {
     color: "rgba(0,0,0,1)",
     marginLeft: 3,
@@ -278,24 +294,27 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 20,
     marginBottom: 10,
+    marginLeft: 15,
   },
   cardSubtitles: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 15,
-    marginRight: 30,
+    marginRight: 15,
+    marginLeft: 15,
+    marginBottom: 10
   },
   scrollContent: {
     flex: 1,
     marginTop: 10,
-    marginLeft: 3,
   },
 
   cardServiceRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 20,
-    marginRight: 30,
+    marginRight: 15,
+    marginLeft: 15
   },
   cardService: {
     width: "47%",
@@ -303,18 +322,32 @@ const styles = StyleSheet.create({
   holaAmy: {
     color: "rgba(132,132,132,1)",
     marginTop: "15%",
-    marginLeft: 29,
+    marginLeft: 15,
   },
   exploraTapijulapa: {
     color: "#121212",
     height: 40,
-
     fontSize: 26,
     marginTop: 5,
-    marginLeft: 29,
+    marginLeft: 15,
     marginBottom: 5,
   },
   verMas: {
     fontWeight: "bold",
+  },
+  emergency: {
+    height: 30,
+    width: 30,
+    marginTop: 10,
+    marginLeft: 10
+  },
+  ellipse: {
+    top: 47,
+    right: 17,
+    width: 52,
+    height: 52,
+    position: "absolute",
+    elevation: 6,
+    borderRadius: 360,
   },
 });

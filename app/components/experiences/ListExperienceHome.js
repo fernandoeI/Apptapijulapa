@@ -99,16 +99,13 @@ function FooterList(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    marginRight: 15,
-  },
 
   noMore: {
     flex: 0.7,
     alignItems: "center",
     justifyContent: "center",
     width: 133,
-    marginRight: 30,
+    marginRight: 15,
   },
   image1: {
     width: 133,
@@ -128,7 +125,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   buttonStack: {
-    marginRight: 15,
+    marginLeft: 15,
     width: 133,
   },
 });

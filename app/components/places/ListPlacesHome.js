@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   buttonStack: {
-    marginRight: 15,
+    marginLeft: 15,
     width: 133,
   },
 });
