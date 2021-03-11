@@ -4,7 +4,7 @@
     "slug": "Tapijulapa",
     "privacy": "public",
     "platforms": ["ios", "android", "web"],
-    "version": "1.0.5",
+    "version": "1.0.6",
 
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,7 +27,7 @@
     },
     "android": {
       "package": "com.sectur.tapijulapa",
-      "versionCode": 5,
+      "versionCode": 6,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyC2BRYkoR_s41JBL6wbmqSvzJzAomrO7-w"
