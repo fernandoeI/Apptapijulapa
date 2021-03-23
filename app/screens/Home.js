@@ -187,7 +187,7 @@ export default function Home(props) {
       <ScrollView>
         <Carousel data={news} />
         <View style={styles.cardSubtitles}>
-          <Text style={styles.subtitles}>Sitios de interés</Text>
+          <Text style={styles.subtitles}>Sitios de interés público</Text>
           <Text
             style={styles.verMas}
             onPress={() => navigation.navigate("AllPlaces")}

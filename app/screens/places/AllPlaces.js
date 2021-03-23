@@ -78,7 +78,7 @@ export default function AllPlaces(props) {
           />
         </Svg>
       </View>
-      <Text style={styles.loremIpsum}>Sitios de Interés</Text>
+      <Text style={styles.loremIpsum}>Sitios de Interés Público</Text>
       <SearchBar
         placeholder="Buscar sitios "
         onChangeText={(e) => setSearch(e)}

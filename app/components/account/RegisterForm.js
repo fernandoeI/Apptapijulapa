@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Input, Icon, Button } from "react-native-elements";
+import { StyleSheet, View, Linking } from "react-native";
+import { Input, Icon, Button, Text } from "react-native-elements";
 import Loading from "../Loading";
 import { validateEmail } from "../../utils/Validation";
 import { size, isEmpty } from "lodash";
@@ -184,6 +184,9 @@ export default function RegisterForm(props) {
         buttonStyle={styles.btnRegister}
         onPress={onSubmit}
       />
+      <Text style={{ textAlign: "center" }} >Al registrarte, aceptas </Text>
+      <Text style={{ textAlign: "center" }} >nuestras <Text onPress={() => Linking.openURL("https://tabasco.gob.mx/turismo")} style={{ color: "blue" }}>condiciones del servicio.</Text></Text>
+
     </View>
   );
 }
@@ -216,5 +219,6 @@ const styles = StyleSheet.create({
   btnRegister: {
     marginLeft: 10,
     backgroundColor: "rgb(34, 21, 81 )",
+    marginBottom: 15
   },
 });

@@ -281,7 +281,7 @@ function ExperiencePresentation(props) {
           <EntypoIcon name="chevron-small-left" style={styles.iconBack} />
           <TouchableOpacity
             onPress={() => navigation.goBack()}
-            style={styles.button3}
+            style={styles.goBack}
           />
         </View>
       </ImageBackground>

@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   Platform,
+  Linking
 } from "react-native";
 import { Divider } from "react-native-elements";
 import CreateAccount from "../../components/CreateAccount";
@@ -45,7 +46,13 @@ export default function Login(props) {
           {Platform.OS === "ios" ? (
             <View></View>
           ) : (
-            <LoginFacebook toastRef={toastRef} typeUser={type} />
+            <>
+              <LoginFacebook toastRef={toastRef} typeUser={type} />
+              <Text style={{ textAlign: "center" }} >Al registrarte, aceptas </Text>
+              <Text style={{ textAlign: "center" }} >nuestras <Text onPress={() => Linking.openURL("https://tabasco.gob.mx/turismo")} style={{ color: "blue" }}>condiciones del servicio.</Text></Text>
+
+            </>
+
           )}
         </View>
         <Toast ref={toastRef} position="center" opacity={0.5} />
