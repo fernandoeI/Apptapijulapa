@@ -185,7 +185,7 @@ export default function RegisterForm(props) {
         onPress={onSubmit}
       />
       <Text style={{ textAlign: "center" }} >Al registrarte, aceptas </Text>
-      <Text style={{ textAlign: "center" }} >nuestras <Text onPress={() => Linking.openURL("https://tabasco.gob.mx/turismo")} style={{ color: "blue" }}>condiciones del servicio.</Text></Text>
+      <Text style={{ textAlign: "center" }} >nuestras <Text onPress={() => Linking.openURL("https://firebasestorage.googleapis.com/v0/b/tapijulapa-a1a12.appspot.com/o/PoliticaDePrivacidad.pdf?alt=media&token=f912de00-5b94-40f3-b984-80e9b73b33da")} style={{ color: "blue" }}>condiciones del servicio.</Text></Text>
 
     </View>
   );
