@@ -29,7 +29,7 @@
     "firebase": "8.2.3",
     "firesql": "~2.0.2",
     "js-sha256": "^0.9.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
