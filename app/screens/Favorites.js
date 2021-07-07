@@ -34,8 +34,10 @@ export default function Favorites(props) {
 
   useFocusEffect(
     useCallback(() => {
+
       if (userLogged) {
         const idUser = firebase.auth().currentUser.uid;
+
         db.collection("favorites")
           .where("idUser", "==", idUser)
           .get()
@@ -45,8 +47,11 @@ export default function Favorites(props) {
             response.forEach((doc) => {
               idPlacesArray.push(doc.data().idFavorite);
               type.push(doc.data().type);
+
             });
+
             getDataPlace(idPlacesArray, type).then((response) => {
+              console.log(response);
               const places = [];
               let au = 0;
               response.forEach((doc) => {
@@ -61,6 +66,7 @@ export default function Favorites(props) {
           });
       }
       setReloadData(false);
+
     }, [userLogged, reloadData])
   );
 
@@ -68,8 +74,8 @@ export default function Favorites(props) {
     const arrayPlaces = [];
     const arrayNew = [];
     let au = 0;
-
     type.forEach((type) => {
+
       arrayNew.push({ idFavorite: idPlacesArray[au], type: type });
       au++;
     });

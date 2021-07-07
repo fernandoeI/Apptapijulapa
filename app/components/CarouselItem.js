@@ -1,14 +1,38 @@
 import React from 'react'
-import { View, StyleSheet, Text, Image, Dimensions } from 'react-native'
+import { View, StyleSheet, Dimensions, } from 'react-native'
+import CameraRollGallery from "react-native-camera-roll-gallery";
 
 const { width, height } = Dimensions.get('window')
 
 
 const CarouselItem = ({ item }) => {
     return (
-        <View style={styles.cardView}>
-            <Image style={styles.image} source={{ uri: item.url }} />
+
+        <View style={styles.cardView} >
+            <CameraRollGallery
+                enableCameraRoll={false}
+                imageMargin={0}
+                onGetData={(fetchParams, resolve) => {
+                    resolve({
+                        assets: [
+                            {
+                                uri: item.url,
+                            },
+                        ],
+                        pageInfo: {
+                            hasNextPage: false,
+                        },
+                    });
+                }}
+                backgroundColor="transparent"
+                enableModal={true}
+                imageContainerStyle={styles.image}
+
+            />
+
         </View>
+
+
     )
 }
 
@@ -36,7 +60,8 @@ const styles = StyleSheet.create({
     image: {
         width: width - 20,
         height: height / 3,
-        borderRadius: 10
+        borderRadius: 10,
+        backgroundColor: "#f2f2f2"
     },
     itemTitle: {
         color: 'white',
@@ -58,7 +83,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         shadowRadius: 3,
         elevation: 5
-    }
+    },
 })
 
 export default CarouselItem

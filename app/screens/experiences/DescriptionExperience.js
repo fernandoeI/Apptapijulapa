@@ -32,7 +32,7 @@ const heightScreen = Dimensions.get("window").height;
 
 export default function Description(props) {
   const { navigation, route } = props;
-  const { id } = route.params;
+  const { id, num } = route.params;
   const [experience, setExperience] = useState(null);
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -167,6 +167,7 @@ export default function Description(props) {
           isFavorite={isFavorite}
           addFavorites={addFavorites}
           removeFavorites={removeFavorites}
+          num={num}
         />
 
         <RatingExperience rating={rating} experience={experience} />
@@ -267,33 +268,44 @@ function ExperiencePresentation(props) {
     isFavorite,
     addFavorites,
     removeFavorites,
+    num
   } = props;
   return (
     <View style={styles.viewImagePrincipal}>
-      <ImageBackground
-        source={{ uri: experience.image[0] }}
-        resizeMode="cover"
-        style={styles.image}
-        imageStyle={styles.imageStylePrincipal}
-        borderBottomLeftRadius={20}
-        borderBottomRightRadius={20}
+      <CameraRollGallery
+        enableCameraRoll={false}
+        imageMargin={0}
+        backgroundColor="#f2f2f2"
+        onGetData={(fetchParams, resolve) => {
+          resolve({
+            assets: [
+              {
+                uri: experience.image[num],
+              },
+            ],
+            pageInfo: {
+              hasNextPage: false,
+            },
+          });
+        }}
+        enableModal={true}
+        imageContainerStyle={styles.image}
+      />
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={styles.goBack}
       >
-        <View style={styles.groupIconBack}>
-          <EntypoIcon
-            name="chevron-small-left"
-            style={styles.iconBack}
-          ></EntypoIcon>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.goBack}
-          />
-        </View>
-      </ImageBackground>
+        <EntypoIcon
+          name="chevron-small-left"
+          style={styles.iconBack}
+        />
+      </TouchableOpacity>
       <View style={styles.iconStack}>
+
         <Icon
           type="material-community"
           name={isFavorite ? "heart" : "heart-outline"}
-          color={isFavorite ? "#c21d17" : "#fff"}
+          color={isFavorite ? "#c21d17" : "#B9B9B9"}
           size={36}
           underlayColor="transparent"
           onPress={isFavorite ? removeFavorites : addFavorites}
@@ -423,11 +435,10 @@ const styles = StyleSheet.create({
     left: 0,
     width: widthScreen,
     height: heightScreen * 0.45,
-    position: "absolute",
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25
   },
-  imageStylePrincipal: {
-    opacity: 0.6,
-  },
+
   groupIconBack: {
     width: 49,
     height: 49,
@@ -443,6 +454,8 @@ const styles = StyleSheet.create({
     width: 49,
     height: 49,
     position: "absolute",
+    top: 35,
+    left: 15,
     borderRadius: 100,
   },
 

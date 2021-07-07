@@ -15,7 +15,7 @@ export default function Emergency(props) {
     "074",
     "078",
     "53 95 11 11",
-    "56 58 11 11",
+    "932 100 8617",
     "56 83 22 22",
     "089",
     "55 54 06 12",
@@ -77,7 +77,7 @@ export default function Emergency(props) {
             style={styles.cardService}
           >
             <Text style={styles.text}>{phoneNumber[4]}</Text>
-            <Text style={styles.textCard}>LOCATEL</Text>
+            <Text style={styles.textCard}>Comité del Pueblo</Text>
           </TouchableOpacity>
 
           <TouchableOpacity

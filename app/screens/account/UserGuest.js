@@ -19,7 +19,7 @@ export default function UserGuest({ navigation }) {
         resizeMode="cover"
       />
       <Text style={styles.description}>
-        Encuentra lo mejor y explora Tapijualapa, hoteles, restaurantes y
+        Encuentra lo mejor y explora Tapijulapa, hoteles, restaurantes y
         experiencias todo en una sola aplicación. Registrate y comienza ahora!
       </Text>
       <GoButton screenName="Decision" title="Inicia Sesión" />

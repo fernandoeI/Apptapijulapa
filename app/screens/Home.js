@@ -336,10 +336,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   emergency: {
-    height: 30,
-    width: 30,
-    marginTop: 10,
-    marginLeft: 10
+    height: 35,
+    width: 35,
+    marginTop: 8,
+    marginLeft: 8
   },
   ellipse: {
     top: 47,

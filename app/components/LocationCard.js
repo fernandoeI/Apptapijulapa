@@ -1,17 +1,23 @@
 import React, { Component } from "react";
-import Svg, { Ellipse } from "react-native-svg";
 import MapView from "react-native-maps";
 import openMap from "react-native-open-maps";
+import { Platform } from "react-native";
 
 export default function LocationCard(props) {
   const { location, name, height, top } = props;
   const openAppMap = () => {
-    openMap({
-      latitude: location.latitude,
-      longitude: location.longitude,
-      zoom: 19,
-      query: name,
+    const datosCoords = Platform.select({
+      ios: {
+        latitude: location.latitude,
+        longitude: location.longitude,
+        zoom: 19,
+      },
+      android: {
+        query: `${String(location.latitude)},${String(location.longitude)}`,
+        zoom: 19,
+      },
     });
+    openMap(datosCoords);
   };
   return (
     <MapView

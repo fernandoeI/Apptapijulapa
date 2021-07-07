@@ -222,30 +222,40 @@ function PlacePresentation(props) {
   } = props;
   return (
     <View style={styles.viewImagePrincipal}>
-      <ImageBackground
-        source={{ uri: place.image[0] }}
-        resizeMode="cover"
-        style={styles.image}
-        imageStyle={styles.imageStylePrincipal}
-        borderBottomLeftRadius={20}
-        borderBottomRightRadius={20}
+      <CameraRollGallery
+        enableCameraRoll={false}
+        imageMargin={0}
+        backgroundColor="#f2f2f2"
+        onGetData={(fetchParams, resolve) => {
+          resolve({
+            assets: [
+              {
+                uri: place.image[0],
+              },
+            ],
+            pageInfo: {
+              hasNextPage: false,
+            },
+          });
+        }}
+        enableModal={true}
+        imageContainerStyle={styles.image}
+      />
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={styles.goBack}
       >
-        <View style={styles.groupIconBack}>
-          <EntypoIcon
-            name="chevron-small-left"
-            style={styles.iconBack}
-          ></EntypoIcon>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.goBack}
-          ></TouchableOpacity>
-        </View>
-      </ImageBackground>
+        <EntypoIcon
+          name="chevron-small-left"
+          style={styles.iconBack}
+        />
+      </TouchableOpacity>
       <View style={styles.iconStack}>
+
         <Icon
           type="material-community"
           name={isFavorite ? "heart" : "heart-outline"}
-          color={isFavorite ? "#c21d17" : "#fff"}
+          color={isFavorite ? "#c21d17" : "#B9B9B9"}
           size={36}
           underlayColor="transparent"
           onPress={isFavorite ? removeFavorites : addFavorites}
@@ -372,7 +382,8 @@ const styles = StyleSheet.create({
     left: 0,
     width: widthScreen,
     height: heightScreen * 0.45,
-    position: "absolute",
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25
   },
   imageStylePrincipal: {
     opacity: 0.6,
@@ -392,6 +403,8 @@ const styles = StyleSheet.create({
     width: 49,
     height: 49,
     position: "absolute",
+    top: 35,
+    left: 15,
     borderRadius: 100,
   },
 
